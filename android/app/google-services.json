@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "63947674603",
+    "project_id": "app-de-ahorro-58036",
+    "storage_bucket": "app-de-ahorro-58036.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:63947674603:android:ae94568ffacb26da33bfae",
+        "android_client_info": {
+          "package_name": "com.app_ahorro.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDr8yOWGyHjcqHGWqo8VjL3AaJE9spydkE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
