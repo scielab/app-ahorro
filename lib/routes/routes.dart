@@ -3,6 +3,7 @@ import 'package:app/pages/auth/signup_page.dart';
 import 'package:app/pages/conf/settings_page.dart';
 import 'package:app/pages/guild/guild_page.dart';
 import 'package:app/pages/home_page.dart';
+import 'package:app/pages/home_principal.dart';
 import 'package:app/pages/progress/progress.dart';
 import 'package:get/get.dart';
 
@@ -11,7 +12,7 @@ class RouterHelper {
   static const String _signup = "/signup-page";
   static const String _signin = '/signin-page';
   static const String _home = '/home-page';
-
+  static const String _homePrincipal = '/home-principal-page';
   static const String _settings = '/setting-page';
   static const String _progress = '/progress-page';
   static const String _guild = '/guild-page';
@@ -23,6 +24,7 @@ class RouterHelper {
   static String getSettingsPage() => _settings;
   static String getProgressPage() => _progress;
   static String getGuildPage() => _guild;
+  static String getHomePrincipalPage() => _homePrincipal;
 
 
   static List<GetPage> routes = [
@@ -33,6 +35,6 @@ class RouterHelper {
     GetPage(name: _settings, page: () => SettingsPage(),transition: Transition.native),
     GetPage(name: _progress, page: () => ProgressPage(),transition: Transition.native),
     GetPage(name: _guild, page: () => GuildPage(),transition: Transition.native),
-
+    GetPage(name: _homePrincipal, page: () => const HomePagePrincipal(),transition: Transition.native)
   ];
 }

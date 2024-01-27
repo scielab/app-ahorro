@@ -15,8 +15,7 @@ class ProgressPage extends StatelessWidget {
       appBar: AppBar(
         title: const BigText(title: "Progress"),
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
           child: Column(
             children: [
               const SizedBox(height: 10,),
@@ -84,7 +83,7 @@ class ProgressPage extends StatelessWidget {
               ),
               const SizedBox(height: 30,),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 30),
+                margin: EdgeInsets.symmetric(horizontal: 40),
                 child: const Column(
                   children: [
                     ShoppingItem(title: "Shopping", category: "Cash", value: "498.50", porcent: "32%", icon: Icons.shopping_basket, colorIcon: Colors.green),
@@ -100,7 +99,7 @@ class ProgressPage extends StatelessWidget {
             ],
           ),
         ),
-      ),
+      
     );
   }
 }

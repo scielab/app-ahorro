@@ -1,7 +1,9 @@
+import 'package:flutter/material.dart';
+
 class Category {
   final String id;
   final String name;
-  final String icon; // Puedes usar un IconData si estás trabajando con Flutter
+  final IconData icon; 
 
   Category({
     required this.id,

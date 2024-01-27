@@ -1,3 +1,4 @@
+import 'package:app/routes/routes.dart';
 import 'package:app/widgets/big_text.dart';
 import 'package:app/widgets/bottomNavigatorBar.dart';
 import 'package:app/widgets/button_base.dart';
@@ -8,18 +9,38 @@ import 'package:app/widgets/small_text.dart';
 import 'package:app/widgets/transaction_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 
-class HomePage extends StatelessWidget {
+enum _SelectedTab { home, search, analytics, self_improvement_outlined }
+
+List<String> routes = [
+  RouterHelper.getHomePage(),
+  RouterHelper.getGuildPage(),
+  RouterHelper.getProgressPage(),
+  RouterHelper.getSettingsPage()
+];
+
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+  @override
   Widget build(BuildContext context) {
+    var anim = AnimationController(
+      vsync: this,
+      value: 1,
+      duration: const Duration(milliseconds: 500),
+    );
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              child: Container(
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Stack(
+            children: [
+              Container(
                 margin: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
                   children: [
@@ -76,49 +97,84 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-            /*
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: ButtonNavigatorBarPrimary(),
-            ),
-            */
-          ],
+
+              /*
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: ButtonNavigatorBarPrimary(),
+              ),
+              */
+            ],
+          ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonCustom(110,200),
+      floatingActionButtonLocation: FloatingActionButtonCustom(110, 220),
       floatingActionButton: Container(
         width: 70,
         height: 70,
         child: FloatingActionButton(
-            backgroundColor: Colors.black,
-            shape: const CircleBorder(),
-            onPressed: () {
-              showGeneralDialog(
-                barrierDismissible: true,
-                barrierLabel: "Dialog calculator",
-                transitionBuilder:
-                    (context, animation, secundaryAnimation, child) {
-                  Tween<Offset> tween;
-                  tween = Tween(begin: const Offset(0, 1), end: Offset.zero);
-                  return SlideTransition(
-                    position: tween.animate(CurvedAnimation(
-                        parent: animation, curve: Curves.easeInOut)),
-                    child: child,
-                  );
-                },
-                context: context,
-                pageBuilder: (context, _, __) => const Align(
-                    alignment: Alignment.bottomCenter,
-                    child: TransactionDialog()),
-              );
-            },
-            child: const Icon(Icons.add,color: Colors.white,size: 42),
-          ),
+          backgroundColor: Colors.black,
+          shape: const CircleBorder(),
+          onPressed: () {
+            showGeneralDialog(
+              barrierDismissible: true,
+              barrierLabel: "Dialog calculator",
+              transitionBuilder:
+                  (context, animation, secundaryAnimation, child) {
+                Tween<Offset> tween;
+                tween = Tween(begin: const Offset(0, 1), end: Offset.zero);
+                return SlideTransition(
+                  position: tween.animate(CurvedAnimation(
+                      parent: animation, curve: Curves.easeInOut)),
+                  child: child,
+                );
+              },
+              context: context,
+              pageBuilder: (context, _, __) => const Align(
+                  alignment: Alignment.bottomCenter,
+                  child: TransactionDialog()),
+            );
+          },
+          child: const Icon(Icons.add, color: Colors.white, size: 42),
+        ),
       ),
-      bottomNavigationBar: ButtonNavigatorBarPrimary(),
+      //bottomNavigationBar: ButtonNavigatorBarPrimary(),
+
+      /*
+      bottomNavigationBar: Container(
+        height: 130,
+        child: DotNavigationBar(
+            backgroundColor: Colors.black,
+            currentIndex: _SelectedTab.values.indexOf(_selectedTab),
+            dotIndicatorColor: Colors.white,
+            unselectedItemColor: Colors.grey[300],
+            splashBorderRadius: 50,
+            // enableFloatingNavBar: false,
+            onTap: _handleIndexChanged,
+            items: [
+         
+              DotNavigationBarItem(
+                icon: const Icon(Icons.home),
+                selectedColor: Colors.white,
+              ),
+              DotNavigationBarItem(
+                icon: const Icon(Icons.search),
+                selectedColor: Colors.white,
+              ),
+              DotNavigationBarItem(
+                icon: const Icon(Icons.analytics),
+                selectedColor: Colors.white,
+              ),
+              DotNavigationBarItem(
+                icon: const Icon(Icons.self_improvement_outlined),
+                selectedColor: Colors.white,
+              ),
+            ],
+          ),
+        ),
+        */
     );
   }
 }

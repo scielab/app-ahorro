@@ -17,118 +17,119 @@ class SignInPage extends StatelessWidget {
     TextEditingController passwordController = TextEditingController();
 
     return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Image.asset(
-            'assets/images/login_back.jpeg',
-            fit: BoxFit.cover,
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 50),
-                const BigText(
-                  title: "Iniciar Sesion",
-                  color: Colors.white,
-                  size: 32,
-                ),
-                const SizedBox(height: 50),
-                const SmallText(
-                  title:
-                      "Si ya registraste previamente con tu correo electrónico, puedes ingresar",
-                  color: Colors.white,
-                  size: 20,
-                  fw: FontWeight.bold,
-                ),
-                const SizedBox(height: 50),
-                const SmallText(
-                  title: "Correo Electronico",
-                  color: Colors.white,
-                  fw: FontWeight.bold,
-                  size: 17,
-                ),
-                const SizedBox(height: 10),
-                InputField(controller: emailController, labelText: "Correo electronico"),
-            
-                const SmallText(
-                  title: "Contraseña",
-                  color: Colors.white,
-                  fw: FontWeight.bold,
-                  size: 17,
-                ),
-                const SizedBox(height: 10,),
-                InputField(controller: passwordController, labelText: "contraseña",isPassword: true,),
-                const SizedBox(height: 10,),
-                GestureDetector(
-                  onTap: () => authController.signInEmailandPasswordValidator(emailController,passwordController),
-                  child: Container(
-                    padding: EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Center(
-                      child: BigText(
-                        title: "SIGUIENTE",
-                        color: Colors.white,
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            Image.asset(
+              'assets/images/login_back.jpeg',
+              fit: BoxFit.cover,
+            ),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 80),
+                  const BigText(
+                    title: "Iniciar Sesion",
+                    color: Colors.white,
+                    size: 32,
+                  ),
+                  const SizedBox(height: 50),
+                  const SmallText(
+                    title:
+                        "Si ya registraste previamente con tu correo electrónico, puedes ingresar",
+                    color: Colors.white,
+                    size: 16,
+                    fw: FontWeight.bold,
+                  ),
+                  const SizedBox(height: 50),
+                  const SmallText(
+                    title: "Correo Electronico",
+                    color: Colors.white,
+                    fw: FontWeight.bold,
+                    size: 17,
+                  ),
+                  const SizedBox(height: 10),
+                  InputField(controller: emailController, labelText: "Correo electronico"),
+              
+                  const SmallText(
+                    title: "Contraseña",
+                    color: Colors.white,
+                    fw: FontWeight.bold,
+                    size: 17,
+                  ),
+                  const SizedBox(height: 10,),
+                  InputField(controller: passwordController, labelText: "contraseña",isPassword: true,),
+                  const SizedBox(height: 10,),
+                  GestureDetector(
+                    onTap: () => authController.signInEmailandPasswordValidator(emailController,passwordController),
+                    child: Container(
+                      padding: EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Center(
+                        child: BigText(
+                          title: "SIGUIENTE",
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 50),
-                Center(
-                  child: Container(
-                    width: screenWidth * 0.5,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 30,
-                          height: 30,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                  "assets/icons/icons8-logo-de-google-48.png"),
-                              fit: BoxFit.cover,
+                  const SizedBox(height: 50),
+                  Center(
+                    child: Container(
+                      width: screenWidth * 0.5,
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 30,
+                            height: 30,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage(
+                                    "assets/icons/icons8-logo-de-google-48.png"),
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(width: 10),
-                        const SmallText(title: "Google"),
-                      ],
+                          const SizedBox(width: 10),
+                          const SmallText(title: "Google"),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Get.toNamed(RouterHelper.getSignup());
-                  },
-                  child: const Center(
-                    child: SmallText(
-                      title: "Registrarse",
-                      color: Colors.white,
-                      fw: FontWeight.bold,
-                      size: 17,
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.toNamed(RouterHelper.getSignup());
+                    },
+                    child: const Center(
+                      child: SmallText(
+                        title: "Registrarse",
+                        color: Colors.white,
+                        fw: FontWeight.bold,
+                        size: 17,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
