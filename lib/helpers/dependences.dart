@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> init() async {
-  await Get.putAsync(() async => await SharedPreferences.getInstance(),permanent: true);
+  await Get.putAsync(() async => await SharedPreferences.getInstance());
 
-  Get.put(AuthController());
+  Get.putAsync(() async => AuthController());
   //Get.lazyPut(() => PaymentsController());   
 
 }

@@ -1,5 +1,7 @@
+import 'package:app/routes/routes.dart';
 import 'package:app/utils/color_custom.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 List<Widget> bottomNavs = const [
   Icon(
@@ -20,6 +22,13 @@ List<Widget> bottomNavs = const [
     ),
 ];
 
+List<String> routes = [
+  RouterHelper.getHomePage(),
+  RouterHelper.getGuildPage(),
+  RouterHelper.getProgressPage(),
+  RouterHelper.getSettingsPage()
+];
+
 class ButtonNavigatorBarPrimary extends StatelessWidget {
   const ButtonNavigatorBarPrimary({super.key});
 
@@ -36,7 +45,9 @@ class ButtonNavigatorBarPrimary extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               ...List.generate(bottomNavs.length, (index) => GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed(routes[index]);
+                },
                 child:   SizedBox(
                   width: 36,
                   height: 36,
