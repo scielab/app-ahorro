@@ -14,6 +14,7 @@ class SmallText extends StatelessWidget {
     return Text(title,
     textAlign: TextAlign.start,
     style: TextStyle(
+      decoration: TextDecoration.none,
       color: color,
       fontSize: size,
       fontWeight: fw,

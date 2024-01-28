@@ -28,7 +28,7 @@ class AuthController extends GetxController {
 
   void _setInitialScreen(User? user) {
     if(user != null) {
-      Get.toNamed(RouterHelper.getHomePrincipalPage());
+      Get.offAndToNamed(RouterHelper.getHomePrincipalPage());
     } else {
       Get.toNamed(RouterHelper.getSignin());
     }

@@ -45,7 +45,7 @@ class _HomePagePrincipalState extends State<HomePagePrincipal>
 
       bottomNavigationBar: Container(
         color: Colors.transparent,
-        height: 130,
+        height: 160,
         child: DotNavigationBar(
           backgroundColor: const Color.fromARGB(255, 17, 17, 17),
           currentIndex: _selectedTab,

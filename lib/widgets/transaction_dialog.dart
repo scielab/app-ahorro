@@ -14,12 +14,10 @@ class TransactionDialog extends StatelessWidget {
         height: 620,
         decoration: const BoxDecoration(
           color: Color.fromARGB(255, 255, 255, 255),
-          //borderRadius: BorderRadius.all(Radius.circular(50)),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(50),
             topRight: Radius.circular(50),
-          ),
-        ),
+          ),        ),
         child: Column(
           children: [
             const SizedBox(height: 30,),
@@ -68,15 +66,16 @@ class TransactionDialog extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(height: 20,),
             const SmallText(title: "Expenses"),
-            const SizedBox(height: 10,),
+            const SizedBox(height: 30,),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   "\$",
-                  style: TextStyle(color: Colors.grey[500]),
+                  style: TextStyle(color: Colors.grey[500],decoration: TextDecoration.none,fontSize: 20),
                 ),
                 const BigText(title: "25.00",size: 42,)
               ],

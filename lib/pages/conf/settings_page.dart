@@ -19,8 +19,7 @@ class SettingsPage extends StatelessWidget {
       appBar: AppBar(
         title: const BigText(title: "Perfil"),
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
           child: Column(
             children: [
               const SizedBox(height: 20,),
@@ -68,7 +67,6 @@ class SettingsPage extends StatelessWidget {
             ],
           ),
         ),
-      ),
     );
   }
 }
