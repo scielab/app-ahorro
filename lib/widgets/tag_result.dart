@@ -11,7 +11,6 @@ class TagResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.25,
       padding: const EdgeInsets.all(10),
       child: Center(
         child: Column(
@@ -21,7 +20,7 @@ class TagResult extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text('\$',style: TextStyle(color: Colors.grey[500]),),
-                BigText(title: "$value"),
+                BigText(title: "$value",size: 18,),
               ],
             )
           ],

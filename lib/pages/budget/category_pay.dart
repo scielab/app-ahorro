@@ -5,14 +5,14 @@ import 'package:app/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CategoryPage extends StatefulWidget {
-  const CategoryPage({super.key});
+class CategoryPayPage extends StatefulWidget {
+  const CategoryPayPage({super.key});
 
   @override
-  State<CategoryPage> createState() => _CategoryPageState();
+  State<CategoryPayPage> createState() => _CategoryPayPageState();
 }
 
-class _CategoryPageState extends State<CategoryPage> {
+class _CategoryPayPageState extends State<CategoryPayPage> {
   var current_index = 0;
   BudgetItemController budgetItem = Get.find<BudgetItemController>();
 
@@ -39,7 +39,7 @@ class _CategoryPageState extends State<CategoryPage> {
           // horizontal, this produces 2 rows.
           crossAxisCount: 3,
           // Generate 100 widgets that display their index in the List.
-          children: List.generate(expense.length, (index) {
+          children: List.generate(pay.length, (index) {
             return GestureDetector(
               onTap: () {
                 // Seleccionamos el icon que tenemos
@@ -55,12 +55,12 @@ class _CategoryPageState extends State<CategoryPage> {
                 child: Column(
                   children: [
                     Icon(
-                      expense[index]['icon'],
+                      pay[index]['icon'],
                       size: 42,
                     ),
                     Center(
                         child: SmallText(
-                      title: expense[index]['name'],
+                      title: pay[index]['name'],
                       size: 18,
                     )),
                   ],

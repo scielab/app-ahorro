@@ -1,3 +1,4 @@
+import 'package:app/pages/presentation/badge_page.dart';
 import 'package:app/routes/routes.dart';
 import 'package:app/utils/generate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -29,6 +30,7 @@ class AuthController extends GetxController {
   void _setInitialScreen(User? user) {
     if(user != null) {
       Get.offAndToNamed(RouterHelper.getHomePrincipalPage());
+      //Get.offAll(BadgePage());
     } else {
       Get.toNamed(RouterHelper.getSignin());
     }

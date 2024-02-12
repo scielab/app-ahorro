@@ -1,9 +1,12 @@
+import 'package:app/controllers/budget/budget_controller.dart';
+import 'package:app/controllers/progress/progress_controller.dart';
 import 'package:app/pages/conf/settings_page.dart';
 import 'package:app/pages/guild/guild_page.dart';
 import 'package:app/pages/home_page.dart';
 import 'package:app/pages/progress/progress.dart';
 import 'package:flutter/material.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
+import 'package:get/get.dart';
 
 List routes = [
   HomePage(),
@@ -31,11 +34,9 @@ class _HomePagePrincipalState extends State<HomePagePrincipal>
 
   @override
   Widget build(BuildContext context) {
-    var anim = AnimationController(
-      vsync: this,
-      value: 1,
-      duration: const Duration(milliseconds: 500),
-    );
+    Get.put(BudgetController());
+    Get.put(ProgressController());
+
     return Scaffold(
       backgroundColor:Colors.black.withOpacity(0.1),
       extendBodyBehindAppBar: true,

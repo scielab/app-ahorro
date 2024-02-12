@@ -1,5 +1,8 @@
 import 'dart:math';
 
+import 'package:app/models/categories_models.dart';
+import 'package:app/models/category_model.dart';
+
 
 String generateNumberAvatar() {
   final random = Random();
@@ -12,4 +15,9 @@ String generateNumberAvatar() {
   }
   return buffer.toString();
 
+}
+
+Map<String,dynamic> searchIcon(int id,List<Map<String,dynamic>> category) {
+  var data = category.firstWhere((e) => e['id'] == id);
+  return data;
 }
