@@ -14,15 +14,17 @@ class ProgressController extends GetxController {
   onInit() async {
     transactions.value = await Get.find<BudgetController>().getBudgetFilterMonthData();
     getReport("income");
+    /*
     once(transactions, (callback) async {
-      print("hola");
+      print("hola2");
     });
+    */
     super.onInit();
   }
 
-  Future<void> getBudget() async {
+  Future<void> getBudget(String type) async {
     transactions.value = await Get.find<BudgetController>().getBudgetFilterMonthData();
-    //getReport("income");
+    getReport(type);
   }
 
   // Primero reporte del mes
@@ -115,7 +117,7 @@ void getCategory(String type) {
     double totalAmount = transactions
         .where((tr) => tr.type == type)
         .fold(0, (previous, current) => previous + current.amount);
-
+    
     for (var category in allCategories) {
       print("MOstrando info");
       print(category.category);
@@ -141,12 +143,9 @@ void getCategory(String type) {
   // generar un reporte completo de todas las categorias con sus porcentajes
   void getReport(String type) {
     getCategory(type);
-    print(allCategories.length);
-    for (var cat in allCategories) {
-      print(cat.name);
-    }
     getPorcent(type);
     analytics.forEach((item) {
       print("Categoría: ${item.category.name},  Porcentaje: ${item.totalPorcent}%");
     });
+
   }}

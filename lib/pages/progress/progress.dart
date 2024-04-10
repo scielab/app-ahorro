@@ -30,7 +30,6 @@ class ProgressPage extends StatefulWidget {
 }
 
 class _ProgressPageState extends State<ProgressPage> {
-
   @override
   void initState() {
     //var budget = Get.find<BudgetController>().getBudgetRecentToFirebase;
@@ -57,19 +56,43 @@ class _ProgressPageState extends State<ProgressPage> {
   List<BarChartGroupData> showingGroups() => List.generate(7, (i) {
         switch (i) {
           case 0:
-            return makeGroupData(0, 5, barColor: availableColors[0],);
+            return makeGroupData(
+              0,
+              5,
+              barColor: availableColors[0],
+            );
           case 1:
-            return makeGroupData(1, 6.5, barColor: availableColors[1],);
+            return makeGroupData(
+              1,
+              6.5,
+              barColor: availableColors[1],
+            );
           case 2:
-            return makeGroupData(2, 5, barColor: availableColors[2],);
+            return makeGroupData(
+              2,
+              5,
+              barColor: availableColors[2],
+            );
           case 3:
-            return makeGroupData(3, 7.5, barColor: availableColors[3],);
+            return makeGroupData(
+              3,
+              7.5,
+              barColor: availableColors[3],
+            );
           case 4:
             return makeGroupData(4, 9, barColor: availableColors[4]);
           case 5:
-            return makeGroupData(5, 11.5, barColor: availableColors[5],);
+            return makeGroupData(
+              5,
+              11.5,
+              barColor: availableColors[5],
+            );
           case 6:
-            return makeGroupData(6, 6.5, barColor: availableColors[6],);
+            return makeGroupData(
+              6,
+              6.5,
+              barColor: availableColors[6],
+            );
           default:
             return throw Error();
         }
@@ -77,11 +100,11 @@ class _ProgressPageState extends State<ProgressPage> {
 
   Future<dynamic> refreshState() async {
     setState(() {});
-      await Future<dynamic>.delayed(animDuration + const Duration(milliseconds: 50),
+    await Future<dynamic>.delayed(
+      animDuration + const Duration(milliseconds: 50),
     );
-    
+
     await refreshState();
-    
   }
 
   BarChartGroupData makeGroupData(
@@ -255,40 +278,40 @@ class _ProgressPageState extends State<ProgressPage> {
       appBar: AppBar(
         title: const BigText(title: "Progress"),
       ),
-      body:  Column(
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      typeQuery = types[1];
-                    });
-                  },
-                  child: ButtonBase(
-                    title: "Expenses",
-                    primary: true,
-                  ),
+      body: Column(
+        children: [
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    typeQuery = types[1];
+                  });
+                },
+                child: const ButtonBase(
+                  title: "Expenses",
+                  primary: true,
                 ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      typeQuery = types[0];
-                    });
-                  },
-                  child: const ButtonBase(title: "Income"),
-                  ),
-                ButtonBaseDrop(title: "June"),
-              ],
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            /*
+              ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    typeQuery = types[0];
+                  });
+                },
+                child: const ButtonBase(title: "Income"),
+              ),
+              const ButtonBaseDrop(title: "June"),
+            ],
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          /*
             Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.25,
@@ -299,48 +322,72 @@ class _ProgressPageState extends State<ProgressPage> {
               ),
             ),
             */
-            
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.3,
-              child: PieChart(PieChartData(
-                centerSpaceRadius: 50,
-                sectionsSpace: 15,
-                sections: List.generate(
-                  widget.progressController.analytics.length, // Aquí data es la lista de datos que deseas mostrar en el gráfico
-                  (index) {
-                    return PieChartSectionData(
-                      value: widget.progressController.analytics[index].totalPorcent,
-                      showTitle: true,
-                      radius: 70,
-                      titleStyle: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),
-                      //color: availableColors[index % availableColors.length], // Esto se asegura de que los colores se repitan si hay más datos que colores disponibles
-                      color: widget.progressController.allCategories[index].color,
-                    );
-                  },
-                  )
-                )
-              ),
-            ),
-           const SizedBox(
-              height: 30,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Spacer(),
-                Obx(() => TagResult(title: "Day", value: widget.progressController.getTotalAmmountDay(typeQuery))),
-                const Spacer(),
-                Obx(() => TagResult(title: "Week", value: widget.progressController.getTotalAmmountWeek(typeQuery))),
-                const Spacer(),
-                Obx(() => TagResult(title: "Month", value: widget.progressController.getTotalAmmountMonh(typeQuery))),
-                const Spacer(),
-              ],
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            /*
+
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * 0.3,
+            child: FutureBuilder(
+                future: widget.progressController.getBudget(typeQuery),
+                initialData: null,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    var analitics = widget.progressController.analytics;
+                    return PieChart(PieChartData(
+                        centerSpaceRadius: 50,
+                        sectionsSpace: 15,
+                        sections: List.generate(
+                          analitics
+                              .length, // Aquí data es la lista de datos que deseas mostrar en el gráfico
+                          (index) {
+                            return PieChartSectionData(
+                              value: analitics[index].totalPorcent,
+                              showTitle: true,
+                              radius: 70,
+                              titleStyle: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
+                              //color: availableColors[index % availableColors.length], // Esto se asegura de que los colores se repitan si hay más datos que colores disponibles
+                              color: widget.progressController
+                                  .allCategories[index].color,
+                            );
+                          },
+                        )));
+                  }
+                }),
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Spacer(),
+              Obx(() => TagResult(
+                  title: "Day",
+                  value:
+                      widget.progressController.getTotalAmmountDay(typeQuery))),
+              const Spacer(),
+              Obx(() => TagResult(
+                  title: "Week",
+                  value: widget.progressController
+                      .getTotalAmmountWeek(typeQuery))),
+              const Spacer(),
+              Obx(() => TagResult(
+                  title: "Month",
+                  value: widget.progressController
+                      .getTotalAmmountMonh(typeQuery))),
+              const Spacer(),
+            ],
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          /*
             Container(
               margin: EdgeInsets.symmetric(horizontal: 40),
               child: const Column(
@@ -391,47 +438,40 @@ class _ProgressPageState extends State<ProgressPage> {
               ),
             ),
             */
-              
 
-                Expanded(
-                    child: FutureBuilder(
-                        future: widget.progressController.getBudget(),
-                        initialData: null,
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                                child: CircularProgressIndicator());
-                          } else if (snapshot.hasError) {
-                            return Text('Error: ${snapshot.error}');
-                          } else {
-                            var analitics = widget.progressController.analytics;
-                            return Container(
-                              margin: const EdgeInsets.only(left: 20, right: 20),
-                              child: ListView.builder(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: analitics.length,
-                                  itemBuilder: (context, index) {                     
-                                    return  ShoppingItem(
-                                          title: analitics[index].category.name,
-                                          category: typeQuery,
-                                          value: analitics[index].totalAmmount.toString(),
-                                          porcent: "${analitics[index].totalPorcent.toString()}\$",
-                                          icon: analitics[index].category.icon,
-                                          colorIcon: analitics[index].category.color,
-                                        );
-                                    
-                                  }),
+          Expanded(
+            child: FutureBuilder(
+                future: widget.progressController.getBudget(typeQuery),
+                initialData: null,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    var analitics = widget.progressController.analytics;
+                    return Container(
+                      margin: const EdgeInsets.only(left: 20, right: 20),
+                      child: ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: analitics.length,
+                          itemBuilder: (context, index) {
+                            return ShoppingItem(
+                              title: analitics[index].category.name,
+                              category: typeQuery,
+                              value: analitics[index].totalAmmount.toString(),
+                              porcent:
+                                  "${analitics[index].totalPorcent.toString()}\$",
+                              icon: analitics[index].category.icon,
+                              colorIcon: analitics[index].category.color,
                             );
-                          }
-                        }),
-                  ),
-
-
-            
-          ],
-        ),
-      
+                          }),
+                    );
+                  }
+                }),
+          ),
+        ],
+      ),
     );
   }
 }

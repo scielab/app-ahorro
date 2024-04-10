@@ -1,5 +1,6 @@
 import 'package:app/controllers/budget/budget_controller.dart';
 import 'package:app/controllers/progress/progress_controller.dart';
+import 'package:app/pages/activity/activity_page.dart';
 import 'package:app/pages/conf/settings_page.dart';
 import 'package:app/pages/guild/guild_page.dart';
 import 'package:app/pages/home_page.dart';
@@ -9,7 +10,8 @@ import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:get/get.dart';
 
 List routes = [
-  HomePage(),
+  //HomePage(),
+  ActivityPage(),
   GuildPage(),
   ProgressPage(),
   SettingsPage(),
