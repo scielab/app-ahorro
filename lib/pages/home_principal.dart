@@ -13,7 +13,7 @@ List routes = [
   //HomePage(),
   ActivityPage(),
   GuildPage(),
-  ProgressPage(),
+  HomePage(),
   SettingsPage(),
 ];
 
@@ -50,7 +50,15 @@ class _HomePagePrincipalState extends State<HomePagePrincipal>
         color: Colors.transparent,
         height: 160,
         child: DotNavigationBar(
-          backgroundColor: const Color.fromARGB(255, 17, 17, 17),
+          backgroundColor: Color.fromARGB(255, 255, 255, 255),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              offset: const Offset(0, 3),
+              blurRadius: 7.0,
+              spreadRadius: 1,
+            )
+          ],
           currentIndex: _selectedTab,
           dotIndicatorColor: const Color.fromARGB(255, 204, 79, 79),
           unselectedItemColor: Colors.grey[300],
@@ -59,20 +67,20 @@ class _HomePagePrincipalState extends State<HomePagePrincipal>
           onTap: _handleIndexChanged,
           items: [
             DotNavigationBarItem(
-              icon: const Icon(Icons.home),
-              selectedColor: Colors.white,
+              icon: const Icon(Icons.home,color: Colors.black87),
+              selectedColor: Colors.black,
             ),
             DotNavigationBarItem(
-              icon: const Icon(Icons.search),
-              selectedColor: Colors.white,
+              icon: const Icon(Icons.search,color: Colors.black87),
+              selectedColor: Colors.black,
             ),
             DotNavigationBarItem(
-              icon: const Icon(Icons.analytics),
-              selectedColor: Colors.white,
+              icon: const Icon(Icons.analytics,color: Colors.black87),
+              selectedColor: Colors.black,
             ),
             DotNavigationBarItem(
-              icon: const Icon(Icons.self_improvement_outlined),
-              selectedColor: Colors.white,
+              icon: const Icon(Icons.self_improvement_outlined,color: Colors.black87,),
+              selectedColor: Colors.black,
             ),
           ],
         ),

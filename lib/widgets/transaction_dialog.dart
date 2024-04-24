@@ -21,18 +21,23 @@ class TransactionDialog extends StatefulWidget {
 }
 
 class _TransactionDialogState extends State<TransactionDialog> {
-  var _currentStartDate;
-  final dateController = TextEditingController();
-  final commentController = TextEditingController();
-
   BudgetItemController budgetItem = Get.find<BudgetItemController>();
   BudgetController _budgetController = Get.find<BudgetController>();
   late User user;
+
+  var _currentStartDate;
+  final dateController = TextEditingController();
+  final commentController = TextEditingController();
+  
+  TextEditingController value = TextEditingController();
+
+
   
   @override
   void initState()  {
     budgetItem.updateType(widget.type_account);
     user = Get.find<AuthController>().getCurrentUser()!;
+    
     super.initState();
   }
 
@@ -62,7 +67,6 @@ class _TransactionDialogState extends State<TransactionDialog> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController value = TextEditingController();
 
     return SafeArea(
       child: Container(
@@ -96,14 +100,14 @@ class _TransactionDialogState extends State<TransactionDialog> {
                         horizontal: 20, vertical: 10),
                     width: MediaQuery.of(context).size.width * 0.4,
                     decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 160, 212, 255),
+                      color: const Color.fromARGB(255, 160, 212, 255),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Center(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Obx(() => Icon(get_icon(widget.type_account,budgetItem),
+                          Obx(() => Icon(get_icon(widget.type_account,budgetItem.category.value),
                                 size: 25,
                               )),
                           const SizedBox(
@@ -111,7 +115,7 @@ class _TransactionDialogState extends State<TransactionDialog> {
                           ),
                           Obx(
                             () => SmallText(
-                              title: get_category(widget.type_account, budgetItem),
+                              title: get_category(widget.type_account, budgetItem.category.value),
                               size: 12,
                             ),
                           ),
@@ -134,7 +138,7 @@ class _TransactionDialogState extends State<TransactionDialog> {
                         horizontal: 20, vertical: 10),
                     width: MediaQuery.of(context).size.width * 0.4,
                     decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 159, 255, 182),
+                      color: const Color.fromARGB(255, 159, 255, 182),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Center(
@@ -183,7 +187,7 @@ class _TransactionDialogState extends State<TransactionDialog> {
                       fontSize: 20),
                 ),
                 //const BigText(title: "25.00",size: 42,),
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: Material(
                     child: InputField(
@@ -202,7 +206,8 @@ class _TransactionDialogState extends State<TransactionDialog> {
             const Spacer(),
             CalculatorWidget(valueController: value,onPressed: () {
               createTransaction(budgetItem,_budgetController,value,user);
-              Get.toNamed(RouterHelper.getHomePage());
+              Get.toNamed(RouterHelper.getHomePrincipalPage());
+
             },),
           ],
         ),
@@ -210,24 +215,25 @@ class _TransactionDialogState extends State<TransactionDialog> {
     );
   }
 
-    String get_category(String op,BudgetItemController controller) {
-      if(op == 'income') {
-        return controller.category.value != 0 ? pay[controller.category.value]['name'] : 'Cash';
-      } else {
-        return controller.category.value != 0 ? expense[controller.category.value]['name'] : 'Shopping';
-      }
+
+    String get_category(String op, int categoryId) {
+      List<Map<String, dynamic>> categoryList = (op == 'income') ? pay : expense;
+      Map<String, dynamic> category = categoryList.firstWhere((item) => item['id'] == categoryId, orElse: () => {'name': (op == 'income' ? 'Cash' : 'Shopping')});
+      return category['name'];
     }
-    IconData get_icon(String op,BudgetItemController controller) {
-      if(op == 'income') {
-        return controller.category.value != 0 ? pay [controller.category.value]['icon'] : Icons.monetization_on_sharp;
-      } else {
-        return controller.category.value != 0 ? expense[controller.category.value]['icon'] : Icons.shopping_basket;
-      }
-    }
+
+    IconData get_icon(String op, int categoryId) {
+      List<Map<String, dynamic>> categoryList = (op == 'income') ? pay : expense;
+      Map<String, dynamic> category = categoryList.firstWhere((item) => item['id'] == categoryId, orElse: () => {'icon': (op == 'income' ? Icons.monetization_on_sharp : Icons.shopping_basket)});
+      return category['icon'];
+    } 
+
     // Bug hay que presionar 2 veces el boton para que funcione
     void createTransaction(BudgetItemController budgetItemController, BudgetController budgetController,TextEditingController value, User user) {
       print(budgetItemController.validate());
+      
       budgetItemController.displayInfo();
+      
       int amount = int.parse(value.text);
       budgetItemController.updateAmount(amount);
       budgetItemController.updateUserId(user.uid);
@@ -235,5 +241,6 @@ class _TransactionDialogState extends State<TransactionDialog> {
         TransactionBase new_tran = budgetItemController.buildTransaction(); 
         budgetController.addBudgetToFirebase(new_tran);
       }
+    
     }
 }

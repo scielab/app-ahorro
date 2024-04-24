@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'package:app/controllers/auth/auth_controller.dart';
 import 'package:app/models/transaction_model.dart';
@@ -151,7 +150,6 @@ class BudgetController extends GetxController {
     }
     return completer.future;
   }
-
 
 
   Future<void> getBudgetRecentToFirebase(String type) async {

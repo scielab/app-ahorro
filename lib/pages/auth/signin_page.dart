@@ -6,25 +6,37 @@ import 'package:app/widgets/big_text.dart';
 import 'package:app/widgets/small_text.dart';
 import 'package:get/get.dart';
 
-class SignInPage extends StatelessWidget {
+class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
+
+  @override
+  State<SignInPage> createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
     AuthController authController = Get.find<AuthController>();  
-    final screenWidth = MediaQuery.of(context).size.width;
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
+    final size = MediaQuery.of(context).size;
 
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
           children: [
-            Image.asset(
-              'assets/images/login_back.jpeg',
-              fit: BoxFit.cover,
+            SizedBox(
+              width: size.width,
+              height: size.height,
+              child: const Image(image: AssetImage('assets/images/login_back.jpeg'),fit: BoxFit.cover,),
             ),
             Container(
+              width: size.width,
               margin: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,7 +78,7 @@ class SignInPage extends StatelessWidget {
                   GestureDetector(
                     onTap: () => authController.signInEmailandPasswordValidator(emailController,passwordController),
                     child: Container(
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(15),
                       decoration: BoxDecoration(
                         color: Colors.black,
                         borderRadius: BorderRadius.circular(20),
@@ -81,31 +93,34 @@ class SignInPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 50),
                   Center(
-                    child: Container(
-                      width: screenWidth * 0.5,
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 30,
-                            height: 30,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(
-                                    "assets/icons/icons8-logo-de-google-48.png"),
-                                fit: BoxFit.cover,
+                    child: GestureDetector(
+                      onTap: () => authController.handleGoogleSignIn(),
+                      child: Container(
+                        width: size.width * 0.5,
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 30,
+                              height: 30,
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                      "assets/icons/icons8-logo-de-google-48.png"),
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(width: 10),
-                          const SmallText(title: "Google"),
-                        ],
+                            const SizedBox(width: 10),
+                            const SmallText(title: "Google"),
+                          ],
+                        ),
                       ),
                     ),
                   ),

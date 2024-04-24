@@ -1,8 +1,10 @@
+import 'package:app/routes/routes.dart';
 import 'package:app/widgets/big_text.dart';
 import 'package:app/widgets/button_base.dart';
 import 'package:country_currency_pickers/country.dart';
 import 'package:country_currency_pickers/country_pickers.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class BadgePage extends StatefulWidget {
   const BadgePage({super.key});
@@ -20,7 +22,7 @@ class _BadgePageState extends State<BadgePage> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 20),
+          margin: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -29,14 +31,18 @@ class _BadgePageState extends State<BadgePage> {
               const SizedBox(height: 50,),
               const Text('Selecciona la Divisa de tu pais'),
               const SizedBox(height: 10,),
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width*0.5,
                 child: ListTile(              
                   onTap: _openFilteredCountryPickerDialog,
                   title: _buildDialogItem(_selectedFilteredDialogCountry),
                 ),
               ),
-              const ButtonBase(title: "Siguiente",primary: true),
+              GestureDetector(
+                onTap: () {
+                  Get.offNamed(RouterHelper.getSignin());
+                },
+                child: const ButtonBase(title: "Siguiente",primary: true)),
             ],
           ),
         ),
@@ -49,11 +55,11 @@ class _BadgePageState extends State<BadgePage> {
         builder: (context) => Theme(
             data: Theme.of(context).copyWith(primaryColor: Colors.pink),
             child: CountryPickerDialog(
-                titlePadding: EdgeInsets.all(8.0),
+                titlePadding: const EdgeInsets.all(8.0),
                 searchCursorColor: Colors.pinkAccent,
-                searchInputDecoration: InputDecoration(hintText: 'Search...'),
+                searchInputDecoration: const InputDecoration(hintText: 'Search...'),
                 isSearchable: true,
-                title: Text('Selecciona el tipo de divisa'),
+                title: const Text('Selecciona el tipo de divisa'),
                 onValuePicked: (Country country) =>
                     setState(() => _selectedFilteredDialogCountry = country),
                 itemBuilder: _buildDialogItem)),
@@ -61,12 +67,12 @@ class _BadgePageState extends State<BadgePage> {
   Widget _buildDialogItem(Country country) => Row(
         children: <Widget>[
           CountryPickerUtils.getDefaultFlagImage(country),
-          SizedBox(width: 8.0),
+          const SizedBox(width: 8.0),
           Text(
             '${country.currencyCode}',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          SizedBox(width: 8.0),
+          const SizedBox(width: 8.0),
           Flexible(child: Text(country.name ?? ''))
         ],
       );

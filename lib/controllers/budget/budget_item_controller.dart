@@ -9,7 +9,7 @@ class BudgetItemController extends GetxService {
   var date = DateTime.now().obs;
   var type = ''.obs;
   var userid = ''.obs;
-  var category = 0.obs;
+  var category = 1.obs;
 
   TransactionBase buildTransaction() {
     return TransactionBase(

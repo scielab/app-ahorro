@@ -3,6 +3,7 @@ import 'package:app/models/categories_models.dart';
 import 'package:app/models/progress_model.dart';
 import 'package:app/models/transaction_model.dart';
 import 'package:app/pages/budget/budget_detail_page.dart';
+import 'package:app/pages/progress/progress.dart';
 import 'package:app/routes/routes.dart';
 import 'package:app/utils/date_format.dart';
 import 'package:app/utils/generate.dart';
@@ -11,9 +12,7 @@ import 'package:app/widgets/button_base.dart';
 import 'package:app/widgets/button_base_drop.dart';
 import 'package:app/widgets/floating_button_custom.dart';
 import 'package:app/widgets/shopping_item.dart';
-import 'package:app/widgets/small_text.dart';
 import 'package:app/widgets/transaction_dialog.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -64,12 +63,20 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         });
   }
 
+  bool loaderScreen = false;
   @override
   void initState() {
     //var budget = Get.find<BudgetController>().getBudgetRecentToFirebase;
     //budget.getBudgetRecentToFirebase();
+    Future.delayed(const Duration(seconds: 1), () {
+      loaderScreen = true;
+      setState(() {
+        
+      });
+    });
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +85,20 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       value: 1,
       duration: const Duration(milliseconds: 500),
     );
-    return Scaffold(
+    return loaderScreen ? Scaffold(
+      appBar: AppBar(
+        title: const Center(child: Text("Total Balance")),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Get.to(() => ProgressPage());
+            },
+            child: Container(
+              margin: const EdgeInsets.only(right: 10),
+              child: const Icon(Icons.analytics,size: 32,)),
+          ),
+        ],
+      ),
       body:  Stack(
           children: [
             Container(
@@ -86,9 +106,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               height: MediaQuery.of(context).size.height,
               child: Column(
                 children: [
-                  const SizedBox(height: 50,),
-                  const Center(child: BigText(title: "Total balance")),
-                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -118,6 +135,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           child: const ButtonBaseDrop(title: "June")),
                     ],
                   ),
+                  const SizedBox(height: 20,),
                   Expanded(
                     child: FutureBuilder(
                         future: Get.find<BudgetController>().getBudgetRecentToFirebase(typeQuery),
@@ -235,6 +253,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             },
           ),
         ],
+      ),
+    ) : const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
       ),
     );
   }

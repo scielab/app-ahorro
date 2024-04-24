@@ -13,11 +13,13 @@ class InputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
+      style: const TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.bold),
       obscureText: isPassword,
       decoration:  InputDecoration(
         filled: isTransparent,
+        enabled: false,
         fillColor: const Color.fromARGB(23, 23, 23, 1),
+        
         focusedBorder: InputBorder.none,
         contentPadding: const EdgeInsets.all(10),
         border: OutlineInputBorder( // Establece un borde redondeado

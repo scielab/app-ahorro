@@ -20,7 +20,7 @@ class _CategoryPayPageState extends State<CategoryPayPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: BigText(title: "Categoria"),
+        title: const BigText(title: "Categoria"),
         actions: [
           Container(
             padding: const EdgeInsets.all(8),
@@ -47,11 +47,11 @@ class _CategoryPayPageState extends State<CategoryPayPage> {
                 // volvemos a la pagina de creacion de transaccion
                 setState(() {              
                   print(budgetItem.category.value);
-                  budgetItem.udateCategory(index);
+                  budgetItem.udateCategory(pay[index]['id']);
                 });
                 Get.back();
               },
-              child: Container(
+              child: SizedBox(
                 child: Column(
                   children: [
                     Icon(

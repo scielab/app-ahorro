@@ -30,11 +30,22 @@ class ProgressPage extends StatefulWidget {
 }
 
 class _ProgressPageState extends State<ProgressPage> {
+
+  bool loaderScreen = false;
+
+
   @override
   void initState() {
     //var budget = Get.find<BudgetController>().getBudgetRecentToFirebase;
     //budget.getBudgetRecentToFirebase();
     //refreshState();
+
+    Future.delayed(const Duration(seconds: 1), () {
+      loaderScreen = true;
+      setState(() {
+      });
+    });
+
     super.initState();
   }
 
@@ -274,7 +285,7 @@ class _ProgressPageState extends State<ProgressPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loaderScreen ?  Scaffold(
       appBar: AppBar(
         title: const BigText(title: "Progress"),
       ),
@@ -471,6 +482,10 @@ class _ProgressPageState extends State<ProgressPage> {
                 }),
           ),
         ],
+      ),
+    ) : const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
       ),
     );
   }

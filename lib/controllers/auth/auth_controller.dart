@@ -5,11 +5,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:get/get.dart';
+
 
 class AuthController extends GetxController {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  //final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseFirestore db = FirebaseFirestore.instance;
   //late final SharedPreferences _prefs;
 
@@ -28,11 +30,17 @@ class AuthController extends GetxController {
 
 
   void _setInitialScreen(User? user) {
+    // verificar que esta logueado en ese caso redirigir directamente a la pagiona de actividades
+    // si no esta logueadio oeri existe informacion que posee en relacion a las preguntas se redirige a la pagina de login
+    // si no tiene nada de informacion se redirige a la pagina de inicio total
+
     if(user != null) {
-      Get.offAndToNamed(RouterHelper.getHomePrincipalPage());
-      //Get.offAll(BadgePage());
+      //Get.offAndToNamed(RouterHelper.getQuestion());
+      Get.offNamed(RouterHelper.getHomePrincipalPage());
+      //Get.toNamed(RouterHelper.getSignin());
     } else {
-      Get.toNamed(RouterHelper.getSignin());
+      Get.toNamed(RouterHelper.presentation);
+      //Get.toNamed(RouterHelper.getSignin());
     }
   }
 
@@ -109,47 +117,56 @@ class AuthController extends GetxController {
 
   // login:
   
-  // Future<bool> handlerGoogleSignIn() async {
-  //   try {
-  //     final GoogleSignInAccount? googleUser =  await _googleSignIn.signIn();
-  //     if(googleUser == null) return false; // cancelo el inicio de sesion
+  Future<bool> handlerGoogleSignIn() async {
+    try {
+      final GoogleSignInAccount? googleUser =  await _googleSignIn.signIn();
+      if(googleUser == null) return false; // cancelo el inicio de sesion
 
-  //     final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-  //     final AuthCredential credential = GoogleAuthProvider.credential(
-  //       accessToken: googleAuth.accessToken,
-  //       idToken: googleAuth.idToken
-  //     );
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken
+      );
 
-  //     final UserCredential authResult = await _firebaseAuth.signInWithCredential(credential);
-  //     final User? user = authResult.user;
+      final UserCredential authResult = await _firebaseAuth.signInWithCredential(credential);
+      final User? user = authResult.user;
       
-  //     if(user != null) {
-  //       print("Usuario autenticado con exito");
+      if(user != null) {
+        print(user);
+        print("Usuario autenticado con exito");
 
-  //       /*
-  //       final form = {
-  //         'name': name,
-  //         'email': email,
-  //         'photo': user.value?.photoURL ?? '',
-  //         'uid': user.value?.uid,
-  //       };
-  //       db.collection('users').doc(user.value?.uid).set(form);
-  //       */
 
+        // final form = {
+        //   'name': generateNumberAvatar(),
+        //   'email': user.email,
+        //   'photo': user.value?.photoURL ?? '',
+        //   'uid': user.value?.uid,
+        // };
+        // db.collection('users').doc(user.value?.uid).set(form);
         
-  //       // lanzar notificacion
-  //       return true;
-  //     } else {
-  //       // Algo salio mal 
-  //       // lanzar notificacion de error
-  //       return false;
-  //     }
-  //   } catch (error) {
-  //     print(error);
-  //   }
-  //   return false;
-  // }
-  // Future<void> _handleGoogleSignOut() => _googleSignIn.disconnect();
+        // lanzar notificacion
+        return true;
+      } else {
+        // Algo salio mal 
+        // lanzar notificacion de error
+        return false;
+      }
+    } catch (error) {
+      print(error);
+    }
+    return false;
+  }
+  // google
+  Future<void> _handleGoogleSignOut() => _googleSignIn.disconnect();
+  Future<void> handleGoogleSignIn() async {
+    bool response = await handlerGoogleSignIn();
+    if (response) {
+      print("Entro");
+    } else {
+      print("NO ENTRO");
+    }
+  }
+
 
 
   bool _validateEmail(String value) {
@@ -159,6 +176,7 @@ class AuthController extends GetxController {
     }
     return true;
   }
+
 
   // Validaciones de la page
   Future<void> signUpEmailandPasswordValidator(TextEditingController email, TextEditingController pass, TextEditingController confirm_pass) async {
