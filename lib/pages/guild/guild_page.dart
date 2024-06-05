@@ -1,3 +1,4 @@
+import 'package:app/controllers/guild/guild_controller.dart';
 import 'package:app/pages/guild/guild_steps_page.dart';
 import 'package:app/widgets/base/card/card_secundary_widget.dart';
 import 'package:app/widgets/big_text.dart';
@@ -7,12 +8,30 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 
-class GuildPage extends StatelessWidget {
+class GuildPage extends StatefulWidget {
   const GuildPage({super.key});
-  final List<String> card = const ["Creditos","Ahorro","Invertir","Presupuestos","Finanzas","Legales"];
+
+  @override
+  State<GuildPage> createState() => _GuildPageState();
+}
+
+class _GuildPageState extends State<GuildPage> {
+  late GuildController guildController;
+
+  @override
+  void initState() {
+    guildController = Get.find<GuildController>();
+    setDataCourses();
+    super.initState();
+  }
+
+  void setDataCourses() async {
+    await guildController.getDataNamesGuilds();
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: const BigText(title: "Happy Learn",size: 25,),
@@ -38,18 +57,28 @@ class GuildPage extends StatelessWidget {
           ),
         ],
       ),
-      body: Container(
-        margin: const EdgeInsets.only(left: 10,right: 10,top: 20),
-        child: StaggeredDualWidet(itemCount: card.length,builder: (context,index) {
-          return GestureDetector(
-            onTap: () {
-              Get.to(() => const GuildStepsPage());
-            },
-            child: CardSecundaryWidget(title: card[index],));
-        },
-        spacing: 10,
-        aspectRatio: 0.8,),
-      )
+      body: Obx(() {
+       if(guildController.isLoading) {
+        var data = guildController.listcourses;
+        return Container(
+          margin: const EdgeInsets.only(left: 10,right: 10,top: 20),
+          child: StaggeredDualWidet(itemCount: data.length,builder: (context,index) {
+            return GestureDetector(
+              onTap: () {
+                Get.to(() => GuildStepsPage(idcourse: data[index].id),transition: Transition.rightToLeft);
+              
+              },
+              child: CardSecundaryWidget(title: data[index].name));
+          },
+          spacing: 10,
+          aspectRatio: 0.8,),
+          ); 
+       } else {
+        return const Center(
+        child: CircularProgressIndicator());
+       }
+      }
+      ),
     );
   }
 }

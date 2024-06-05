@@ -1,64 +1,87 @@
 [
   {
-    "lesson": "Invertir",
-    "n_lesson": 5,
-    "entries": [
+    "id": 1,
+    "name": "Planificacion Financiera",
+    "lessoncourse": [
       {
-        "type": "content",
-        "id": 1,
-        "title": "Historia del arte renacentista",
-        "content": [
-          "El Renacimiento fue un periodo de gran florecimiento cultural en Europa...",
-          "El arte renacentista se caracterizó por...",
-          "Algunos de los artistas más destacados fueron..."
-        ],
-        "imageurl": "assets/images/notebook.png"
-      },
-      {
-        "type": "question",
-        "id": 1,
-        "contentid": 1,
-        "question": "¿Quién fue el pintor renacentista más famoso?",
-        "options": [
-          {"id": 1, "option": "Leonardo da Vinci", "isCorrect": true},
-          {"id": 2, "option": "Pablo Picasso", "isCorrect": false},
-          {"id": 3, "option": "Miguel Ángel", "isCorrect": false},
-          {"id": 4, "option": "Vincent van Gogh", "isCorrect": false}
+        "id": "123123123",
+        "lesson": "Introduccion",
+        "n_lesson": 7,
+        "entries": [
+          {
+            "type": "content",
+            "id": 1,
+            "title": "¿Qué es el Presupuesto?",
+            "format": "text",
+            "content": [
+              "Es la planificación de ingresos y gasto de un grupo o una organización tomando en consideración el pasado y presente y futuro."
+            ],
+            "imageurl": "assets/images/planificacion/img1.png"
+          },
+          {
+            "type": "content",
+            "id": 1,
+            "title": "¿Para que nos sirve un presupuesto?",
+            "format": "text",
+            "content": [
+              "Nos sirve para tener mas control sobre nuestros ingresos y gastos",
+              "Nos permite establecer si es posible cuanto ahorrar o gastar de mas",
+              "Nos permite ver cuanto dinero gastamos realmente y en que lo gastamos",
+              "Nos permite definir expectativas de ingreso y gasto futuros para poder ajustarlo al presente"
+            ],
+            "imageurl": "assets/images/planificacion/img2.png"
+          },
+          {
+            "type": "question",
+            "id": 1,
+            "contentid": 1,
+            "question": "El presupuesto nos sirve para tener mas control sobre nuestros ingresos y gastos?",
+            "format": "text",
+            "options": [
+              {"id": 1, "option": "Verdadero", "isCorrect": true, "type": "text"},
+              {"id": 2, "option": "Falso", "isCorrect": false, "type": "text"}
+            ]
+          },
+          {
+            "type": "content",
+            "id": 2,
+            "title": "Objetivo de un Presupuesto",
+            "format": "text",
+            "content": [
+              "El objetivo de un presupuesto es llevar un registro de todos nuestros ingreso disponible y analizar si suficiente para cubrir todos  los gastos."
+            ],
+            "imageurl": "assets/images/planificacion/img3.png"
+          },
+          {
+            "type": "question",
+            "id": 2,
+            "contentid": 2,
+            "question": "¿Qué es lo primero que debe estar en un presupuesto?",
+            "format": "text",
+            "options": [
+              {"id": 5, "option": "Gastos de Comida y transporte", "isCorrect": false, "type": "text"},
+              {"id": 6, "option": "Gastos de Vivienda", "isCorrect": false, "type": "text"},
+              {"id": 7, "option": "Ahorro", "isCorrect": true, "type": "text"},
+              {"id": 8, "option": "Ingreso", "isCorrect": false, "type": "text"}
+            ]
+          },
+          {
+            "type": "content",
+            "id": 3,
+            "title": "Pasos de Como hacer un Presupuesto",
+            "format": "text",
+            "content": [
+              "Cada mes reserva un poco de tiempo para planificar",
+              "Elige una plataforma para registrar tus ingresos y gastos, puede ser esta aplicación",
+              "Define cuanto vas a Ahorrar/Invertir y donde",
+              "Estima tus gastos mensuales y anota los ítems de gasto",
+              "Crea o selecciona las categorías como ej: comida, supermercado",
+              "Una vez termine el mes comprar los gastos estimados con los reales",
+              "Puedes repetir este proceso por al menos 3 meses"
+            ],
+            "imageurl": ""
+          }
         ]
-      },
-      {
-        "type": "content",
-        "id": 2,
-        "title": "Segundo título de contenido",
-        "content": [
-          "Este es el contenido del segundo elemento...",
-          "Otro párrafo de contenido...",
-          "Y otro más para completar."
-        ],
-        "imageurl": "assets/images/notebook.png"
-      },
-      {
-        "type": "question",
-        "id": 2,
-        "contentid": 2,
-        "question": "¿Cuál es la importancia del segundo contenido?",
-        "options": [
-          {"id": 5, "option": "Opción 1", "isCorrect": true},
-          {"id": 6, "option": "Opción 2", "isCorrect": false},
-          {"id": 7, "option": "Opción 3", "isCorrect": false},
-          {"id": 8, "option": "Opción 4", "isCorrect": false}
-        ]
-      },
-      {
-        "type": "content",
-        "id": 3,
-        "title": "Tercer título de contenido",
-        "content": [
-          "Este es el contenido del tercer elemento...",
-          "Otro párrafo de contenido...",
-          "Y otro más para completar."
-        ],
-        "imageurl": "assets/images/notebook.png"
       }
     ]
   }

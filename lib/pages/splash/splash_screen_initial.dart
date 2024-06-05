@@ -28,22 +28,20 @@ class _SplashScreenInitialState extends State<SplashScreenInitial> with SingleTi
     super.dispose();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         width: double.infinity,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [const Color.fromARGB(255, 204, 211, 218), Colors.purple],begin: Alignment.topRight, end: Alignment.bottomLeft),
+            colors: [ Color.fromARGB(255, 204, 211, 218), Colors.purple],begin: Alignment.topRight, end: Alignment.bottomLeft),
         ),
-        child: Column(
+        child: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(Icons.edit, size: 80,color: Colors.white,),
-            const SizedBox(height: 20,),
+            SizedBox(height: 20,),
             BigText(title: "Flutter Tips"),
           ],
         )

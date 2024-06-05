@@ -1,56 +1,82 @@
-import 'package:app/pages/presentation/badge_page.dart';
+import 'dart:async';
+import 'package:app/pages/auth/verification_page.dart';
 import 'package:app/routes/routes.dart';
+import 'package:app/utils/app_resources.dart';
 import 'package:app/utils/generate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class AuthController extends GetxController {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseFirestore db = FirebaseFirestore.instance;
-  //late final SharedPreferences _prefs;
-
-  //Rx<User?> user = Rx<User?>(null);
-  //late User? user;
+  
+  late final SharedPreferences _prefs;
+  RxString selectedCountry = RxString("");
   Rx<User?> user = Rx<User?>(null);
 
+  FirebaseAuth get firebaseAuth => _firebaseAuth;
+
+
+  RxBool isSignUp = false.obs;
+  RxBool isSignIn = false.obs;
+
   @override
-  void onInit() {
+  void onInit() async {
+    _prefs = await SharedPreferences.getInstance();
     _firebaseAuth.authStateChanges().listen((User? firebaseuser) {
       user.value = firebaseuser;
     });
     ever(user, (callback) => _setInitialScreen(user.value));
     super.onInit();
   }
-
-
-  void _setInitialScreen(User? user) {
-    // verificar que esta logueado en ese caso redirigir directamente a la pagiona de actividades
-    // si no esta logueadio oeri existe informacion que posee en relacion a las preguntas se redirige a la pagina de login
-    // si no tiene nada de informacion se redirige a la pagina de inicio total
-
+  // Esta funcion verifica si existe unusuario o no y redirige dependiendo el caso (Es una copia)
+  void setInitialScreen(User? user) {
     if(user != null) {
-      //Get.offAndToNamed(RouterHelper.getQuestion());
-      Get.offNamed(RouterHelper.getHomePrincipalPage());
-      //Get.toNamed(RouterHelper.getSignin());
+      if(user.emailVerified) {
+        Get.offAllNamed(RouterHelper.getHomePrincipalPage());
+      } else {
+        Get.offAll(() => const VerificationEmailPage());
+      }
+    } else {
+      _prefs.remove('lastExecution');
+      Get.toNamed(RouterHelper.presentation);
+    }
+  }
+  // Esta funcion verifica si existe unusuario o no y redirige dependiendo el caso 
+  void _setInitialScreen(User? user) {
+    if(user != null) {
+      if(user.emailVerified) {
+        Get.offAllNamed(RouterHelper.getHomePrincipalPage());
+      } else {
+        Get.offAll(() => const VerificationEmailPage());
+      }
     } else {
       Get.toNamed(RouterHelper.presentation);
-      //Get.toNamed(RouterHelper.getSignin());
     }
   }
 
+  Future<void> sendEmailVerificationAccount() async {
+    try {
+      await _firebaseAuth.currentUser?.sendEmailVerification();
+    } on FirebaseAuthException catch (exception) {
+      logger.e(exception);
+    }catch (e) {
+      logger.e(e);
+    }
+  }
   Future<bool> signUpEmailandPassword(String email, String password) async {
     try {
+      isSignUp.value = true;
       final UserCredential credential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
       user.value = credential.user;
-      print(user.value);
-      // add user information to database
       if(user.value != null) {
+        logger.d("Entro por lo tanto el usuario no es nulo");
         final form = {
           'name': generateNumberAvatar(),
           'email': email,
@@ -58,65 +84,69 @@ class AuthController extends GetxController {
           'uid': user.value?.uid,
         };
         db.collection('users').doc(user.value?.uid).set(form);
-        //_prefs = await SharedPreferences.getInstance();
         //Es necesario guardar toda esta informacion?
-        //_prefs.setString('name', form['name'] as String);
-        //_prefs.setString('email', form['email'] as String);
-        //_prefs.setString('photo', form['photo'] as String);
-        //_prefs.setString('uid', form['uid'] as String);
+        _prefs.setString('session','EMAIL');
+        _prefs.setString('name', form['name'] as String);
+        _prefs.setString('email', form['email'] as String);
+        _prefs.setString('photo', form['photo'] as String);
+        _prefs.setString('uid', form['uid'] as String);
+      
+        _prefs.setBool('jumptutorial', true);
+        _prefs.setString('divisa', selectedCountry.value);
+        _prefs.setBool('question', true);
+        isSignUp.value = false;
+        return true;
       }
-
-      return true;
+      return false;
     } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
-          print('The password provided is too weak.');
+          logger.e('The password provided is too weak.');
         } else if (e.code == 'email-already-in-use') {
-          print('The account already exists for that email.');
+          logger.e('The account already exists for that email.');
         }
     }
     catch (e) {
-      print(e);
+      logger.e(e);
     }
     return false;
   }
-  
   Future<bool> signInEmailAndPassword(String email,String password) async {
     try {
-      //_prefs = await SharedPreferences.getInstance();
       final UserCredential credential = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
       user.value = credential.user;
-      // Agregar un condicional en caso que necesite guardar o no
-      //_prefs.setString('uid', user.value!.uid);
-      print(user);
+      if(user.value != null) {
+        _prefs.setString('uid', user.value!.uid);
+        _prefs.setString('email', email);
+        _prefs.setString('session','EMAIL');
+        _prefs.setBool('question', true);
+      }
       Get.snackbar("exito al entrar","entrar");
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        logger.e('No user found for that email.');
         return false;
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+        logger.e('Wrong password provided for that user.');
         return false;
       }
     }
     return false;
   }
 
-  Future<void> signOut() async {
-    await _firebaseAuth.signOut();
-  }
+
+
   User? getCurrentUser() {
     return _firebaseAuth.currentUser;
   }
   Stream<User?> authStateChanges() {
     return _firebaseAuth.authStateChanges();
   }
-
-  // Implementation google:
-  // Registration google account:
-
-  // login:
-  
+  Future<void> signOut() async {
+    _prefs.remove('session');
+    await _firebaseAuth.signOut();
+  }
+  // google  
   Future<bool> handlerGoogleSignIn() async {
     try {
       final GoogleSignInAccount? googleUser =  await _googleSignIn.signIn();
@@ -132,38 +162,56 @@ class AuthController extends GetxController {
       final User? user = authResult.user;
       
       if(user != null) {
-        print(user);
-        print("Usuario autenticado con exito");
+         final form = {
+           'name': generateNumberAvatar(),
+           'email': user.email,
+           'photo': user.photoURL?? '',
+           'uid': user.uid,
+        };
+        db.collection('users').doc(user.uid).set(form);
+        _prefs.setString('session','GOOGLE');
+        _prefs.setBool('question', true);
 
-
-        // final form = {
-        //   'name': generateNumberAvatar(),
-        //   'email': user.email,
-        //   'photo': user.value?.photoURL ?? '',
-        //   'uid': user.value?.uid,
-        // };
-        // db.collection('users').doc(user.value?.uid).set(form);
-        
-        // lanzar notificacion
         return true;
       } else {
-        // Algo salio mal 
-        // lanzar notificacion de error
         return false;
       }
     } catch (error) {
-      print(error);
+      logger.e(error);
     }
     return false;
   }
-  // google
-  Future<void> _handleGoogleSignOut() => _googleSignIn.disconnect();
+  Future<void> handleGoogleSignOut() async {
+    _prefs.remove('session');
+    _googleSignIn.disconnect();
+  }
   Future<void> handleGoogleSignIn() async {
     bool response = await handlerGoogleSignIn();
     if (response) {
-      print("Entro");
+      logger.d("Entro");
     } else {
-      print("NO ENTRO");
+      logger.d("NO ENTRO");
+    }
+  }
+  
+  Future<void> signOutSession() async {
+    try {
+      var op = _prefs.getString('session');
+      if(op != null) {
+        switch(op) {
+          case 'GOOGLE':
+            await signOut();
+            await handleGoogleSignOut();
+            break;
+          case 'EMAIL':
+            await signOut();
+            break;
+          default:
+            throw Exception("No especificado el tipo de session");
+        }
+      } 
+    } catch (error) {
+      logger.e(error);
     }
   }
 
@@ -177,7 +225,6 @@ class AuthController extends GetxController {
     return true;
   }
 
-
   // Validaciones de la page
   Future<void> signUpEmailandPasswordValidator(TextEditingController email, TextEditingController pass, TextEditingController confirm_pass) async {
     String _email = email.text.trim();
@@ -185,40 +232,74 @@ class AuthController extends GetxController {
     String _confirm_pass = confirm_pass.text.trim();
 
     if(_email.isEmpty || _pass.isEmpty || _confirm_pass.isEmpty) {
-      print("Error campos vacios");
+      Get.snackbar("Error", "Tiene campos vacios",backgroundColor: Colors.blue,colorText: Colors.white);
     }
     if(!_validateEmail(_email)) {
-      print("Error email no valido");
+      Get.snackbar("Error", "Error email no valido",backgroundColor: Colors.blue,colorText: Colors.white);
     }
     if(_pass != _confirm_pass) {
-      print("Error las contraseñas no son iguales");
+      Get.snackbar("Error", "Las cotraseñas no son iguales",backgroundColor: Colors.blue,colorText: Colors.white);
     }
 
+    logger.d("Paso la validacion de campos");
     bool register = await signUpEmailandPassword(_email,_pass);
     if(register) {
-      print("Exito al entrar");
     } else {
-      print("No puedo entrar");
+      Get.snackbar("Inicio de Sesion", "No puedo entrar",backgroundColor: Colors.blue,colorText: Colors.white);
     }
   }
-
-
   Future<void> signInEmailandPasswordValidator(TextEditingController email, TextEditingController pass) async {
     String _email = email.text.trim();
     String _pass = pass.text.trim();
 
     if(_email.isEmpty || _pass.isEmpty) {
-      print("Error campos vacios");
+      Get.snackbar("Error", "Tiene campos vacios",backgroundColor: Colors.blue,colorText: Colors.white);
     }
     if(!_validateEmail(_email)) {
-      print("Error email no valido");
+      Get.snackbar("Error", "Error email no valido",backgroundColor: Colors.blue,colorText: Colors.white);
     }
     bool register = await signInEmailAndPassword(_email,_pass);
     if(register) {
-      print("Exito al entrar");
+      logger.d("Exito al entrar");
     } else {
-      print("No puedo entrar");
+      logger.d("No puedo entrar");
+      Get.snackbar("Inicio de Sesion", "No puedo entrar",backgroundColor: Colors.blue,colorText: Colors.white);
+
     }
+  }
+  
+  
+  
+  // delete account:
+  Future<void> removeAccount() async {
+    try {
+      if(user.value == null) throw Exception("La cuenta no esta registrada");
+      
+      await deleteInfoAssociatedAccount(user.value!.uid);
+      var userAuth = await getCurrentUser()!.delete();
+    } catch (e) {
+      logger.e(e);
+    }
+  }
+  Future<void> deleteInfoAssociatedAccount(String userid) async {
+    // budget
+    final batch = FirebaseFirestore.instance.batch();
+    final budgetQuery = await db.collection('budget').where('userid',isEqualTo: userid).get();
+    for(final doc in budgetQuery.docs) {
+      batch.delete(doc.reference);
+    }
+    // history
+    final historyQuery = await db.collection('history').where('iduser',isEqualTo: userid).get();
+    for(final doc in historyQuery.docs) {
+      batch.delete(doc.reference);
+    }
+    // lectures
+    final lecturesQuery = await db.collection('lectures').where('iduser',isEqualTo: userid).get();
+    for(final doc in lecturesQuery.docs) {
+      batch.delete(doc.reference);
+    }
+    batch.delete(FirebaseFirestore.instance.collection('users').doc(userid));
+    await batch.commit();
   }
 
 }

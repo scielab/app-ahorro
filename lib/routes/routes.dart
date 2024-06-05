@@ -55,22 +55,29 @@ class RouterHelper {
   static String getSplash() => splash;
 
   static List<GetPage> routes = [
-    GetPage(name: _signin, page: () => SignInPage(),transition: Transition.native),
-    GetPage(name: _signup, page: () => SignUpPage(),transition: Transition.native),
-    GetPage(name: _home, page: () => HomePage(),transition: Transition.fadeIn),
+    GetPage(name: _signin, page: () => const SignInPage(),transition: Transition.native),
+    GetPage(name: _signup, page: () => const SignUpPage(),transition: Transition.native),
+    GetPage(name: _home, page: () => const HomePage(),transition: Transition.fadeIn),
   
-    GetPage(name: _settings, page: () => SettingsPage(),transition: Transition.native),
+    GetPage(name: _settings, page: () => const SettingsPage(),transition: Transition.fadeIn),
     GetPage(name: _progress, page: () => ProgressPage(),transition: Transition.native),
-    GetPage(name: _guild, page: () => GuildPage(),transition: Transition.native),
+    
+    // guilds:
+    GetPage(name: _guild, page: () => const GuildPage(),transition: Transition.native),
+
+
+
     GetPage(name: _homePrincipal, page: () => const HomePagePrincipal(),transition: Transition.native),
-    GetPage(name: _category_account, page: () => CategoryPage(),transition: Transition.native),
-    GetPage(name: _category_account_pay, page: () => CategoryPayPage(), transition: Transition.native),
+
+    
+    GetPage(name: _category_account, page: () => const CategoryPage(),transition: Transition.fade),
+    GetPage(name: _category_account_pay, page: () => const CategoryPayPage(), transition: Transition.fade),
   
-    GetPage(name: splash, page: () => SpashPage()),
-    GetPage(name: question, page: () => QuestionPage(),transition: Transition.native),
+    GetPage(name: splash, page: () => const SpashPage()),
+    GetPage(name: question, page: () => const QuestionPage(),transition: Transition.native),
   
   
-    GetPage(name: presentation, page: () => SplashScreenIntro()),
-    GetPage(name: divisa, page: () => BadgePage())
+    GetPage(name: presentation, page: () => const SplashScreenIntro()),
+    GetPage(name: divisa, page: () => const BadgePage())
   ];
 }

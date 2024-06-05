@@ -2,6 +2,7 @@
 import 'package:app/models/question_model.dart';
 import 'package:app/pages/splash/splash_screen_intro.dart';
 import 'package:app/routes/routes.dart';
+import 'package:app/utils/dimension.dart';
 import 'package:app/widgets/big_text.dart';
 import 'package:app/widgets/question/question_item_widget.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,6 @@ import 'package:get/get.dart';
 
 // informacion de las animaciones
 var _duration = const Duration(milliseconds: 500);
-
 
 class QuestionPage extends StatefulWidget {
   const QuestionPage({super.key});
@@ -20,10 +20,8 @@ class QuestionPage extends StatefulWidget {
 
 class _QuestionPageState extends State<QuestionPage> {
   late List<QuestionModel> question;
-
   bool isFinish = false;
   late int _currentState = 0;
-  // donde guardar las respuestas del codigo
 
   @override
   void initState() {
@@ -48,7 +46,7 @@ class _QuestionPageState extends State<QuestionPage> {
           SizedBox(
             width: size.width,
             height: size.height,
-            child: const Image(image: AssetImage('assets/images/login_back.jpeg'),fit: BoxFit.cover,),
+            child: const Image(image: AssetImage('assets/images/question_back.jpg'),fit: BoxFit.cover,),
           ),
           Container(
             width: size.width,
@@ -61,8 +59,6 @@ class _QuestionPageState extends State<QuestionPage> {
               children: List.generate(question.length, (index) {
 
                 var data = question[index];
-                print(question.length);
-                //print(index);
                 return AnimatedOpacity(
                   opacity: _currentState == index ? 1.0 : 0.0,
                   duration: _duration,
@@ -71,14 +67,12 @@ class _QuestionPageState extends State<QuestionPage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const Spacer(),
-                      BigText(title: data.title,size: 30,color: Colors.white,alig: true),
+                      BigText(title: data.title,size: Dimension.font26,color: Colors.white,alig: true,over: true,),
                       const SizedBox(height: 50,),
                       ...List.generate(data.alternatives.length, (indexSub) => QuestionItem(title: data.alternatives[indexSub], callback: () {
                         if(_currentState < (question.length - 1)) {
                           _currentState++;
-                          print(_currentState);
                         } else {
-                          //Get.to(() => const SplashScreenIntro()); 
                           Get.offNamed(RouterHelper.getDivisa());
                         }
                         setState(() {});

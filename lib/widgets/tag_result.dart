@@ -1,3 +1,4 @@
+import 'package:app/utils/dimension.dart';
 import 'package:app/widgets/big_text.dart';
 import 'package:app/widgets/small_text.dart';
 import 'package:flutter/material.dart';
@@ -15,12 +16,12 @@ class TagResult extends StatelessWidget {
       child: Center(
         child: Column(
           children: [
-            SmallText(title: title),
+            SmallText(title: title,size: Dimension.font16,),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text('\$',style: TextStyle(color: Colors.grey[500]),),
-                BigText(title: "$value",size: 18,),
+                BigText(title: "$value",size: Dimension.font16),
               ],
             )
           ],

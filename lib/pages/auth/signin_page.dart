@@ -1,5 +1,6 @@
 import 'package:app/controllers/auth/auth_controller.dart';
 import 'package:app/routes/routes.dart';
+import 'package:app/utils/dimension.dart';
 import 'package:app/widgets/input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:app/widgets/big_text.dart';
@@ -8,7 +9,7 @@ import 'package:get/get.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
-
+  
   @override
   State<SignInPage> createState() => _SignInPageState();
 }
@@ -17,13 +18,9 @@ class _SignInPageState extends State<SignInPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-
-
-
-
   @override
   Widget build(BuildContext context) {
-    AuthController authController = Get.find<AuthController>();  
+    AuthController authController = Get.find<AuthController>();
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -48,7 +45,7 @@ class _SignInPageState extends State<SignInPage> {
                     color: Colors.white,
                     size: 32,
                   ),
-                  const SizedBox(height: 50),
+                  SizedBox(height: Dimension.height45),
                   const SmallText(
                     title:
                         "Si ya registraste previamente con tu correo electrónico, puedes ingresar",
@@ -64,7 +61,7 @@ class _SignInPageState extends State<SignInPage> {
                     size: 17,
                   ),
                   const SizedBox(height: 10),
-                  InputField(controller: emailController, labelText: "Correo electronico"),
+                  InputField(controller: emailController, labelText: "Correo electronico",enable: true,),
               
                   const SmallText(
                     title: "Contraseña",
@@ -73,7 +70,7 @@ class _SignInPageState extends State<SignInPage> {
                     size: 17,
                   ),
                   const SizedBox(height: 10,),
-                  InputField(controller: passwordController, labelText: "contraseña",isPassword: true,),
+                  InputField(controller: passwordController, labelText: "contraseña",isPassword: true,enable: true),
                   const SizedBox(height: 10,),
                   GestureDetector(
                     onTap: () => authController.signInEmailandPasswordValidator(emailController,passwordController),
@@ -91,7 +88,7 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 50),
+                  SizedBox(height: Dimension.height15),
                   Center(
                     child: GestureDetector(
                       onTap: () => authController.handleGoogleSignIn(),

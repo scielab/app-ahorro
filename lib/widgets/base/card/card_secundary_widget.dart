@@ -1,4 +1,5 @@
 
+import 'package:app/utils/dimension.dart';
 import 'package:app/widgets/base/card/card_primary_widget.dart';
 import 'package:app/widgets/big_text.dart';
 import 'package:app/widgets/small_text.dart';
@@ -41,13 +42,13 @@ class CardSecundaryWidget extends StatelessWidget {
           ),
           Positioned(
             top: size.height * 0.05,
-            child: Container(
+            child: SizedBox(
               width: MediaQuery.of(context).size.width * 0.4,
               height:  MediaQuery.of(context).size.width * 0.3,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  BigText(title: title,size: 25,),
+                  BigText(title: title,size: Dimension.font18,over: true),
                   const Spacer(),
                   const SmallText(title: "Lesson",color: Colors.black54,),
                   const SizedBox(height: 10,),
@@ -60,13 +61,13 @@ class CardSecundaryWidget extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(
+          const Positioned(
             bottom: 0,
             left: 0,
-            child: Container(
+            child: SizedBox(
               height: 20,
               width: 100,
-              child: const Row(
+              child: Row(
                 children: [
                     Icon(
                       Icons.calendar_month,

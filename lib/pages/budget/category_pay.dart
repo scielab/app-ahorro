@@ -1,5 +1,6 @@
 import 'package:app/controllers/budget/budget_item_controller.dart';
 import 'package:app/models/categories_models.dart';
+import 'package:app/utils/app_resources.dart';
 import 'package:app/widgets/big_text.dart';
 import 'package:app/widgets/small_text.dart';
 import 'package:flutter/material.dart';
@@ -7,13 +8,12 @@ import 'package:get/get.dart';
 
 class CategoryPayPage extends StatefulWidget {
   const CategoryPayPage({super.key});
-
   @override
   State<CategoryPayPage> createState() => _CategoryPayPageState();
 }
 
 class _CategoryPayPageState extends State<CategoryPayPage> {
-  var current_index = 0;
+  var currentIndex = 0;
   BudgetItemController budgetItem = Get.find<BudgetItemController>();
 
   @override
@@ -43,10 +43,10 @@ class _CategoryPayPageState extends State<CategoryPayPage> {
             return GestureDetector(
               onTap: () {
                 // Seleccionamos el icon que tenemos
-                current_index = index;
+                currentIndex = index;
                 // volvemos a la pagina de creacion de transaccion
                 setState(() {              
-                  print(budgetItem.category.value);
+                  logger.d(budgetItem.category.value);
                   budgetItem.udateCategory(pay[index]['id']);
                 });
                 Get.back();
@@ -54,15 +54,19 @@ class _CategoryPayPageState extends State<CategoryPayPage> {
               child: SizedBox(
                 child: Column(
                   children: [
-                    Icon(
-                      pay[index]['icon'],
-                      size: 42,
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: pay[index]['color'],
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: Icon(
+                        pay[index]['icon'],
+                        size: 42,
+                        color: Colors.white,
+                      ),
                     ),
-                    Center(
-                        child: SmallText(
-                      title: pay[index]['name'],
-                      size: 18,
-                    )),
+                    Center(child: SmallText(title: pay[index]['name'],size: 18,over: true,alig: true,)),
                   ],
                 ),
               ),

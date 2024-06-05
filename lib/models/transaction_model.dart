@@ -1,5 +1,3 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TransactionBase {
@@ -10,6 +8,7 @@ class TransactionBase {
   final String type;
   final String userid;
   final int category;
+  String? uid;
 
   TransactionBase({
     required this.id,
@@ -18,7 +17,8 @@ class TransactionBase {
     required this.date,
     required this.type,
     required this.userid,
-    required this.category
+    required this.category,
+    this.uid
   });
 
   Map<String,dynamic> toMap() {
@@ -33,7 +33,7 @@ class TransactionBase {
     };
   }
 
-  static TransactionBase transactionFromFirebase(Map<String, dynamic> data) {
+  static TransactionBase transactionFromFirebase(Map<String, dynamic> data,String uid) {
     return TransactionBase(
       id: data['id'],
       title: data['title'] ?? '',
@@ -42,6 +42,7 @@ class TransactionBase {
       type: data['type'] ?? '',
       userid: data['userid'] ?? '',
       category: data['category'] ?? 0,
+      uid: uid,
     );
   }
 }

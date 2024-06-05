@@ -6,13 +6,15 @@ class SmallText extends StatelessWidget {
   final double size;
   final Color color;
   final FontWeight fw;
-
-  const SmallText({super.key,required this.title, this.size=15,this.color=Colors.black,this.fw=FontWeight.normal});
+  final bool alig;
+  final bool over;
+  const SmallText({super.key,required this.title, this.size=15,this.color=Colors.black,this.fw=FontWeight.normal,this.alig = false,this.over = false});
 
   @override
   Widget build(BuildContext context) {
     return Text(title,
-    textAlign: TextAlign.start,
+    textAlign: alig ? TextAlign.center : TextAlign.start,
+    overflow: over ? TextOverflow.clip : TextOverflow.ellipsis,
     style: TextStyle(
       decoration: TextDecoration.none,
       color: color,

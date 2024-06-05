@@ -7,7 +7,6 @@ import 'package:app/utils/color_custom.dart';
 import 'package:app/utils/color_extensions.dart';
 import 'package:app/widgets/big_text.dart';
 import 'package:app/widgets/button_base.dart';
-import 'package:app/widgets/button_base_drop.dart';
 import 'package:app/widgets/shopping_item.dart';
 import 'package:app/widgets/tag_result.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -19,11 +18,10 @@ import 'package:get/get.dart';
 class ProgressPage extends StatefulWidget {
   ProgressPage({super.key});
 
-  final Color barBackgroundColor =
-      AppColors.contentColorWhite.darken().withOpacity(0.3);
+  final Color barBackgroundColor =AppColors.contentColorWhite.darken().withOpacity(0.3);
   final Color barColor = AppColors.contentColorWhite;
   final Color touchedBarColor = AppColors.contentColorGreen;
-  ProgressController progressController = Get.find<ProgressController>();
+  final ProgressController progressController = Get.find<ProgressController>();
 
   @override
   State<ProgressPage> createState() => _ProgressPageState();
@@ -289,199 +287,153 @@ class _ProgressPageState extends State<ProgressPage> {
       appBar: AppBar(
         title: const BigText(title: "Progress"),
       ),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 10,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
             children: [
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    typeQuery = types[1];
-                  });
-                },
-                child: const ButtonBase(
-                  title: "Expenses",
-                  primary: true,
-                ),
+              const SizedBox(
+                height: 10,
               ),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    typeQuery = types[0];
-                  });
-                },
-                child: const ButtonBase(title: "Income"),
-              ),
-              const ButtonBaseDrop(title: "June"),
-            ],
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          /*
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.25,
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: BarChart(
-                mainBarData(),
-                swapAnimationDuration: animDuration,
-              ),
-            ),
-            */
-
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.3,
-            child: FutureBuilder(
-                future: widget.progressController.getBudget(typeQuery),
-                initialData: null,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    var analitics = widget.progressController.analytics;
-                    return PieChart(PieChartData(
-                        centerSpaceRadius: 50,
-                        sectionsSpace: 15,
-                        sections: List.generate(
-                          analitics
-                              .length, // Aquí data es la lista de datos que deseas mostrar en el gráfico
-                          (index) {
-                            return PieChartSectionData(
-                              value: analitics[index].totalPorcent,
-                              showTitle: true,
-                              radius: 70,
-                              titleStyle: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
-                              //color: availableColors[index % availableColors.length], // Esto se asegura de que los colores se repitan si hay más datos que colores disponibles
-                              color: widget.progressController
-                                  .allCategories[index].color,
-                            );
-                          },
-                        )));
-                  }
-                }),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Spacer(),
-              Obx(() => TagResult(
-                  title: "Day",
-                  value:
-                      widget.progressController.getTotalAmmountDay(typeQuery))),
-              const Spacer(),
-              Obx(() => TagResult(
-                  title: "Week",
-                  value: widget.progressController
-                      .getTotalAmmountWeek(typeQuery))),
-              const Spacer(),
-              Obx(() => TagResult(
-                  title: "Month",
-                  value: widget.progressController
-                      .getTotalAmmountMonh(typeQuery))),
-              const Spacer(),
-            ],
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          /*
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 40),
-              child: const Column(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  ShoppingItem(
-                      title: "Shopping",
-                      category: "Cash",
-                      value: "498.50",
-                      porcent: "32%",
-                      icon: Icons.shopping_basket,
-                      colorIcon: Colors.green),
-                  ShoppingItem(
-                      title: "Gifts",
-                      category: "Cash",
-                      value: "498.50",
-                      porcent: "21%",
-                      icon: Icons.card_giftcard_rounded,
-                      colorIcon: Colors.pink),
-                  ShoppingItem(
-                      title: "Food",
-                      category: "Cash",
-                      value: "498.50",
-                      porcent: "12%",
-                      icon: Icons.food_bank,
-                      colorIcon: Colors.orange),
-                  ShoppingItem(
-                      title: "Shopping",
-                      category: "Cash",
-                      value: "498.50",
-                      porcent: "32%",
-                      icon: Icons.shopping_basket,
-                      colorIcon: Colors.green),
-                  ShoppingItem(
-                      title: "Gifts",
-                      category: "Cash",
-                      value: "498.50",
-                      porcent: "21%",
-                      icon: Icons.card_giftcard_rounded,
-                      colorIcon: Colors.pink),
-                  ShoppingItem(
-                      title: "Food",
-                      category: "Cash",
-                      value: "498.50",
-                      porcent: "12%",
-                      icon: Icons.food_bank,
-                      colorIcon: Colors.orange),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        typeQuery = types[1];
+                      });
+                    },
+                    child: const ButtonBase(
+                      title: "Gasto",
+                      primary: true,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        typeQuery = types[0];
+                      });
+                    },
+                    child: const ButtonBase(title: "Ingreso"),
+                  ),
+                  //const ButtonBaseDrop(title: "June"),
                 ],
               ),
-            ),
-            */
-
-          Expanded(
-            child: FutureBuilder(
-                future: widget.progressController.getBudget(typeQuery),
-                initialData: null,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    var analitics = widget.progressController.analytics;
-                    return Container(
-                      margin: const EdgeInsets.only(left: 20, right: 20),
-                      child: ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: analitics.length,
-                          itemBuilder: (context, index) {
-                            return ShoppingItem(
-                              title: analitics[index].category.name,
-                              category: typeQuery,
-                              value: analitics[index].totalAmmount.toString(),
-                              porcent:
-                                  "${analitics[index].totalPorcent.toString()}\$",
-                              icon: analitics[index].category.icon,
-                              colorIcon: analitics[index].category.color,
-                            );
-                          }),
-                    );
-                  }
-                }),
+              const SizedBox(
+                height: 30,
+              ),
+              /*
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.25,
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: BarChart(
+                    mainBarData(),
+                    swapAnimationDuration: animDuration,
+                  ),
+                ),
+                */
+          
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.3,
+                child: FutureBuilder(
+                    future: widget.progressController.getBudget(typeQuery),
+                    initialData: null,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        var analitics = widget.progressController.analytics;
+                        return PieChart(PieChartData(
+                            centerSpaceRadius: 50,
+                            sectionsSpace: 15,
+                            sections: List.generate(
+                              analitics
+                                  .length, // Aquí data es la lista de datos que deseas mostrar en el gráfico
+                              (index) {
+                                return PieChartSectionData(
+                                  value: analitics[index].totalPorcent,
+                                  showTitle: true,
+                                  radius: 70,
+                                  titleStyle: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                  //color: availableColors[index % availableColors.length], // Esto se asegura de que los colores se repitan si hay más datos que colores disponibles
+                                  color: widget.progressController
+                                      .allCategories[index].color,
+                                );
+                              },
+                            )));
+                      }
+                    }),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Spacer(),
+                  Obx(() => TagResult(
+                      title: "Dia",
+                      value:
+                          widget.progressController.getTotalAmmountDay(typeQuery))),
+                  const Spacer(),
+                  Obx(() => TagResult(
+                      title: "Semana",
+                      value: widget.progressController
+                          .getTotalAmmountWeek(typeQuery))),
+                  const Spacer(),
+                  Obx(() => TagResult(
+                      title: "Mes",
+                      value: widget.progressController
+                          .getTotalAmmountMonh(typeQuery))),
+                  const Spacer(),
+                ],
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              
+              Container(
+                height: MediaQuery.of(context).size.height * 0.5,
+                  child: FutureBuilder(
+                      future: widget.progressController.getBudget(typeQuery),
+                      initialData: null,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Center(child: CircularProgressIndicator());
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          var analitics = widget.progressController.analytics;
+                          return Container(
+                            margin: const EdgeInsets.only(left: 30, right: 30),
+                            child: ListView.builder(
+                                itemCount: analitics.length,
+                                itemBuilder: (context, index) {
+                                  return ShoppingItem(
+                                    title: analitics[index].category.name,
+                                    category: typeQuery,
+                                    value: analitics[index].totalAmmount.toString(),
+                                    porcent:
+                                        "${analitics[index].totalPorcent.toString()}\$",
+                                    icon: analitics[index].category.icon,
+                                    colorIcon: analitics[index].category.color,
+                                  );
+                                }),
+                          );
+                        }
+                      }),
+                ),
+              
+            ],
           ),
-        ],
+        ),
       ),
     ) : const Scaffold(
       body: Center(

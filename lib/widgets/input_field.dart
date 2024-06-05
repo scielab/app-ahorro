@@ -5,9 +5,9 @@ class InputField extends StatelessWidget {
   final TextEditingController controller;
   final bool isPassword;
   final bool isTransparent;
-
+  final bool enable;
   const InputField(
-      {super.key, required this.controller, required this.labelText,this.isPassword = false,this.isTransparent = true});
+      {super.key, required this.controller, required this.labelText,this.isPassword = false,this.isTransparent = true, this.enable = false});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class InputField extends StatelessWidget {
       obscureText: isPassword,
       decoration:  InputDecoration(
         filled: isTransparent,
-        enabled: false,
+        enabled: enable,
         fillColor: const Color.fromARGB(23, 23, 23, 1),
         
         focusedBorder: InputBorder.none,

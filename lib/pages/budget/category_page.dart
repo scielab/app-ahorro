@@ -38,6 +38,7 @@ class _CategoryPageState extends State<CategoryPage> {
           // Create a grid with 2 columns. If you change the scrollDirection to
           // horizontal, this produces 2 rows.
           crossAxisCount: 3,
+          mainAxisSpacing: 10,
           // Generate 100 widgets that display their index in the List.
           children: List.generate(expense.length, (index) {
             return GestureDetector(
@@ -54,14 +55,25 @@ class _CategoryPageState extends State<CategoryPage> {
               child: SizedBox(
                 child: Column(
                   children: [
-                    Icon(
-                      expense[index]['icon'],
-                      size: 42,
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: expense[index]['color'],
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: Icon(
+                        expense[index]['icon'],
+                        size: 42,
+                        color: Colors.white,
+                      ),
                     ),
+
                     Center(
                         child: SmallText(
                       title: expense[index]['name'],
                       size: 18,
+                      alig: true,
+                      over: true,
                     )),
                   ],
                 ),

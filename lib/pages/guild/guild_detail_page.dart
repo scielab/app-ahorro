@@ -1,13 +1,17 @@
+import 'dart:io';
 import 'package:app/controllers/guild/guild_controller.dart';
-import 'package:app/models/content_model.dart';
 import 'package:app/models/guild_model.dart';
+import 'package:app/utils/dimension.dart';
+import 'package:app/widgets/base/dialog/custom_dialog_widget.dart';
 import 'package:app/widgets/big_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class GuildDetailPage extends StatefulWidget {
-  const GuildDetailPage({super.key});
+  final Module currentLesson;
+  const GuildDetailPage({super.key,required this.currentLesson});
 
   @override
   State<GuildDetailPage> createState() => _GuildDetailPageState();
@@ -16,27 +20,45 @@ class GuildDetailPage extends StatefulWidget {
 class _GuildDetailPageState extends State<GuildDetailPage> {
   final guildController = Get.find<GuildController>();
 
-  @override
-  void initState() {
-    Future.delayed(const Duration(seconds: 2), () {
-      guildController.loadJsonData();
-    });
-    super.initState();
-  }
-
-  //Map<int, bool> selectedOptions = {};
   Map<int, int?> selectedOptions = {}; // seleccionamos pregunta con alternativa para manejar el estadi
   bool showButton = true;
+
+  final adUnitId = Platform.isAndroid
+    ? 'ca-app-pub-3940256099942544/1033173712'
+    : 'ca-app-pub-3940256099942544/4411468910';
+  late InterstitialAd? _interstitialAd;
+  void loadAd() {
+    InterstitialAd.load(
+        adUnitId: adUnitId,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          // Called when an ad is successfully received.
+          onAdLoaded: (ad) {
+            debugPrint('$ad loaded.');
+            // Keep a reference to the ad so you can show it later.
+            _interstitialAd = ad;
+          },
+          // Called when an ad request failed.
+          onAdFailedToLoad: (LoadAdError error) {
+            debugPrint('InterstitialAd failed to load: $error');
+          },
+        ));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadAd();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    var data = widget.currentLesson.entries;
 
-    return Obx(() {
-      var data = guildController.datalist[0];
-
-      return guildController.isLoading
-          ? OnBoardingSlider(
+    return OnBoardingSlider(
               headerBackgroundColor: Colors.white,
               finishButtonText: 'Listo',
               finishButtonStyle: const FinishButtonStyle(
@@ -52,17 +74,19 @@ class _GuildDetailPageState extends State<GuildDetailPage> {
                 if(_checkAnswerFinish(data)) {
                   Get.back();
                   Get.snackbar("Respuesta", "¡Correcto modulo finalizado");
+                  guildController.finishLessonHistory(widget.currentLesson.id);
+                  _interstitialAd!.show();
                 } else {
                   Get.snackbar("Respuesta", "¡Tiene respuestas incorrectas");
                 }
               },
               background: List.generate(data.length, (index) {
-                return data[index].type == 'content' ?  Container(
+                return (data[index].type == 'content') && ((data[index] as ContentEntry).imageUrl.isNotEmpty)  ?  Container(
                   height: size.height * 0.3,
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                   ),
-                  child: Image.asset('assets/images/notebook.png'),
+                  child: Image.asset((data[index] as ContentEntry).imageUrl),
                 ) : Container();
               }),
               totalPage: data.length,
@@ -82,11 +106,11 @@ class _GuildDetailPageState extends State<GuildDetailPage> {
                       margin: const EdgeInsets.only(bottom: 10),
                       child: Text(
                         paragraph,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.normal,
+                        style: TextStyle(
+                          fontSize: Dimension.font16,
+                          fontWeight: FontWeight.w500,
                         ),
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.justify,
                       ),
                     );
                   }).toList();
@@ -97,12 +121,6 @@ class _GuildDetailPageState extends State<GuildDetailPage> {
                     return GestureDetector(
                       onTap: () {
                         setState(() {
-
-                          // selectedOptions.forEach((key, value) {
-                          //   selectedOptions[key] = false;
-                          // });
-
-                          // selectedOptions[option.id] = true;
                           selectedOptions[data[index].id] = option.id;
                         });
                       },
@@ -115,7 +133,7 @@ class _GuildDetailPageState extends State<GuildDetailPage> {
                           borderRadius: const BorderRadius.all(Radius.circular(20)),
                           border: selectedOptions[data[index].id] == option.id ? Border.all(color: Colors.blue, width: 3.0) : null,
                         ),
-                        child: BigText(title: option.option),
+                        child: BigText(title: option.option,size: Dimension.font18,over: true),
                       ),
                     );
                   }).toList();
@@ -127,10 +145,10 @@ class _GuildDetailPageState extends State<GuildDetailPage> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: <Widget>[
-                        const SizedBox(height: 350),
-                        BigText(title: contentEntry.title),
+                        if((contentEntry as ContentEntry).imageUrl.isNotEmpty) SizedBox(height: size.height * 0.33),
+                        BigText(title: contentEntry.title,size: Dimension.font20,over: true,alig: true,),
                         const SizedBox(
-                          height: 30,
+                          height: 20,
                         ),
                         ...contentWidgets, // Puedo desestructurar una lista en todos sus elementos usando este codigo
                         //const SizedBox(height: 100,),
@@ -144,12 +162,12 @@ class _GuildDetailPageState extends State<GuildDetailPage> {
                         const SizedBox(height: 50),
                         Container(
                           margin: const EdgeInsets.only(bottom: 10,left: 30,right: 30),
-                          child: BigText(title: contentEntry.question)),
+                          child: BigText(title: contentEntry.question,size: Dimension.font20,over: true,alig: true,)),
                         const SizedBox(
                           height: 30,
                         ),
                         ...alternatives, // Puedo desestructurar una lista en todos sus elementos usando este codigo
-                        const SizedBox(height: 100,),
+                        const SizedBox(height: 30),
                         GestureDetector(
                           onTap: () {
                             // confirmation
@@ -172,13 +190,9 @@ class _GuildDetailPageState extends State<GuildDetailPage> {
                     ),
                   ),
                 );
-              }))
-          : const Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-    });
+          }
+      ),
+    );
   }
 
 bool _checkAnswerFinish(List<Entry> datalist) {
@@ -213,8 +227,9 @@ void _checkAnswer(dynamic contentEntry) {
     if (selectedOptionId != null && correctOption != null) {
       if (selectedOptionId == correctOption.id) {
         // Respuesta correcta
-        Get.snackbar("Respuesta", "¡Respuesta correcta!",
-          snackPosition: SnackPosition.BOTTOM);
+        showDialog(context: context, builder: (context) => const CustomDialogWidget(title: "Respuesta Correcta",));
+        // Get.snackbar("Respuesta", "¡Respuesta correcta!",
+        //   snackPosition: SnackPosition.BOTTOM);
       } else {
         // Respuesta incorrecta
         Get.snackbar("Respuesta", "Respuesta incorrecta, intenta de nuevo.",

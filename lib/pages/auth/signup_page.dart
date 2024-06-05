@@ -63,7 +63,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   const SizedBox(height: 10),
                   InputField(
                       controller: emailController,
-                      labelText: "Correo electronico"),
+                      labelText: "Correo electronico",
+                      enable: true),
                   const SmallText(
                     title: "Contraseña",
                     color: Colors.white,
@@ -75,6 +76,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     controller: passwordController,
                     labelText: "Contraseña",
                     isPassword: true,
+                    enable: true,
                   ),
                   const SmallText(
                     title: "Volver Contraseña",
@@ -89,59 +91,29 @@ class _SignUpPageState extends State<SignUpPage> {
                     controller: passwordControllerRestable,
                     labelText: "contraseña",
                     isPassword: true,
+                    enable: true,
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  GestureDetector(
-                    onTap: () => authController.signUpEmailandPasswordValidator(emailController,passwordController,passwordControllerRestable),
+                  Obx(() => GestureDetector(
+                    onTap: () async => authController.signUpEmailandPasswordValidator(emailController,passwordController,passwordControllerRestable),
                     child: Container(
+                      width: size.width,
                       padding: const EdgeInsets.all(15),
                       decoration: BoxDecoration(
                         color: Colors.black,
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: const Center(
-                        child: BigText(
+                      child: Center(
+                        child: authController.isSignUp.value ? const CircularProgressIndicator(color: Colors.white) : const BigText(
                           title: "SIGUIENTE",
                           color: Colors.white,
                         ),
                       ),
                     ),
-                  ),
+                  )),
                   const SizedBox(height: 50),
-                  Center(
-                    child: Container(
-                      width: size.width * 0.5,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 15),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 30,
-                            height: 30,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(
-                                    "assets/icons/icons8-logo-de-google-48.png"),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          const SmallText(title: "Google"),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
                   GestureDetector(
                     onTap: () {
                       Get.toNamed(RouterHelper.getSignin());

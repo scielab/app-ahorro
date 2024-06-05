@@ -5,6 +5,7 @@ import 'package:app/widgets/big_text.dart';
 import 'package:app/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreenLoader extends StatefulWidget {
   const SplashScreenLoader({super.key});
@@ -17,9 +18,14 @@ class _SplashScreenLoaderState extends State<SplashScreenLoader> {
 
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 4),() {
-      Get.toNamed(RouterHelper.getQuestion());
-      //Get.offNamed(RouterHelper.getDivisa());
+    Future.delayed(const Duration(seconds: 4),() async {
+      SharedPreferences _prefs = await SharedPreferences.getInstance();
+      print(_prefs.getBool('question'));
+      if(_prefs.getBool('question') != null && _prefs.getBool('question') == true) {
+        Get.offNamed(RouterHelper.getDivisa());
+      } else {
+        Get.toNamed(RouterHelper.getQuestion());
+      }
     });
     super.initState();
   }
@@ -36,35 +42,28 @@ class _SplashScreenLoaderState extends State<SplashScreenLoader> {
             height: size.height,
             color: const Color.fromARGB(255, 41, 56, 138),
           ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 30),
-            child: Column(
-              children: [
-                Expanded(
-                  flex: 5,
-                  child: SizedBox(
-                    child: Image.asset(
-                      width: size.width * 0.6,
-                      "assets/splash/splash.gif"
-                    ),
-                  ),
-                ),              
-                const BigText(title: "No es magia.",color: Colors.white,size: 22,),
-                const BigText(title: "Solo es Ciencia.",color: Colors.white,size: 22,),
-                const SizedBox(height: 30,),
-                Container(
-                  width: size.width,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    color: Colors.blue[900],
-                    borderRadius: const BorderRadius.all(Radius.circular(10))
-                  ),
-                  child: const Center(
-                    child: SmallText(title: "Continuar",fw: FontWeight.bold,color: Colors.white,size: 25,),
-                  ),
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.center,
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 30),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      flex: 5,
+                      child: SizedBox(
+                        child: Image.asset(
+                          width: size.width * 0.6,
+                          "assets/splash/splashloader.gif"
+                        ),
+                      ),
+                    ),              
+                    const BigText(title: "Espere...",color: Colors.white,size: 22,),
+                    const SizedBox(height: 100,),
+                  ],
                 ),
-                const SizedBox(height: 50,),
-              ],
+              ),
             ),
           ),
         ],

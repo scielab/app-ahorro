@@ -1,52 +1,41 @@
-import 'package:app/api/firebase_api.dart';
-import 'package:app/controllers/auth/auth_controller.dart';
-import 'package:app/helpers/dependences.dart';
-import 'package:app/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
-
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:app/routes/routes.dart';
+import 'package:app/api/firebase_api.dart';
+import 'package:app/helpers/dependences.dart';
+import 'package:app/utils/color_custom.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   await Firebase.initializeApp();
   await FirebaseApiNotification().initNotification();
-  // Agregando una base de datos local DB
-  //final database = openDatabase(join(await getDatabasesPath(), 'question.db'));
-  
   runApp(const MyApp());
-  await init();
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    Get.put<AuthController>(AuthController());
-
     return GetMaterialApp(
       title: 'App Ahorro',
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
       theme: ThemeData(
-        appBarTheme: AppBarTheme(color: Colors.grey[100]),
+        fontFamily: 'Montserrat',
+        appBarTheme: AppBarTheme(color: AppColors.primaryContentColor),
         colorScheme: ColorScheme.fromSeed(
-          background: Colors.grey[100],
-                    
+          background: AppColors.primaryContentColor,
           seedColor: const Color.fromARGB(255, 255, 255, 255)),
         useMaterial3: true,
       ),
+      initialBinding: BindingInit(),
       getPages: RouterHelper.routes,
       initialRoute: RouterHelper.getSignin(),
     );
   }
 }
-

@@ -27,60 +27,33 @@ class ProgressController extends GetxController {
     getReport(type);
   }
 
-  // Primero reporte del mes
-  // category use in the report
-  // Verificar y agregar las categorias existentes en el mes
-  /*
   void getCategory(String type) {
+    Set<String> categoryIds = Set();
     allCategories.clear();
+
     for (var tr in transactions) {
       if (tr.type == type) {
-        var data = Map<String, dynamic>();
+        Map<String, dynamic> data = {};
         if (type == 'income') {
-          data = pay[tr.category];
+          data = pay.firstWhere((element) => element['id'] == tr.category);
         } else if (type == 'expense') {
-          data = expense[tr.category];
+          data = expense.firstWhere((element) => element['id'] == tr.category);
         }
-        Category category = Category(
-            id: data['id'],
+        String categoryId = data['id'].toString(); 
+        if (!categoryIds.contains(categoryId)) {
+          Category category = Category(
+            id: tr.id.toString(),
+            category: tr.category,
             name: data['name'],
             icon: data['icon'],
-            color: data['color']);
-        if (!allCategories.contains(category)) {
+            color: data['color']
+          );
           allCategories.add(category);
+          categoryIds.add(categoryId); 
         }
       }
     }
   }
-  */
-
-void getCategory(String type) {
-  Set<String> categoryIds = Set();
-  allCategories.clear();
-
-  for (var tr in transactions) {
-    if (tr.type == type) {
-      Map<String, dynamic> data = {};
-      if (type == 'income') {
-        data = pay.firstWhere((element) => element['id'] == tr.category);
-      } else if (type == 'expense') {
-        data = expense.firstWhere((element) => element['id'] == tr.category);
-      }
-      String categoryId = data['id'].toString(); 
-      if (!categoryIds.contains(categoryId)) {
-        Category category = Category(
-          id: tr.id.toString(),
-          category: tr.category,
-          name: data['name'],
-          icon: data['icon'],
-          color: data['color']
-        );
-        allCategories.add(category);
-        categoryIds.add(categoryId); 
-      }
-    }
-  }
-}
 
   String getTotalAmmountDay(String type) {
     DateTime currentDate = DateTime.now();
@@ -95,8 +68,6 @@ void getCategory(String type) {
     DateTime currentDate = DateTime.now();
     DateTime startDate = currentDate.subtract(Duration(days: currentDate.weekday + 6));
     DateTime endDate = currentDate.subtract(Duration(days: currentDate.weekday));
-
-
 
     int totalAmount = transactions
       .where((tr) => tr.type == type && tr.date.isAfter(startDate) && tr.date.isBefore(endDate))
@@ -127,7 +98,7 @@ void getCategory(String type) {
           .fold(0, (previous, current) => previous + current.amount);
       if(categoryAmount != 0) {
         int totalamountItem = categoryAmount;
-        double categoryPercent = (categoryAmount / totalAmount) * 100;
+        double categoryPercent = ((categoryAmount / totalAmount) * 100).roundToDouble();
         analytics.add(
           AnalyticItem(
             category: category,
@@ -138,7 +109,6 @@ void getCategory(String type) {
       }
     }
   }
-
   // Report, day, week, month
   // generar un reporte completo de todas las categorias con sus porcentajes
   void getReport(String type) {

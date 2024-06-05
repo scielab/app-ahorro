@@ -5,6 +5,7 @@ import 'package:app/models/categories_models.dart';
 import 'package:app/models/transaction_model.dart';
 import 'package:app/routes/routes.dart';
 import 'package:app/utils/date_format.dart';
+import 'package:app/utils/dimension.dart';
 import 'package:app/widgets/calculator_widget.dart';
 import 'package:app/widgets/input_field.dart';
 import 'package:app/widgets/small_text.dart';
@@ -105,18 +106,21 @@ class _TransactionDialogState extends State<TransactionDialog> {
                     ),
                     child: Center(
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Obx(() => Icon(get_icon(widget.type_account,budgetItem.category.value),
                                 size: 25,
                               )),
                           const SizedBox(
-                            width: 10,
+                            width: 5,
                           ),
-                          Obx(
-                            () => SmallText(
-                              title: get_category(widget.type_account, budgetItem.category.value),
-                              size: 12,
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.17,
+                            child: Obx(
+                              () => SmallText(
+                                title: get_category(widget.type_account, budgetItem.category.value),
+                                size: Dimension.font16,
+                              ),
                             ),
                           ),
                           const Spacer(),
@@ -171,7 +175,7 @@ class _TransactionDialogState extends State<TransactionDialog> {
             const SizedBox(
               height: 20,
             ),
-            const SmallText(title: "Expenses"),
+            const SmallText(title: "Input"),
             const SizedBox(
               height: 30,
             ),
@@ -206,8 +210,7 @@ class _TransactionDialogState extends State<TransactionDialog> {
             const Spacer(),
             CalculatorWidget(valueController: value,onPressed: () {
               createTransaction(budgetItem,_budgetController,value,user);
-              Get.toNamed(RouterHelper.getHomePrincipalPage());
-
+              Get.offAndToNamed(RouterHelper.getHomePrincipalPage());
             },),
           ],
         ),

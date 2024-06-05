@@ -1,5 +1,6 @@
 
 
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:app/pages/splash/splash_screen_loader.dart';
 import 'package:app/widgets/big_text.dart';
 import 'package:app/widgets/small_text.dart';
@@ -19,7 +20,7 @@ class SplashScreenIntro extends StatelessWidget {
           SizedBox(
             width: size.width,
             height: size.height,
-            child: const Image(image: AssetImage('assets/images/login_back.jpeg'),fit: BoxFit.cover,),
+            child: const Image(image: AssetImage('assets/images/login_back.jpg'),fit: BoxFit.cover,),
           ),
           Container(
             width: size.width,
@@ -32,11 +33,9 @@ class SplashScreenIntro extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const Spacer(),
-                const BigText(title: "No es magia.",color: Colors.white,size: 42,),
-                const BigText(title: "Solo es Ciencia.",color: Colors.white,size: 35,),
+                const BigText(title: "Construye un mañana más sólido hoy.",color: Colors.white,size: 42,over: true,),
                 const SizedBox(height: 20,),
-                const SmallText(title: "Creado por expertos en cambio conductual",color: Colors.white,),
-                const SmallText(title: "Tal y como aparece",color: Colors.white,),
+                const SmallText(title: "Aprende, ahorra, prospera.",color: Colors.white,),
                 const Spacer(),
                 GestureDetector(
                   onTap: () {
@@ -46,7 +45,7 @@ class SplashScreenIntro extends StatelessWidget {
                     width: size.width,
                     height: 60,
                     decoration: BoxDecoration(
-                      color: Colors.blue[500],
+                      color: Colors.blue[700],
                       borderRadius: const BorderRadius.all(Radius.circular(10))
                     ),
                     child: const Center(

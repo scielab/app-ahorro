@@ -1,31 +1,23 @@
+import 'package:app/widgets/big_text.dart';
+import 'package:flutter/material.dart';
+
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:get/get.dart';
+
 import 'package:app/controllers/budget/budget_controller.dart';
 import 'package:app/models/categories_models.dart';
 import 'package:app/models/progress_model.dart';
 import 'package:app/models/transaction_model.dart';
 import 'package:app/pages/budget/budget_detail_page.dart';
 import 'package:app/pages/progress/progress.dart';
-import 'package:app/routes/routes.dart';
 import 'package:app/utils/date_format.dart';
 import 'package:app/utils/generate.dart';
-import 'package:app/widgets/big_text.dart';
 import 'package:app/widgets/button_base.dart';
 import 'package:app/widgets/button_base_drop.dart';
 import 'package:app/widgets/floating_button_custom.dart';
 import 'package:app/widgets/shopping_item.dart';
 import 'package:app/widgets/transaction_dialog.dart';
-import 'package:flutter/material.dart';
 
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:get/get.dart';
-
-enum _SelectedTab { home, search, analytics, self_improvement_outlined }
-
-List<String> routes = [
-  RouterHelper.getHomePage(),
-  RouterHelper.getGuildPage(),
-  RouterHelper.getProgressPage(),
-  RouterHelper.getSettingsPage()
-];
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -35,23 +27,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
-  final dateController = TextEditingController();
-  var _currentStartDate;
-  String typeQuery = 'income';
 
+  final budgetController = Get.find<BudgetController>();
+  bool searchByDate = false;
+  final dateController = TextEditingController();
+  var _currentStartDate = DateTime.now();
+  String typeQuery = 'income';
 
   void callDatePicker() async {
     var selectedDate = await getDatePickerWidget();
     if (selectedDate != null) {
       setState(() {
         _currentStartDate = selectedDate;
-        dateController.text = selectedDate != null
-            ? convertCompleteTimeToDate(selectedDate.toString())
-            : "";
+        searchByDate = true;
+        dateController.text = convertCompleteTimeToDate(selectedDate.toString());
       });
+      // hacer una consulta con la fecha especifica 
+      
     }
   }
-
   Future<DateTime?> getDatePickerWidget() {
     return showDatePicker(
         context: context,
@@ -62,17 +56,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           return Theme(data: ThemeData.dark(), child: child!);
         });
   }
-
   bool loaderScreen = false;
+  
   @override
   void initState() {
-    //var budget = Get.find<BudgetController>().getBudgetRecentToFirebase;
-    //budget.getBudgetRecentToFirebase();
     Future.delayed(const Duration(seconds: 1), () {
       loaderScreen = true;
-      setState(() {
-        
-      });
+      setState(() {});
     });
     super.initState();
   }
@@ -80,11 +70,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    var anim = AnimationController(
-      vsync: this,
-      value: 1,
-      duration: const Duration(milliseconds: 500),
-    );
+    var size = MediaQuery.of(context).size;
     return loaderScreen ? Scaffold(
       appBar: AppBar(
         title: const Center(child: Text("Total Balance")),
@@ -113,10 +99,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         onTap: () {
                           setState(() {
                             typeQuery = types[1];
+                            searchByDate = false;
                           });
                         },
                         child: const ButtonBase(
-                          title: "Expenses",
+                          title: "Gasto",
                           primary: true,
                         ),
                       ),
@@ -124,9 +111,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         onTap: () {
                           setState(() {
                             typeQuery = types[0];
+                            searchByDate = false;
                           });
                         },
-                        child: const ButtonBase(title: "Income")
+                        child: const ButtonBase(title: "Ingreso")
                       ),
                       GestureDetector(
                           onTap: () {
@@ -138,7 +126,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   const SizedBox(height: 20,),
                   Expanded(
                     child: FutureBuilder(
-                        future: Get.find<BudgetController>().getBudgetRecentToFirebase(typeQuery),
+                        future: searchByDate ? budgetController.getBudgetFilterbyDateToFirebase(_currentStartDate,typeQuery) : budgetController.getBudgetRecentToFirebase(typeQuery),
                         initialData: null,
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
@@ -154,23 +142,22 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               child: ListView.builder(
                                   itemCount: transactions.length,
                                   itemBuilder: (context, index) {
-                                    Map<String, dynamic> category_data = transactions[index].type == 'income' ? 
+                                    Map<String, dynamic> categoryData = transactions[index].type == 'income' ? 
                                         searchIcon(
                                             transactions[index].category, pay) : searchIcon(transactions[index].category, expense);
-                                    return GestureDetector(
+                                    return transactions.isNotEmpty ? GestureDetector(
                                       onTap: () {
-                                        Get.to(() => const BudgetDetailPage());
+                                        Get.to(() => BudgetDetailPage(uid: transactions[index].id.toString(), tb: transactions[index],));
                                       },
                                       child: ShoppingItem(
-                                          title: transactions[index].title,
-                                          category:
-                                              category_data['name'] as String,
-                                          value: transactions[index]
-                                              .amount
-                                              .toString(),
-                                          porcent: "32%",
-                                          icon: category_data['icon'] as IconData,
-                                          colorIcon: category_data['color']),
+                                          title: categoryData['name'] as String,
+                                          category: transactions[index].title,
+                                          value: transactions[index].amount.toString(),
+                                          porcent: convertCompleteTimeToDate(transactions[index].date.toString()),
+                                          icon: categoryData['icon'] as IconData,
+                                          colorIcon: categoryData['color']),
+                                    ) : const Center(
+                                      child: BigText(title: "No tienes transacciones registradas",over: true),
                                     );
                                   }),
                             );
@@ -183,7 +170,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ],
         
       ),
-      floatingActionButtonLocation: FloatingActionButtonCustom(110, 220),
+      floatingActionButtonLocation: FloatingActionButtonCustom(size.height * 0.14, size.width * 0.56),
       floatingActionButton: SpeedDial(
         icon: Icons.add,
         backgroundColor: Colors.blue,

@@ -1,3 +1,4 @@
+import 'package:app/utils/dimension.dart';
 import 'package:app/widgets/big_text.dart';
 import 'package:app/widgets/small_text.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +22,10 @@ class ShoppingItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
     return Container(
-      width: MediaQuery.of(context).size.width,
+      width: size.width,
       margin: const EdgeInsets.only(bottom: 20),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -41,14 +44,15 @@ class ShoppingItem extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
-            width: 30,
-          ),
+          const SizedBox(width: 10),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              BigText(title: title),
+              SizedBox(
+                width: size.width * 0.4,
+                child: BigText(title: title,size: Dimension.font18,),
+              ),
               SmallText(
                 title: category,
                 color: Colors.grey[500] as Color,
@@ -66,12 +70,13 @@ class ShoppingItem extends StatelessWidget {
                     '\$',
                     style: TextStyle(color: Colors.grey[500]),
                   ),
-                  BigText(title: value),
+                  BigText(title: value,size: Dimension.font16,),
                 ],
               ),
               SmallText(
                 title: porcent,
                 color: Colors.grey[500] as Color,
+                size: Dimension.font16,
               )
             ],
           ),

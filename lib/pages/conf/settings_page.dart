@@ -1,7 +1,7 @@
-
-
 import 'package:app/controllers/auth/auth_controller.dart';
+import 'package:app/pages/conf/suport_page.dart';
 import 'package:app/widgets/big_text.dart';
+import 'package:app/widgets/dialog_widget.dart';
 import 'package:app/widgets/item_list_conf.dart';
 import 'package:app/widgets/small_text.dart';
 import 'package:flutter/material.dart';
@@ -9,9 +9,16 @@ import 'package:get/get.dart';
 
 
 
-class SettingsPage extends StatelessWidget {
-  SettingsPage({super.key});
+class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key});
 
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+
+  final authController = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
@@ -20,53 +27,66 @@ class SettingsPage extends StatelessWidget {
         title: const BigText(title: "Perfil"),
       ),
       body: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 20,),
-              const SmallText(title: "Ayuda y Comentarios",fw: FontWeight.bold,),
-              const SizedBox(height: 20,),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                width: MediaQuery.of(context).size.width,
-                padding: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  color: Colors.white,
-                ),
-                child: const Column(
-                  children: [
-                    ItemListConf(title: "Centro ayuda", icon: Icons.edit_document),
-                    ItemListConf(title: "Comentarios", icon: Icons.message),
-                    ItemListConf(title: "Calificanos", icon: Icons.library_add_check_rounded),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 50,),
-              const SmallText(title: "Configuracion",fw: FontWeight.bold,),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                width: MediaQuery.of(context).size.width,
-                padding: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  color: Colors.white,
-                ),
-                child: Column(
-                  children: [
-                    ItemListConf(title: "Centro ayuda", icon: Icons.edit_document),
-                    ItemListConf(title: "Comentarios", icon: Icons.message),
-                    ItemListConf(title: "Calificanos", icon: Icons.library_add_check_rounded),
-                    GestureDetector(
-                      onTap: () => Get.find<AuthController>().signOut(),
-                      child: ItemListConf(title: "Cerrar Sesion", icon: Icons.exit_to_app),
-                    ),
-                  ],
-                ),
-              ),
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20,),
+                const SmallText(title: "Configuracion",fw: FontWeight.bold,),
+                const SizedBox(height: 20,),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsets.all(10),
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    color: Colors.white,
+                  ),
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(() => const Supportpage());
+                        },
+                        child: const ItemListConf(title: "Centro ayuda", icon: Icons.edit_document)),
+                      const ItemListConf(title: "Comentarios", icon: Icons.message),
+                      const ItemListConf(title: "Calificanos", icon: Icons.library_add_check_rounded),
+                      GestureDetector(
+                        onTap: () {
+                          print("Cerrar Session");
+                          authController.signOutSession();
+                        },
+                        child: const ItemListConf(title: "Cerrar Sesion", icon: Icons.exit_to_app),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          // lanzar un dialog
+                          showDialog(context: context, builder: (context) {
+                            return DialogWidget(
+                              title: "Eliminar cuenta permanentemente",
+                              description: "Seguro quieres eliminar la cuenta? Perderas todo tu progreso",
+                              okFunction: () {
+                                authController.removeAccount();
+                              },
+                              cancelFunction: () {},
+                            );  
+                          });
 
-            ],
+                        },
+                        child: const ItemListConf(title: "Eliminar cuenta de usuario", icon: Icons.person),
+                      ),
+            
+                    ],
+                  ),
+                ),
+            
+              ],
+            ),
           ),
         ),
     );
   }
+
+
+
 }

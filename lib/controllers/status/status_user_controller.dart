@@ -1,7 +1,4 @@
-
 import 'package:get/get.dart';
-
-
 
 class StatusUserController extends GetxController {
 

@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "title": "¿Qué es la inflación?",
+    "content": [
+      {
+        "title": "¿Qué es la inflación?",
+        "image": "assets/images/notebook.png",
+        "contentText": [
+          {"text": "La inflación es el aumento generalizado y sostenido de los precios de bienes y servicios en un país durante un periodo de tiempo.", "type": "text"},
+          {"text": "Cuando Aumentan el precio de los bienes y servicios se adquieren menos bienes y servicios ya que son mas caros, por lo tanto hemos perdido poder adquisitivo de la moneda.", "type": "text"}
+        ]
+      },
+      {
+        "title": "¿Qué es la inflación?",
+        "image": "assets/images/notebook.png",
+        "contentText": [
+          {"text": "Cuando hay inflación los bienes y servicios son mas caros y por lo tanto te cuesta mas dinero comprar la misma cantidad que comprabas antes.", "type": "text"},
+          {"text": "Ejemplo: Si el precio de una barra de pan era $1 el año pasado y ahora cuesta $1.10, ha habido un 10% de inflación en el precio del pan.", "type": "text"}
+        ]
+      },
+      {
+        "title": "¿Qué es lo que causa la inflación?",
+        "image": "assets/images/notebook.png",
+        "contentText": [
+          {"text": "La inflación es causada por diversas razones:", "type": "text"},
+          {"text": "1. Cuando mucha gente quiere comprar un cierto bien Ej (Pan) y la producción de este bien es inferior a la cantidad de gente que quiere comprar esto provocara el aumento del bien. Esto se conoce como  (Inflación por demanda)", "type": "text"}
+        ]
+      },
+      {
+        "title": "¿Qué es lo que causa la inflación?",
+        "image": "assets/images/notebook.png",
+        "contentText": [
+          {"text": "2. Cuando el precio de Materias primas por Ej: (Cobre, Petróleo) aumenta esto podría aumentar los costos de producción e importación lo que podría reflejarse en el precio final.", "type": "text"}
+        ]
+      },
+      {
+        "title": "¿Qué es lo que causa la inflación?",
+        "image": "assets/images/notebook.png",
+        "contentText": [
+          {"text": "3. Cuando hay una expectativa de mayores niveles de inflación en el futuro Ej: si una empresa cree que aumentarán considerablemente sus costos en los próximos meses, puede anticiparse y aumentar sus precios hoy día.", "type": "text"}
+        ]
+      }
+    ]
+  }
+]

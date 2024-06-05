@@ -1,3 +1,4 @@
+import 'package:app/controllers/auth/auth_controller.dart';
 import 'package:app/routes/routes.dart';
 import 'package:app/widgets/big_text.dart';
 import 'package:app/widgets/button_base.dart';
@@ -14,9 +15,8 @@ class BadgePage extends StatefulWidget {
 }
 
 class _BadgePageState extends State<BadgePage> {
-  Country _selectedFilteredDialogCountry =
-      CountryPickerUtils.getCountryByPhoneCode('56');
-
+  Country _selectedFilteredDialogCountry = CountryPickerUtils.getCountryByPhoneCode('56');
+  final AuthController _auth = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +27,7 @@ class _BadgePageState extends State<BadgePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const BigText(title: "Selecciona la divisa que vas a usar en la aplicacion",),
+              const BigText(title: "Selecciona la divisa que vas a usar en la aplicacion",over: true,alig: true,),
               const SizedBox(height: 50,),
               const Text('Selecciona la Divisa de tu pais'),
               const SizedBox(height: 10,),
@@ -40,6 +40,8 @@ class _BadgePageState extends State<BadgePage> {
               ),
               GestureDetector(
                 onTap: () {
+                  //print(_selectedFilteredDialogCountry.currencyCode);
+                  _auth.selectedCountry.value = _selectedFilteredDialogCountry.currencyCode ?? "";
                   Get.offNamed(RouterHelper.getSignin());
                 },
                 child: const ButtonBase(title: "Siguiente",primary: true)),
@@ -63,7 +65,7 @@ class _BadgePageState extends State<BadgePage> {
                 onValuePicked: (Country country) =>
                     setState(() => _selectedFilteredDialogCountry = country),
                 itemBuilder: _buildDialogItem)),
-      );
+  );
   Widget _buildDialogItem(Country country) => Row(
         children: <Widget>[
           CountryPickerUtils.getDefaultFlagImage(country),
