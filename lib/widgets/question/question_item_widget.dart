@@ -1,5 +1,6 @@
 
 
+import 'package:app/utils/dimension.dart';
 import 'package:app/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +27,7 @@ class QuestionItem extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(10)),
             color: Colors.white,
           ),
-          child: SmallText(title: title,fw: FontWeight.bold),
+          child: SmallText(title: title,size: Dimension.font16,fw: FontWeight.bold,over: true,),
       ),
     );
   }

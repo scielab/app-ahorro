@@ -9,21 +9,31 @@ import 'package:app/controllers/history/history_controller.dart';
 import 'package:app/controllers/history/history_lecture_controller.dart';
 import 'package:app/controllers/home/home_controller.dart';
 import 'package:app/controllers/progress/progress_controller.dart';
+import 'package:app/service/api/api_client.dart';
+import 'package:app/service/repository/content_repo.dart';
+import 'package:app/service/repository/guild_repo.dart';
+import 'package:app/utils/router_constants.dart';
 import 'package:get/get.dart';
 
 
 class BindingInit implements Bindings {
   @override
   void dependencies() async {
-    Get.put(AuthController());
 
+    Get.lazyPut(() => APIRequestClient(RoutesConstants.baseUrl),fenix: true);
+    // respos:
+    Get.lazyPut(() => GuildRepo(apiRequestClient: Get.find()),fenix: true);
+    Get.lazyPut(() => ContentRepo(apiRequestClient: Get.find()), fenix: true);
+
+
+    // controllers:
+    Get.put(AuthController());
     Get.lazyPut(() => BudgetItemController(), fenix: true);
-    Get.lazyPut(() => GuildController(), fenix: true);
-    Get.lazyPut(() => ActivityControlller(), fenix: true);
+    Get.lazyPut(() => GuildController(guildRepo: Get.find()), fenix: true);
+    Get.lazyPut(() => ActivityControlller(contentRepo: Get.find()), fenix: true);
   
     Get.lazyPut(() => BudgetController(), fenix: true);
     Get.lazyPut(() => ProgressController(), fenix: true);
-    Get.lazyPut(() => GuildController(), fenix: true);
     Get.lazyPut(() => HomeController(), fenix: true);
     Get.lazyPut(() => HistoryController(),fenix: true);
     Get.lazyPut(() => HistoryLectureController(), fenix: true);

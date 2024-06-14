@@ -148,14 +148,14 @@ class _GuildStepsPageState extends State<GuildStepsPage> {
                         ),
                         if(guildController.isLoadingCurrentHistory.value) 
                         ...List.generate(
-                            data!.lessoncourse.length,
+                            data!.modules.length,
                             (index) => GuildItemWidget(
                                 title: "Lesson",
-                                size: data.lessoncourse[index].n_lesson,
-                                completed: guildController.historyController.completedLesson(data.lessoncourse[index].id),
+                                size: data.modules[index].n_lesson,
+                                completed: guildController.historyController.completedLesson(data.modules[index].id.toString()),
                                 callback: () {
                                   Get.to(() => GuildDetailPage(
-                                      currentLesson: data.lessoncourse[index]),
+                                      currentLesson: data.modules[index]),
                                       transition: Transition.rightToLeft);
                                 })),
                         if(!guildController.isLoadingCurrentHistory.value)

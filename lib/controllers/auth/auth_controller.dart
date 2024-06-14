@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:app/pages/auth/verification_page.dart';
+import 'package:app/pages/splash/splash_ads.dart';
 import 'package:app/routes/routes.dart';
 import 'package:app/utils/app_resources.dart';
 import 'package:app/utils/generate.dart';
@@ -46,6 +47,7 @@ class AuthController extends GetxController {
     } else {
       _prefs.remove('lastExecution');
       Get.toNamed(RouterHelper.presentation);
+      //Get.to(() => SplashAds());
     }
   }
   // Esta funcion verifica si existe unusuario o no y redirige dependiendo el caso 
@@ -58,6 +60,7 @@ class AuthController extends GetxController {
       }
     } else {
       Get.toNamed(RouterHelper.presentation);
+      //Get.to(() => SplashAds());
     }
   }
 
@@ -150,7 +153,10 @@ class AuthController extends GetxController {
   Future<bool> handlerGoogleSignIn() async {
     try {
       final GoogleSignInAccount? googleUser =  await _googleSignIn.signIn();
-      if(googleUser == null) return false; // cancelo el inicio de sesion
+      if(googleUser == null) {
+        logger.e("Usuario null");
+        return false; // cancelo el inicio de sesion
+      }
 
       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
       final AuthCredential credential = GoogleAuthProvider.credential(

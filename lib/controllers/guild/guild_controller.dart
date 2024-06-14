@@ -2,11 +2,18 @@ import 'dart:convert';
 import 'package:app/controllers/history/history_controller.dart';
 import 'package:app/models/guild_model.dart';
 import 'package:app/models/history_model.dart';
+import 'package:app/service/repository/guild_repo.dart';
 import 'package:app/utils/app_resources.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:get/get.dart';
 
 class GuildController extends GetxController {
+
+  final GuildRepo guildRepo;
+
+  GuildController({required this.guildRepo});
+
+
   RxList<List<Entry>> _datalist = <List<Entry>>[[]].obs;
   RxBool _isLoading = false.obs;
   RxBool _isLoadingModule = false.obs;
@@ -28,26 +35,27 @@ class GuildController extends GetxController {
     historyController = Get.find<HistoryController>();
     super.onInit();
   }
-  Future<List<dynamic>> getDataJson() async {
-    String jsonData = await rootBundle.loadString('assets/data/content.json');
-    return jsonDecode(jsonData); 
-  }
   
   Future<void> getDataNamesGuilds() async {
-    List<dynamic> dataList = await getDataJson();
-    listcourses.clear(); 
-    for(var item in dataList) {
-      listcourses.add(Course.fromJson(item));
+    try {
+      final response = await guildRepo.getGuild();
+      List<dynamic> datalist = response;
+      listcourses.clear();
+      for(var item in datalist) {
+        listcourses.add(Course.fromJson(item));
+      }
+      _isLoading.value = true;
+    } catch (e) {
+      print(e);
     }
-    _isLoading.value = true;
   }
+
 
   Future<void> getDataModuleCourse(int idcourse) async {
     try {
-      List<dynamic> datalist = await getDataJson();
-      final data = datalist.firstWhere((data) => data['id'] == idcourse, orElse: () => null);      
-      if (data != null) {
-        currentCourse = Course.fromJson(data);
+      Map<String,dynamic> datalist = await guildRepo.getGuild(idcourse);
+      if (datalist != null) {
+        currentCourse = Course.fromJson(datalist);
         _isLoadingModule.value = true;
       } else {
         currentCourse = null; 
@@ -59,7 +67,6 @@ class GuildController extends GetxController {
 
   }
 
-  // histry managment
   Future<void> existHistoryDetailCourse(String idUser, String idCourse) async {
     try {
       if(idUser.isEmpty || idCourse.isEmpty) {
@@ -80,7 +87,6 @@ class GuildController extends GetxController {
       logger.e(e);
     }
   }
-  //Future<void> completedLesson(String idlesson) async {}
   
   Future<void> finishLessonHistory(String uidlesson) async {
     try {

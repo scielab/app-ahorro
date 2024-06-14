@@ -16,6 +16,7 @@ class CustomDelegate extends SearchDelegate {
   List<dynamic> asks = [];
   bool _dataLoaded = false;
 
+
   Future<void> _loadDataCourses() async {
     if(!_dataLoaded) {
       try {

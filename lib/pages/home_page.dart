@@ -1,3 +1,5 @@
+import 'package:app/utils/color_custom.dart';
+import 'package:app/utils/parse_utils.dart';
 import 'package:app/widgets/big_text.dart';
 import 'package:flutter/material.dart';
 
@@ -73,11 +75,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     var size = MediaQuery.of(context).size;
     return loaderScreen ? Scaffold(
       appBar: AppBar(
-        title: const Center(child: Text("Total Balance")),
+        title: const Center(child: Text("Presupuesto Diario")),
         actions: [
           GestureDetector(
             onTap: () {
-              Get.to(() => ProgressPage());
+              Get.to(() => ProgressPage(),transition: Transition.rightToLeft);
             },
             child: Container(
               margin: const EdgeInsets.only(right: 10),
@@ -120,7 +122,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           onTap: () {
                             callDatePicker();
                           },
-                          child: const ButtonBaseDrop(title: "June")),
+                          child: const ButtonBaseDrop(title: "Mes")),
                     ],
                   ),
                   const SizedBox(height: 20,),
@@ -132,7 +134,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return const Center(
-                                child: CircularProgressIndicator());
+                                child: CircularProgressIndicator(color: AppColors.contentColorBlue,));
                           } else if (snapshot.hasError) {
                             return Text('Error: ${snapshot.error}');
                           } else {
@@ -152,7 +154,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                       child: ShoppingItem(
                                           title: categoryData['name'] as String,
                                           category: transactions[index].title,
-                                          value: transactions[index].amount.toString(),
+                                          value: formatNumberEnglish(transactions[index].amount.toString()),
                                           porcent: convertCompleteTimeToDate(transactions[index].date.toString()),
                                           icon: categoryData['icon'] as IconData,
                                           colorIcon: categoryData['color']),
@@ -170,7 +172,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ],
         
       ),
-      floatingActionButtonLocation: FloatingActionButtonCustom(size.height * 0.14, size.width * 0.56),
+      floatingActionButtonLocation: FloatingActionButtonCustom(size.height * 0.14, size.width * 0.7),
       floatingActionButton: SpeedDial(
         icon: Icons.add,
         backgroundColor: Colors.blue,

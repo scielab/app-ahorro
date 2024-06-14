@@ -74,7 +74,7 @@ class _GuildDetailPageState extends State<GuildDetailPage> {
                 if(_checkAnswerFinish(data)) {
                   Get.back();
                   Get.snackbar("Respuesta", "¡Correcto modulo finalizado");
-                  guildController.finishLessonHistory(widget.currentLesson.id);
+                  guildController.finishLessonHistory(widget.currentLesson.id.toString());
                   _interstitialAd!.show();
                 } else {
                   Get.snackbar("Respuesta", "¡Tiene respuestas incorrectas");
@@ -86,7 +86,8 @@ class _GuildDetailPageState extends State<GuildDetailPage> {
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                   ),
-                  child: Image.asset((data[index] as ContentEntry).imageUrl),
+                  //child: Image.asset((data[index] as ContentEntry).imageUrl),
+                  child: Image.network((data[index] as ContentEntry).imageUrl),
                 ) : Container();
               }),
               totalPage: data.length,
@@ -105,7 +106,7 @@ class _GuildDetailPageState extends State<GuildDetailPage> {
                     return Container(
                       margin: const EdgeInsets.only(bottom: 10),
                       child: Text(
-                        paragraph,
+                        paragraph.ctext,
                         style: TextStyle(
                           fontSize: Dimension.font16,
                           fontWeight: FontWeight.w500,

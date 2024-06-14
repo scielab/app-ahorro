@@ -2,7 +2,7 @@
   {
     "id": 1,
     "name": "Planificacion Financiera",
-    "lessoncourse": [
+    "modules": [
       {
         "id": "123123123",
         "lesson": "Introduccion",

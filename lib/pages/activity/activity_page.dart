@@ -91,16 +91,7 @@ class _ActivityPageState extends State<ActivityPage> {
               //     ),
               //   ),
                 
-              const BigText(title: "Tus rutinas"),
-              const SizedBox(height: 10),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Icon(Icons.calendar_today),
-                  const SizedBox(width: 10),
-                  SmallText(title: "Hoy", size: Dimension.font20,),
-                ],
-              ),
+              const BigText(title: "Tus Rutinas"),
               const SizedBox(height: 20),
               Obx(() {
                 var data = activityController.getTodayRutines();
@@ -123,7 +114,7 @@ class _ActivityPageState extends State<ActivityPage> {
                 );
               }),
               const SizedBox(
-                height: 20,
+                height: 10,
               ),
               const BigText(title: "Tu plan para hoy"),
               const SizedBox(

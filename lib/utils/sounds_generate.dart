@@ -1,23 +1,46 @@
 import 'package:flutter/services.dart';
 import 'package:soundpool/soundpool.dart';
 
-class SounedSing {
-  late Soundpool pool;
-  late int soundId;
-  SoundpoolOptions soundpoolOptions = const SoundpoolOptions(streamType: StreamType.ring);
+class GenericSoundPlayer<T> {
+  final Soundpool _soundPool = Soundpool.fromOptions(
+    //options: SoundPoolConfig(poolCapacity: SoundPoolConfig.MAX_POOLS),
+  );
+  final Map<T, int> _soundPoolMap = {};
 
-  SounedSing() {
-    pool = Soundpool.fromOptions();
+  Future<void> loadSound(T key, String assetPath) async {
+    final int soundId = await _soundPool.load(await rootBundle.load(assetPath));
+    _soundPoolMap[key] = soundId;
   }
 
-  Future<int> loadSong() async {
-    var asset = await rootBundle.load("assets/sounds/check.mp3");
-    return await pool.load(asset);
+  Future<void> playSound(T key) async {
+    if (_soundPoolMap.containsKey(key)) {
+      final int soundId = _soundPoolMap[key]!;
+      await _soundPool.play(soundId);
+    } else {
+      throw Exception('El sonido para la clave $key no está cargado');
+    }
   }
 
-  Future<void> playSound() async {
-    soundId = await loadSong();
-    await pool.play(soundId);
+  Future<void> pauseSound(T key) async {
+    if (_soundPoolMap.containsKey(key)) {
+      final int soundId = _soundPoolMap[key]!;
+      await _soundPool.pause(soundId);
+    } else {
+      throw Exception('El sonido para la clave $key no está cargado');
+    }
+  }
+
+  Future<void> stopSound(T key) async {
+    if (_soundPoolMap.containsKey(key)) {
+      final int soundId = _soundPoolMap[key]!;
+      await _soundPool.stop(soundId);
+    } else {
+      throw Exception('El sonido para la clave $key no está cargado');
+    }
+  }
+
+  Future<void> dispose() async {
+    _soundPool.dispose();
+    _soundPoolMap.clear();
   }
 }
-

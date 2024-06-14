@@ -1,5 +1,6 @@
 import 'package:app/controllers/auth/auth_controller.dart';
 import 'package:app/routes/routes.dart';
+import 'package:app/utils/size_widget.dart';
 import 'package:app/widgets/big_text.dart';
 import 'package:app/widgets/button_base.dart';
 import 'package:country_currency_pickers/country.dart';
@@ -27,9 +28,9 @@ class _BadgePageState extends State<BadgePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const BigText(title: "Selecciona la divisa que vas a usar en la aplicacion",over: true,alig: true,),
+              const BigText(title: "Selecciona el tipo de moneda que utilizarás en la aplicación.",over: true,alig: true,),
               const SizedBox(height: 50,),
-              const Text('Selecciona la Divisa de tu pais'),
+              const Text('Selecciona la moneda de tu país.'),
               const SizedBox(height: 10,),
               SizedBox(
                 width: MediaQuery.of(context).size.width*0.5,
@@ -44,7 +45,7 @@ class _BadgePageState extends State<BadgePage> {
                   _auth.selectedCountry.value = _selectedFilteredDialogCountry.currencyCode ?? "";
                   Get.offNamed(RouterHelper.getSignin());
                 },
-                child: const ButtonBase(title: "Siguiente",primary: true)),
+                child: const ButtonBase(title: "Siguiente",primary: true,sizeWidget: SizeWidget.BIG,)),
             ],
           ),
         ),

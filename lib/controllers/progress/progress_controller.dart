@@ -3,12 +3,14 @@ import 'package:app/models/categories_models.dart';
 import 'package:app/models/category_model.dart';
 import 'package:app/models/progress_model.dart';
 import 'package:app/models/transaction_model.dart';
+import 'package:app/utils/parse_utils.dart';
 import 'package:get/get.dart';
 
 class ProgressController extends GetxController {
   RxList<Category> allCategories = <Category>[].obs;
   RxList<TransactionBase> transactions = <TransactionBase>[].obs;
   RxList<AnalyticItem> analytics = <AnalyticItem>[].obs;
+
 
   @override
   onInit() async {
@@ -27,6 +29,7 @@ class ProgressController extends GetxController {
     getReport(type);
   }
 
+  // Obtiene las categorias  guardadas a un array
   void getCategory(String type) {
     Set<String> categoryIds = Set();
     allCategories.clear();
@@ -55,6 +58,8 @@ class ProgressController extends GetxController {
     }
   }
 
+
+  // Obtner la cantidad diaria de Ingreso o de Gasto
   String getTotalAmmountDay(String type) {
     DateTime currentDate = DateTime.now();
     DateTime startDate = DateTime(currentDate.year, currentDate.month, currentDate.day);
@@ -64,6 +69,7 @@ class ProgressController extends GetxController {
       .fold(0, (previous, current) => previous + current.amount.toInt());
     return totalAmount.toString();
   }
+  // Obtener la cantidad semanal de ngreso o de Gasto
   String getTotalAmmountWeek(String type) {
     DateTime currentDate = DateTime.now();
     DateTime startDate = currentDate.subtract(Duration(days: currentDate.weekday + 6));
@@ -74,12 +80,36 @@ class ProgressController extends GetxController {
       .fold(0, (previous, current) => previous + current.amount.toInt());
     return totalAmount.toString();
   }
+  // Obtener la cantidad mensual de Ingreso o de Gasto
   String getTotalAmmountMonh(String type) {
     int totalAmount = transactions
         .where((tr) => tr.type == type)
         .fold(0, (previous, current) => previous + current.amount.toInt());
     return totalAmount.toString();
   }
+
+  dynamic getAllAmmount() {
+    var income = getTotalAmmountMonh('income');
+    var expense = getTotalAmmountMonh('expense');
+
+    if(detectNumberType(income) == NumberType.integer && detectNumberType(expense) == NumberType.integer) {
+      int incomeRes = int.parse(income);
+      int expenseRes = int.parse(expense);
+      var saving = incomeRes - expenseRes;
+      return saving;
+    } else if(detectNumberType(expense) == NumberType.double && detectNumberType(expense) == NumberType.double) {
+      double incomeRes = double.parse(income);
+      double expenseRes = double.parse(expense);
+      var saving = incomeRes - expenseRes;
+      return saving;
+    } else {
+      return 0;
+    }
+  }
+
+
+
+
 
   // porcent of the total income or expense
   // calcular el porcentaje del mes de una categoria en especifico
@@ -90,9 +120,6 @@ class ProgressController extends GetxController {
         .fold(0, (previous, current) => previous + current.amount);
     
     for (var category in allCategories) {
-      print("MOstrando info");
-      print(category.category);
-      print("termino info");
       int categoryAmount = transactions
           .where((tr) => tr.type == type && tr.category == category.category)
           .fold(0, (previous, current) => previous + current.amount);
@@ -109,6 +136,11 @@ class ProgressController extends GetxController {
       }
     }
   }
+
+  // Get Expense, Income, Saving
+
+
+
   // Report, day, week, month
   // generar un reporte completo de todas las categorias con sus porcentajes
   void getReport(String type) {

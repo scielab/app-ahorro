@@ -18,7 +18,7 @@ class _SplashScreenLoaderState extends State<SplashScreenLoader> {
 
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 4),() async {
+    Future.delayed(const Duration(seconds: 3),() async {
       SharedPreferences _prefs = await SharedPreferences.getInstance();
       print(_prefs.getBool('question'));
       if(_prefs.getBool('question') != null && _prefs.getBool('question') == true) {

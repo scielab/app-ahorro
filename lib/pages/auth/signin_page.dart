@@ -41,21 +41,21 @@ class _SignInPageState extends State<SignInPage> {
                 children: [
                   const SizedBox(height: 80),
                   const BigText(
-                    title: "Iniciar Sesion",
+                    title: "Iniciar Sesión",
                     color: Colors.white,
                     size: 32,
                   ),
                   SizedBox(height: Dimension.height45),
                   const SmallText(
-                    title:
-                        "Si ya registraste previamente con tu correo electrónico, puedes ingresar",
+                    title: "Si ya registraste previamente con tu correo electrónico, puedes ingresar.",
                     color: Colors.white,
                     size: 16,
                     fw: FontWeight.bold,
+                    over: true,
                   ),
                   const SizedBox(height: 50),
                   const SmallText(
-                    title: "Correo Electronico",
+                    title: "Correo electrónico",
                     color: Colors.white,
                     fw: FontWeight.bold,
                     size: 17,

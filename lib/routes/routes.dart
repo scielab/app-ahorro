@@ -59,7 +59,7 @@ class RouterHelper {
     GetPage(name: _signup, page: () => const SignUpPage(),transition: Transition.native),
     GetPage(name: _home, page: () => const HomePage(),transition: Transition.fadeIn),
   
-    GetPage(name: _settings, page: () => const SettingsPage(),transition: Transition.fadeIn),
+    GetPage(name: _settings, page: () => const SettingsPage(),transition: Transition.rightToLeft),
     GetPage(name: _progress, page: () => ProgressPage(),transition: Transition.native),
     
     // guilds:

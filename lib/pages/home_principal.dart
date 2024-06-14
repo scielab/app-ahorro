@@ -1,3 +1,4 @@
+import 'package:app/pages/account/profile_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
@@ -15,7 +16,8 @@ List routes = [
   const ActivityPage(),
   const GuildPage(),
   const HomePage(),
-  const SettingsPage(),
+  const ProfilePage(),
+  //const SettingsPage(),
 ];
 
 class HomePagePrincipal extends StatefulWidget {
@@ -80,7 +82,7 @@ class _HomePagePrincipalState extends State<HomePagePrincipal> with TickerProvid
                 selectedColor: Colors.black,
               ),
               DotNavigationBarItem(
-                icon: const Icon(Icons.self_improvement_outlined,color: Colors.black87,size: 20,),
+                icon: const Icon(Icons.person,color: Colors.black87,size: 20,),
                 selectedColor: Colors.black,
               ),
             ],

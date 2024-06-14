@@ -34,7 +34,7 @@ class _GuildPageState extends State<GuildPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const BigText(title: "Happy Learn",size: 25,),
+        title: const BigText(title: "Guías",size: 25,),
         actions: [
           GestureDetector(
             onTap: () {

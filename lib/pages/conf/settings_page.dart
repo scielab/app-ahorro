@@ -1,5 +1,6 @@
 import 'package:app/controllers/auth/auth_controller.dart';
 import 'package:app/pages/conf/suport_page.dart';
+import 'package:app/pages/payments/payment_page.dart';
 import 'package:app/widgets/big_text.dart';
 import 'package:app/widgets/dialog_widget.dart';
 import 'package:app/widgets/item_list_conf.dart';
@@ -48,15 +49,21 @@ class _SettingsPageState extends State<SettingsPage> {
                         onTap: () {
                           Get.to(() => const Supportpage());
                         },
-                        child: const ItemListConf(title: "Centro ayuda", icon: Icons.edit_document)),
+                        child: const ItemListConf(title: "Centro de ayuda", icon: Icons.edit_document)),
                       const ItemListConf(title: "Comentarios", icon: Icons.message),
-                      const ItemListConf(title: "Calificanos", icon: Icons.library_add_check_rounded),
+                      const ItemListConf(title: "Califícanos", icon: Icons.library_add_check_rounded),
                       GestureDetector(
                         onTap: () {
-                          print("Cerrar Session");
+                          Get.to(() => PaymentPage());
+                        },
+                        child: const ItemListConf(title: "Pagos", icon: Icons.payment),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          //print("Cerrar Session");
                           authController.signOutSession();
                         },
-                        child: const ItemListConf(title: "Cerrar Sesion", icon: Icons.exit_to_app),
+                        child: const ItemListConf(title: "Cerrar Sesión", icon: Icons.exit_to_app),
                       ),
                       GestureDetector(
                         onTap: () {
@@ -64,14 +71,13 @@ class _SettingsPageState extends State<SettingsPage> {
                           showDialog(context: context, builder: (context) {
                             return DialogWidget(
                               title: "Eliminar cuenta permanentemente",
-                              description: "Seguro quieres eliminar la cuenta? Perderas todo tu progreso",
+                              description: "¿Seguro quieres eliminar la cuenta? Perderás todo tu progreso.",
                               okFunction: () {
                                 authController.removeAccount();
                               },
                               cancelFunction: () {},
                             );  
                           });
-
                         },
                         child: const ItemListConf(title: "Eliminar cuenta de usuario", icon: Icons.person),
                       ),

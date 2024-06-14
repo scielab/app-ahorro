@@ -33,9 +33,9 @@ class SplashScreenIntro extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const Spacer(),
-                const BigText(title: "Construye un mañana más sólido hoy.",color: Colors.white,size: 42,over: true,),
+                const BigText(title: "La Libertad de la Educación Financiera.",color: Colors.white,size: 42,over: true,),
                 const SizedBox(height: 20,),
-                const SmallText(title: "Aprende, ahorra, prospera.",color: Colors.white,),
+                const SmallText(title: "Aprende, ahorra y prospera",color: Colors.white,),
                 const Spacer(),
                 GestureDetector(
                   onTap: () {

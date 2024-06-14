@@ -36,7 +36,7 @@ class _TimeCustomFieldState extends State<TimeCustomField> {
         mode: DateTimeFieldPickerMode.time,
         autovalidateMode: AutovalidateMode.always,
         validator: (e) => (e?.day ?? 0) == 1 ? 'Please not the first day' : null,
-        onDateSelected: (DateTime value) {
+        onChanged: (DateTime? value) {
           _timeController.text = convertCompleteDateToTime(value.toString());
         },
       ),

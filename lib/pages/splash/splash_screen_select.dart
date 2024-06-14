@@ -12,7 +12,7 @@ class SplashSreenSelect extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    var activityControlller = Get.put(ActivityControlller());
+    var activityControlller = Get.put(ActivityControlller(contentRepo: Get.find()));
     return Scaffold(
       body: Stack(
           children: [
@@ -32,13 +32,13 @@ class SplashSreenSelect extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  BigText(title: "Nivel de conocimiento en educacion financiera",size: Dimension.font26,color: Colors.white,alig: true,over: true),
+                  BigText(title: "Nivel de conocimiento en educación financiera.",size: Dimension.font26,color: Colors.white,alig: true,over: true),
                   const SizedBox(height: 40,),
-                  QuestionItem(title: "Basico", callback: () {
+                  QuestionItem(title: "Básico", callback: () {
                     activityControlller.selectDificulty('beginner');
                     Get.offNamed(RouterHelper.getHomePrincipalPage());
                   }),
-                  QuestionItem(title: "Intermadio", callback: () {
+                  QuestionItem(title: "Intermedio", callback: () {
                     activityControlller.selectDificulty('intermediate');
                     Get.offNamed(RouterHelper.getHomePrincipalPage());
                   }),

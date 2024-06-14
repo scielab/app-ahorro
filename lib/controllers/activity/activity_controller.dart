@@ -5,6 +5,7 @@ import 'package:app/controllers/history/history_lecture_controller.dart';
 import 'package:app/models/content_model.dart';
 import 'package:app/models/history_model.dart';
 import 'package:app/models/rutines_model.dart';
+import 'package:app/service/repository/content_repo.dart';
 import 'package:app/utils/app_resources.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -20,8 +21,10 @@ Map<String,String> dificulty = {
 
 class ActivityControlller extends GetxController {
   late SharedPreferences _prefs;
-
   late List<ContentModel> content;
+  final ContentRepo contentRepo;
+
+  ActivityControlller({required this.contentRepo});
 
   RxList<dynamic> lectures = <dynamic>[].obs;
   RxList<ContentModel> recommended = <ContentModel>[].obs;
@@ -51,19 +54,15 @@ class ActivityControlller extends GetxController {
   void onInit() async {
     _prefs = await SharedPreferences.getInstance();
 
-    loadNames();
     loadRutines();
     loadLectures();
 
     rutinesList.addAll([
-        Rutine(name: 'Registra tu presupuesto diario!', description: 'Descripción de la rutina 1', activeDay: [1, 2, 3, 4, 5],type: "budget"), // Lunes a viernes
+        Rutine(name: 'Registra tu presupuesto diario!', description: 'Descripción de la rutina 1', activeDay: [1, 2, 3, 4, 5,6,7],type: "budget"), // Lunes a viernes
         if(recommended.isNotEmpty) Rutine(name: 'Aprender Fundamentos diarios!', description: 'Aprender', activeDay: [1, 2, 3, 4, 5, 6, 7],type: "lecture"), // Sábado a miércoles
     ]);
 
     await loadHistoryLectures();
-
-
-
     super.onInit();
   }
 
@@ -79,23 +78,19 @@ class ActivityControlller extends GetxController {
   } 
 
   Future<void> loadLectures() async {
-    String jsonData = await rootBundle.loadString('assets/data/lecture/principal.json');
-    List<dynamic> dataList = jsonDecode(jsonData);
-    lectures.value = dataList;
-
-
-  }
-  
-  Future<void> loadNames() async {
-    String jsonData = await rootBundle.loadString('assets/data/lecture/principal.json');
-    List<dynamic> dataList = jsonDecode(jsonData);
-    names.assignAll(dataList.map((data) {
-      return {
-        'title': data['title'].toString(),
-        'id': data['id'],
-      };
-      }
-    ));
+    try {
+      final response = await contentRepo.getContent();
+      List<dynamic> datalist = response;
+      lectures.value = datalist;
+      names.addAll(datalist.map((data) {
+        return {
+          'title': data['title'].toString(),
+          'id': data['id'],
+        };
+      }));
+    } catch(e) {
+      print(e);
+    }
   }
 
   Future<void> loadRutines() async {
@@ -105,47 +100,43 @@ class ActivityControlller extends GetxController {
   }
 
   List<int> recommendedLectures() {
-    if(lectures.isEmpty || !isLoadingLectures.value) return [];
-    DateTime lastExecution = DateTime.fromMillisecondsSinceEpoch(_prefs.getInt('lastExecution') ?? 0);
+    if(lectures.isEmpty || !isLoadingLectures.value) return <int>[];
 
+    DateTime lastExecution = DateTime.fromMillisecondsSinceEpoch(_prefs.getInt('lastExecution') ?? 0);
     if (DateTime.now().difference(lastExecution).inDays >= 1) {
+      
+      _prefs.remove('recommendedLectures'); // Eliminamos las anteriores recomdnaciones
+      
       List<int> selected = [];
-      int cont = 0;
-      int intee = 0;
-      while(cont < 3) {
-        int random = Random().nextInt(lectures.length) + 1;
-        if (!historyLectureController.currentHistoryLecture.lectures.contains(random)) {
-          selected.add(random);
-          cont++;
+      Random random = Random();
+      int maxLectures = min(3, lectures.length); // ve cuantos elementos se pueden seleccion en base a la cantidad de lectures
+
+      Set<int> historySet = (historyLectureController.currentHistoryLecture.lectures.map((e) => e as int)).toSet(); // historial de usuario
+
+      while(selected.length < maxLectures) {
+        int randomLecture = random.nextInt(lectures.length);
+        if (!historySet.contains(randomLecture) && !selected.contains(randomLecture)) {
+          logger.d("Numero agregado $randomLecture");
+          selected.add(randomLecture);
         }
-        if(intee == 50) {
-          break;
-        }
-        intee++;
       }
+
       _prefs.setInt('lastExecution', DateTime.now().millisecondsSinceEpoch);
       _prefs.setStringList('recommendedLectures', selected.map((id) => id.toString()).toList());
-      logger.d("Generando nuevas recomendaciones");
-      logger.d(selected);
       return selected;
+
     } else {
       List<int> results = _prefs.getStringList('recommendedLectures')?.map((id) => int.parse(id)).toList() ?? [];
-
-      logger.d("Obteniendo recomendaciones antiguas");
-      logger.d(results);
       return results;
     }
   }
 
 
   List<ContentModel> getLecturesfromId(List<int> selected) {
-    return lectures.map((element) {
-      if (selected.contains(element['id'])) { 
-        return ContentModel.fromJson(element);
-      }
+    return selected.map((element) {
+      return ContentModel.fromJson(lectures[element]);
     }).whereType<ContentModel>().toList();
   }
-
 
   // No se si esto es un mala practica llamar un controlador desde aqui
   Future<void> loadHistoryLectures() async {
@@ -154,21 +145,28 @@ class ActivityControlller extends GetxController {
       if(user != null) {
         historyLectureController = Get.find<HistoryLectureController>();
         var history = await historyLectureController.fetchResponseRectures(user.uid);
+
         if(history == null) {
           logger.d(history);
+
           HistoryLecture historyLecture = HistoryLecture(iduser: user.uid, lectures: []);
           await historyLectureController.createResponseLectures(historyLecture);
           historyLectureController.setHistoryLecture(historyLecture);
           isLoadingLectures.value = true;
+        
         } else {
           historyLectureController.setHistoryLecture(history);
           isLoadingLectures.value = true;
         }
-        List<int> data = recommendedLectures();
+        
+        List<int> data =  recommendedLectures();
         recommended.value = getLecturesfromId(data);
+        logger.d("recomended $recommended");
       } 
     } catch (e) {
       logger.e(e);
     }
   }
+
+
 }

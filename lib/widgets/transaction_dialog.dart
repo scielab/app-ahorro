@@ -72,7 +72,7 @@ class _TransactionDialogState extends State<TransactionDialog> {
     return SafeArea(
       child: Container(
         margin: const EdgeInsets.only(left: 10, right: 10),
-        height: 620,
+        height: MediaQuery.of(context).size.height * 0.8,
         decoration: const BoxDecoration(
           color: Color.fromARGB(255, 255, 255, 255),
           borderRadius: BorderRadius.only(

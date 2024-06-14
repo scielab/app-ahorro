@@ -1,3 +1,4 @@
+import 'package:app/widgets/big_text.dart';
 import 'package:flutter/material.dart';
 
 class PaymentPage extends StatelessWidget {
@@ -6,6 +7,9 @@ class PaymentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const BigText(title: "Administración de Pagos"),
+      ),
       body: Center(
         child: Text("Informacion"),
       ),

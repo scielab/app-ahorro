@@ -41,14 +41,13 @@ class _SignUpPageState extends State<SignUpPage> {
                 children: [
                   const SizedBox(height: 50,),
                   const BigText(
-                    title: "Registrate",
+                    title: "Regístrate",
                     color: Colors.white,
                     size: 32,
                   ),
                   const SizedBox(height: 20),
                   const SmallText(
-                    title:
-                        "Si ya registraste previamente con tu correo electrónico, puedes ingresar",
+                    title: "Si ya registraste previamente con tu correo electrónico, puedes ingresar.",
                     color: Colors.white,
                     size: 16,
                     fw: FontWeight.bold,
@@ -63,7 +62,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   const SizedBox(height: 10),
                   InputField(
                       controller: emailController,
-                      labelText: "Correo electronico",
+                      labelText: "Correo electrónico",
                       enable: true),
                   const SmallText(
                     title: "Contraseña",
@@ -89,7 +88,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   InputField(
                     controller: passwordControllerRestable,
-                    labelText: "contraseña",
+                    labelText: "Contraseña",
                     isPassword: true,
                     enable: true,
                   ),

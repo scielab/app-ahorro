@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
+
 class StaggeredDualWidet extends StatelessWidget {
+  final bool isTransform;
+
   const StaggeredDualWidet({
     required this.builder,
     required this.itemCount,
+    this.isTransform = true,
     this.spacing = 0.0,
     this.aspectRatio = 0.5,
     super.key
@@ -24,10 +28,10 @@ class StaggeredDualWidet extends StatelessWidget {
         mainAxisSpacing: spacing,
       ), 
       itemBuilder: (context, index) {
-        return Transform.translate(
+        return isTransform ? Transform.translate(
           offset: Offset(0.0, index.isOdd ? 50 : 0.0),
           child: builder(context,index),
-        );
+        ) :  builder(context,index);
       },
       itemCount: itemCount,
     );

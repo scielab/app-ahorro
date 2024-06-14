@@ -1,5 +1,6 @@
 import 'package:app/controllers/budget/budget_controller.dart';
 import 'package:app/models/transaction_model.dart';
+import 'package:app/utils/parse_utils.dart';
 import 'package:app/widgets/big_text.dart';
 import 'package:app/widgets/small_text.dart';
 import 'package:flutter/foundation.dart';
@@ -62,7 +63,7 @@ class _BudgetDetailPageState extends State<BudgetDetailPage> {
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          BigText(title: '${widget.tb.amount} \$',size: 40,color: Colors.white,),
+                          BigText(title: '${formatNumberEnglish(widget.tb.amount.toString())} \$',size: 40,color: Colors.white,),
                         ],
                       ),
                     ),
@@ -122,7 +123,7 @@ class _BudgetDetailPageState extends State<BudgetDetailPage> {
                       ],
                     ),
                     const Spacer(),
-                    SmallText(title: widget.tb.amount.toString()),
+                    SmallText(title: formatNumberEnglish(widget.tb.amount.toString())),
                   ],
                 ),
               ),

@@ -47,7 +47,6 @@ class _CategoryPageState extends State<CategoryPage> {
                 current_index = index;
                 // volvemos a la pagina de creacion de transaccion
                 setState(() {              
-                  print(budgetItem.category.value);
                   budgetItem.udateCategory(expense[index]['id']);
                 });
                 Get.back();

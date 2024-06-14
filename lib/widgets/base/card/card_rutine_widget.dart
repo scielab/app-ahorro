@@ -1,3 +1,4 @@
+import 'package:app/utils/color_custom.dart';
 import 'package:app/utils/dimension.dart';
 import 'package:app/widgets/big_text.dart';
 import 'package:app/widgets/small_text.dart';
@@ -5,8 +6,8 @@ import 'package:flutter/material.dart';
 
 class CardRutinePrimeryWidget extends StatelessWidget {
   final String title;
-
-  const CardRutinePrimeryWidget({super.key,required this.title});
+  final bool done;
+  const CardRutinePrimeryWidget({super.key,required this.title,this.done = true});
 
   @override
   Widget build(BuildContext context) {
@@ -14,17 +15,33 @@ class CardRutinePrimeryWidget extends StatelessWidget {
     return Container(
       width: size.width,
       margin: const EdgeInsets.only(bottom: 20),
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(width: 1, color: Color.fromARGB(255, 235, 237, 255)!)
+      ),
       child: Row(
         children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.blue[600],
-              borderRadius: const BorderRadius.all(Radius.circular(100)),
-            ),
-            child: const Icon(Icons.done_all_sharp,color: Colors.white,),
+          Stack(
+            children: [
+              Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  border: Border.all(width: 3, color: AppColors.contentColorBlue),
+                ),
+              ),
+              if(done) 
+              const SizedBox(
+                width: 30,
+                height: 30,
+                child: Icon(Icons.check,  color: AppColors.contentColorBlue),
+              ),
+            ],
           ),
-          const SizedBox(width: 10,),
+          const SizedBox(width: 20),
           SizedBox(
             width: size.width * 0.65,
             child: Column(
@@ -35,8 +52,9 @@ class CardRutinePrimeryWidget extends StatelessWidget {
               ],
             ),
           ),
-          const Spacer(),
-          const Icon(Icons.arrow_forward_ios)
+          //const Spacer(),
+          //const Icon(Icons.arrow_forward_ios),
+  
         ],
       ),
     );

@@ -86,7 +86,7 @@ List<Map<String, dynamic>> pay = [
     'id': 1,
     'name': 'Salario',
     'icon': Icons.monetization_on,
-    'color': Colors.green,
+    'color': const Color.fromARGB(255, 55, 196, 60),
   },
   {
     'id': 2,
