@@ -35,15 +35,15 @@ class SplashSreenSelect extends StatelessWidget {
                   BigText(title: "Nivel de conocimiento en educación financiera.",size: Dimension.font26,color: Colors.white,alig: true,over: true),
                   const SizedBox(height: 40,),
                   QuestionItem(title: "Básico", callback: () {
-                    activityControlller.selectDificulty('beginner');
+                    activityControlller.selectDificulty('BE');
                     Get.offNamed(RouterHelper.getHomePrincipalPage());
                   }),
                   QuestionItem(title: "Intermedio", callback: () {
-                    activityControlller.selectDificulty('intermediate');
+                    activityControlller.selectDificulty('IN');
                     Get.offNamed(RouterHelper.getHomePrincipalPage());
                   }),
                   QuestionItem(title: "Avanzado", callback: () {
-                    activityControlller.selectDificulty('advanced');
+                    activityControlller.selectDificulty('AD');
                     Get.offNamed(RouterHelper.getHomePrincipalPage());
                   }),
                 ],

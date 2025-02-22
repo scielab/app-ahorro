@@ -18,13 +18,11 @@ class BudgetDetailPage extends StatefulWidget {
 
 class _BudgetDetailPageState extends State<BudgetDetailPage> {
 
-
   @override
   Widget build(BuildContext context) {
     final budgetController = Get.find<BudgetController>();
     final size = MediaQuery.of(context).size;
-
-
+    
     return Scaffold(
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(

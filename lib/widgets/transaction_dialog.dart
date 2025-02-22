@@ -1,7 +1,7 @@
 import 'package:app/controllers/auth/auth_controller.dart';
 import 'package:app/controllers/budget/budget_controller.dart';
 import 'package:app/controllers/budget/budget_item_controller.dart';
-import 'package:app/models/categories_models.dart';
+import 'package:app/models/data/categories_models.dart';
 import 'package:app/models/transaction_model.dart';
 import 'package:app/routes/routes.dart';
 import 'package:app/utils/date_format.dart';
@@ -36,6 +36,7 @@ class _TransactionDialogState extends State<TransactionDialog> {
   
   @override
   void initState()  {
+    dateController.text = convertDateToFirestoreFormat(budgetItem.date.value);
     budgetItem.updateType(widget.type_account);
     user = Get.find<AuthController>().getCurrentUser()!;
     
@@ -48,6 +49,7 @@ class _TransactionDialogState extends State<TransactionDialog> {
       setState(() {
         _currentStartDate = selectedDate;
         dateController.text = selectedDate != null ? convertCompleteTimeToDate(selectedDate.toString()) : "";
+        budgetItem.date.value = selectedDate;
       });
     }
   }
@@ -108,7 +110,7 @@ class _TransactionDialogState extends State<TransactionDialog> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Obx(() => Icon(get_icon(widget.type_account,budgetItem.category.value),
+                          Obx(() => Icon(getIcon(widget.type_account,budgetItem.category.value),
                                 size: 25,
                               )),
                           const SizedBox(
@@ -118,7 +120,7 @@ class _TransactionDialogState extends State<TransactionDialog> {
                             width: MediaQuery.of(context).size.width * 0.17,
                             child: Obx(
                               () => SmallText(
-                                title: get_category(widget.type_account, budgetItem.category.value),
+                                title: getCategory(widget.type_account, budgetItem.category.value),
                                 size: Dimension.font16,
                               ),
                             ),
@@ -157,7 +159,7 @@ class _TransactionDialogState extends State<TransactionDialog> {
                             width: 10,
                           ),
                           SmallText(
-                            title: dateController.text.isNotEmpty ? dateController.text : "Date",
+                            title: dateController.text.isNotEmpty ?  dateController.text : "Date",
                             size: 10,
                           ),
                           const Spacer(),
@@ -219,13 +221,13 @@ class _TransactionDialogState extends State<TransactionDialog> {
   }
 
 
-    String get_category(String op, int categoryId) {
+    String getCategory(String op, int categoryId) {
       List<Map<String, dynamic>> categoryList = (op == 'income') ? pay : expense;
       Map<String, dynamic> category = categoryList.firstWhere((item) => item['id'] == categoryId, orElse: () => {'name': (op == 'income' ? 'Cash' : 'Shopping')});
       return category['name'];
     }
 
-    IconData get_icon(String op, int categoryId) {
+    IconData getIcon(String op, int categoryId) {
       List<Map<String, dynamic>> categoryList = (op == 'income') ? pay : expense;
       Map<String, dynamic> category = categoryList.firstWhere((item) => item['id'] == categoryId, orElse: () => {'icon': (op == 'income' ? Icons.monetization_on_sharp : Icons.shopping_basket)});
       return category['icon'];
@@ -233,16 +235,16 @@ class _TransactionDialogState extends State<TransactionDialog> {
 
     // Bug hay que presionar 2 veces el boton para que funcione
     void createTransaction(BudgetItemController budgetItemController, BudgetController budgetController,TextEditingController value, User user) {
-      print(budgetItemController.validate());
       
       budgetItemController.displayInfo();
       
       int amount = int.parse(value.text);
       budgetItemController.updateAmount(amount);
       budgetItemController.updateUserId(user.uid);
+      
       if(budgetItemController.validate()) {
-        TransactionBase new_tran = budgetItemController.buildTransaction(); 
-        budgetController.addBudgetToFirebase(new_tran);
+        TransactionBase newTran = budgetItemController.buildTransaction(); 
+        budgetController.addBudgetToFirebase(newTran);
       }
     
     }

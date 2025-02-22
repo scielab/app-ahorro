@@ -1,6 +1,7 @@
 import 'dart:async';
+import 'package:app/controllers/history/history_atributes_profile.dart';
+import 'package:app/models/atributes_profile_model.dart';
 import 'package:app/pages/auth/verification_page.dart';
-import 'package:app/pages/splash/splash_ads.dart';
 import 'package:app/routes/routes.dart';
 import 'package:app/utils/app_resources.dart';
 import 'package:app/utils/generate.dart';
@@ -36,6 +37,7 @@ class AuthController extends GetxController {
     ever(user, (callback) => _setInitialScreen(user.value));
     super.onInit();
   }
+
   // Esta funcion verifica si existe unusuario o no y redirige dependiendo el caso (Es una copia)
   void setInitialScreen(User? user) {
     if(user != null) {
@@ -50,6 +52,7 @@ class AuthController extends GetxController {
       //Get.to(() => SplashAds());
     }
   }
+
   // Esta funcion verifica si existe unusuario o no y redirige dependiendo el caso 
   void _setInitialScreen(User? user) {
     if(user != null) {
@@ -73,6 +76,7 @@ class AuthController extends GetxController {
       logger.e(e);
     }
   }
+  
   Future<bool> signUpEmailandPassword(String email, String password) async {
     try {
       isSignUp.value = true;
@@ -87,6 +91,8 @@ class AuthController extends GetxController {
           'uid': user.value?.uid,
         };
         db.collection('users').doc(user.value?.uid).set(form);
+        createHistoryAtributeProfile(user.value!.uid);
+
         //Es necesario guardar toda esta informacion?
         _prefs.setString('session','EMAIL');
         _prefs.setString('name', form['name'] as String);
@@ -98,6 +104,7 @@ class AuthController extends GetxController {
         _prefs.setString('divisa', selectedCountry.value);
         _prefs.setBool('question', true);
         isSignUp.value = false;
+        
         return true;
       }
       return false;
@@ -113,6 +120,18 @@ class AuthController extends GetxController {
     }
     return false;
   }
+
+  /* Esta funcion crea los atributos de perfil cuando el atributo del usuario no existe */
+  Future<void> createHistoryAtributeProfile(String useruid) async {
+    AtributeProfileController atributeProfileController = AtributeProfileController();
+    bool existAtributeProfile = await atributeProfileController.existAtributeProfile(useruid);
+    if(!existAtributeProfile) {
+      AtributeProfile atributeProfile = AtributeProfile(userid: useruid, energy: 0, guias: 0, lectures: 0, typeLevel: TypeLevel.beginner);
+      await atributeProfileController.createAtributesProfile(atributeProfile);
+    }
+  }
+
+
   Future<bool> signInEmailAndPassword(String email,String password) async {
     try {
       final UserCredential credential = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
@@ -138,17 +157,19 @@ class AuthController extends GetxController {
   }
 
 
-
   User? getCurrentUser() {
     return _firebaseAuth.currentUser;
   }
+
   Stream<User?> authStateChanges() {
     return _firebaseAuth.authStateChanges();
   }
+
   Future<void> signOut() async {
     _prefs.remove('session');
     await _firebaseAuth.signOut();
   }
+
   // google  
   Future<bool> handlerGoogleSignIn() async {
     try {
@@ -177,6 +198,8 @@ class AuthController extends GetxController {
         db.collection('users').doc(user.uid).set(form);
         _prefs.setString('session','GOOGLE');
         _prefs.setBool('question', true);
+      
+        //await createHistoryAtributeProfile(user.uid);
 
         return true;
       } else {
@@ -187,10 +210,12 @@ class AuthController extends GetxController {
     }
     return false;
   }
+
   Future<void> handleGoogleSignOut() async {
     _prefs.remove('session');
     _googleSignIn.disconnect();
   }
+
   Future<void> handleGoogleSignIn() async {
     bool response = await handlerGoogleSignIn();
     if (response) {
@@ -199,7 +224,7 @@ class AuthController extends GetxController {
       logger.d("NO ENTRO");
     }
   }
-  
+
   Future<void> signOutSession() async {
     try {
       var op = _prefs.getString('session');
@@ -221,8 +246,6 @@ class AuthController extends GetxController {
     }
   }
 
-
-
   bool _validateEmail(String value) {
     final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     if (!emailRegex.hasMatch(value)) {
@@ -230,6 +253,7 @@ class AuthController extends GetxController {
     }
     return true;
   }
+
 
   // Validaciones de la page
   Future<void> signUpEmailandPasswordValidator(TextEditingController email, TextEditingController pass, TextEditingController confirm_pass) async {
@@ -254,6 +278,8 @@ class AuthController extends GetxController {
       Get.snackbar("Inicio de Sesion", "No puedo entrar",backgroundColor: Colors.blue,colorText: Colors.white);
     }
   }
+
+
   Future<void> signInEmailandPasswordValidator(TextEditingController email, TextEditingController pass) async {
     String _email = email.text.trim();
     String _pass = pass.text.trim();
@@ -273,8 +299,7 @@ class AuthController extends GetxController {
 
     }
   }
-  
-  
+
   
   // delete account:
   Future<void> removeAccount() async {
@@ -287,6 +312,8 @@ class AuthController extends GetxController {
       logger.e(e);
     }
   }
+
+  
   Future<void> deleteInfoAssociatedAccount(String userid) async {
     // budget
     final batch = FirebaseFirestore.instance.batch();

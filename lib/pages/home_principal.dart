@@ -1,4 +1,6 @@
 import 'package:app/pages/account/profile_page.dart';
+import 'package:app/pages/financial_account/financial_account_page.dart';
+import 'package:app/pages/goals/goals_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
@@ -13,10 +15,12 @@ import 'package:app/pages/home_page.dart';
 
 List routes = [
   //HomePage(),
-  const ActivityPage(),
-  const GuildPage(),
+  //const ActivityPage(),
+  //const GuildPage(),
+  const FinancialAccountPage(),
   const HomePage(),
-  const ProfilePage(),
+  const GoalsPage(),
+  //const ProfilePage(),
   //const SettingsPage(),
 ];
 
@@ -81,10 +85,12 @@ class _HomePagePrincipalState extends State<HomePagePrincipal> with TickerProvid
                 icon: const Icon(Icons.analytics,color: Colors.black87,size: 20,),
                 selectedColor: Colors.black,
               ),
+              /*
               DotNavigationBarItem(
                 icon: const Icon(Icons.person,color: Colors.black87,size: 20,),
                 selectedColor: Colors.black,
               ),
+              */
             ],
           ),
       

@@ -398,23 +398,23 @@ class _ProgressPageState extends State<ProgressPage> {
                 const SizedBox(height: 20,),            
                 BigText(title: "Posible Ahorro del mes: CLP ${formatNumberEnglish(widget.progressController.getAllAmmount().toString())}",size: Dimension.font16,over: true),
                 const SizedBox(height: 20,),            
-                Container(
-                  height: 250,
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: AppColors.contentColorWhite,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.shade100,
-                        offset: const Offset(0, 3),
-                        blurRadius: 7.0,
-                        spreadRadius: 5,
-                      ),
-                    ]
-                  ),
-                  child: ChartsWidget(),
-                ),
+                // Container(
+                //   height: 250,
+                //   padding: const EdgeInsets.all(20),
+                //   decoration: BoxDecoration(
+                //     color: AppColors.contentColorWhite,
+                //     borderRadius: BorderRadius.circular(20),
+                //     boxShadow: [
+                //       BoxShadow(
+                //         color: Colors.grey.shade100,
+                //         offset: const Offset(0, 3),
+                //         blurRadius: 7.0,
+                //         spreadRadius: 5,
+                //       ),
+                //     ]
+                //   ),
+                //   child: ChartsWidget(),
+                // ),
                 const SizedBox(height: 50,),            
                 /*
                 Center(
@@ -503,7 +503,7 @@ class _ProgressPageState extends State<ProgressPage> {
                               children: analitics.map((analytic) {
                                 return ShoppingItem(
                                   title: analytic.category.name,
-                                  category: 'typeQuery',
+                                  category: typeQuery == 'income' ? "Ingreso" : "Gasto",
                                   value: formatNumberEnglish(analytic.totalAmmount.toString()),
                                   porcent: "${analytic.totalPorcent.toString()}\$",
                                   icon: analytic.category.icon,

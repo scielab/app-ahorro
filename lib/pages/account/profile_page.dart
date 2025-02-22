@@ -1,16 +1,17 @@
+import 'package:app/controllers/auth/auth_controller.dart';
+import 'package:app/controllers/history/history_atributes_profile.dart';
 import 'package:app/controllers/progress/progress_controller.dart';
+import 'package:app/models/user_model.dart';
 import 'package:app/routes/routes.dart';
 import 'package:app/utils/parse_utils.dart';
-import 'package:app/utils/sounds_generate.dart';
 import 'package:app/widgets/base/charts/chartsWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:app/utils/color_custom.dart';
 import 'package:app/utils/dimension.dart';
 import 'package:app/widgets/big_text.dart';
-import 'package:app/widgets/progress/progress_widget.dart';
 import 'package:app/widgets/progress/tag_progress.dart';
-import 'package:get/get.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -20,20 +21,23 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final GenericSoundPlayer<String> _soundPlayer = GenericSoundPlayer();
   final ProgressController progressController = Get.find<ProgressController>();
+  final AtributeProfileController atributeProfileController = Get.find<AtributeProfileController>();
 
-
+  late AuthController authController;
+  late final userProfile;
   @override
   void initState() {
+    authController = Get.find<AuthController>();
+    userProfile = authController.getCurrentUser();
+    //atributeProfileController.getAtributeProfile(userProfile!.uid);
+
     super.initState();
-    _soundPlayer.loadSound('sound1', 'assets/sounds/check.mp3');
   }
 
   @override
   void dispose() {
     super.dispose();
-    _soundPlayer.dispose();
   }
   
   // Data la traigo desde el backend de la aplicacion
@@ -68,7 +72,6 @@ class _ProfilePageState extends State<ProfilePage> {
         actions: [
           GestureDetector(
             onTap: () {
-              _soundPlayer.playSound('sound1');
               Get.toNamed(RouterHelper.getSettingsPage());
             },
             child: Container(
@@ -109,7 +112,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.5,
-                          child: BigText(title: "Matias Altamirano",size: Dimension.font20, alig: true,),
+                          child: BigText(title: userProfile.name,size: Dimension.font20, alig: true,),
                         ),
                       ],
                     ),

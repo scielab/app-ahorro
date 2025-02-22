@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 
 class APIRequestClient<T> {
   final String baseurl;
+  
   APIRequestClient(this.baseurl);
 
   Future<T> fetchData(String endpoint, {Map<String,String>? headers}) async {

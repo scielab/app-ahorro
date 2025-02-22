@@ -6,13 +6,22 @@ class InputField extends StatelessWidget {
   final bool isPassword;
   final bool isTransparent;
   final bool enable;
-  const InputField(
-      {super.key, required this.controller, required this.labelText,this.isPassword = false,this.isTransparent = true, this.enable = false});
+  final bool isNumeric;
+  const InputField({
+      super.key, 
+      required this.controller, 
+      required this.labelText,
+      this.isPassword = false,
+      this.isTransparent = true, 
+      this.enable = false,
+      this.isNumeric = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      keyboardType: isNumeric ? TextInputType.number : TextInputType.name,
       style: const TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.bold),
       obscureText: isPassword,
       decoration:  InputDecoration(

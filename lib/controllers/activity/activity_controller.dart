@@ -14,10 +14,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 Map<String,String> dificulty = {
-  'beginner': 'Principiante',
-  'intermediate': 'Intermedio',
-  'advanced': 'Avanzado'
+  'BE': 'Beginner',
+  'IN': 'Intermediate',
+  'AD': 'Advanced'
 };
+
 
 class ActivityControlller extends GetxController {
   late SharedPreferences _prefs;
@@ -37,17 +38,21 @@ class ActivityControlller extends GetxController {
   late HistoryLectureController historyLectureController;
   late RxString difficulty;
   RxBool isLoadingLectures = false.obs;
-
-
+  
   Future<bool> isDificultySelected() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     bool response = false;
-    sharedPreferences.getString('dificulty') != null ? response = true :  response = false;
+    sharedPreferences.getString('difficulty') != null ? response = true :  response = false;
     return response; 
   }
+
   Future<void> selectDificulty(String select) async {
-     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setString('dificulty', select);
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setString('difficulty', select);
+  }
+
+  String getDifficultyCache() {
+    return _prefs.getString('difficulty').toString();
   }
 
   @override
@@ -62,7 +67,7 @@ class ActivityControlller extends GetxController {
         if(recommended.isNotEmpty) Rutine(name: 'Aprender Fundamentos diarios!', description: 'Aprender', activeDay: [1, 2, 3, 4, 5, 6, 7],type: "lecture"), // Sábado a miércoles
     ]);
 
-    await loadHistoryLectures();
+    //await loadHistoryLectures();
     super.onInit();
   }
 
@@ -79,7 +84,8 @@ class ActivityControlller extends GetxController {
 
   Future<void> loadLectures() async {
     try {
-      final response = await contentRepo.getContent();
+      String difficultyPref = getDifficultyCache();
+      final response = await contentRepo.getAllContent(difficultyPref);
       List<dynamic> datalist = response;
       lectures.value = datalist;
       names.addAll(datalist.map((data) {

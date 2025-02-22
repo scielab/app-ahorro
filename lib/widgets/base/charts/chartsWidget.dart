@@ -25,7 +25,7 @@ class _ChartsWidgetState extends State<ChartsWidget> {
         borderData: borderData,
         lineBarsData: lineBarsData1,
         minX: 0,
-        maxX: 1000000,
+        maxX: 15,
         maxY: 4,
         minY: 0,
       );

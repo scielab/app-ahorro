@@ -55,6 +55,11 @@ dependencies:
   google_mobile_ads: ^4.0.0
   soundpool: ^2.2.0
   pay: ^1.1.2
+  flutter_svg: ^2.0.15
+
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.19.0
 
 
 flutter_launcher_icons:
@@ -84,10 +89,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
+  generate: true
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
@@ -100,6 +102,9 @@ flutter:
     - assets/data/content.json
     - assets/data/lecture/principal.json
     - assets/data/lecture/rutines.json
+    
+    - assets/svg/svg1.svg
+    - assets/svg/svg2.svg
 
   #   - images/a_dot_ham.jpeg
 

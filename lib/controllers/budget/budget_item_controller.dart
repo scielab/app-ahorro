@@ -6,7 +6,7 @@ class BudgetItemController extends GetxService {
   var id = '2'.obs;
   var title = ''.obs;
   var amount = 0.obs;
-  var date = DateTime.now().obs;
+  var date =  DateTime.now().obs;
   var type = ''.obs;
   var userid = ''.obs;
   var category = 1.obs;

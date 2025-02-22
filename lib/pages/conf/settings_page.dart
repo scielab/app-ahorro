@@ -1,6 +1,8 @@
 import 'package:app/controllers/auth/auth_controller.dart';
 import 'package:app/pages/conf/suport_page.dart';
 import 'package:app/pages/payments/payment_page.dart';
+import 'package:app/pages/presentation/badge_page.dart';
+import 'package:app/pages/splash/splash_screen_select.dart';
 import 'package:app/widgets/big_text.dart';
 import 'package:app/widgets/dialog_widget.dart';
 import 'package:app/widgets/item_list_conf.dart';
@@ -56,7 +58,19 @@ class _SettingsPageState extends State<SettingsPage> {
                         onTap: () {
                           Get.to(() => PaymentPage());
                         },
-                        child: const ItemListConf(title: "Pagos", icon: Icons.payment),
+                        child: const ItemListConf(title: "Subscribirse", icon: Icons.payment),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(() => SplashSreenSelect());
+                        },
+                        child: const ItemListConf(title: "Cambiar Dificultad", icon: Icons.account_tree_rounded),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(() => BadgePage());
+                        },
+                        child: const ItemListConf(title: "Cambiar moneda", icon: Icons.monetization_on),
                       ),
                       GestureDetector(
                         onTap: () {

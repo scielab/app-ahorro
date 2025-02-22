@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:app/controllers/history/history_lecture_controller.dart';
 import 'package:app/models/content_model.dart';
 import 'package:app/utils/dimension.dart';
+import 'package:app/utils/sounds_generate.dart';
 import 'package:app/widgets/base/dialog/custom_dialog_widget.dart';
 import 'package:app/widgets/big_text.dart';
 import 'package:flutter/material.dart';
@@ -22,34 +23,36 @@ class ActivityDetailPage extends StatefulWidget {
 
 class _ActivityDetailPageState extends State<ActivityDetailPage> {
   HistoryLectureController historyLectureController = Get.find<HistoryLectureController>();
+  final GenericSoundPlayer<String> _soundPlayer = GenericSoundPlayer();
 
 
-  final adUnitId = Platform.isAndroid
-    ? 'ca-app-pub-3940256099942544/1033173712'
-    : 'ca-app-pub-3940256099942544/4411468910';
-  late InterstitialAd? _interstitialAd;
-  void loadAd() {
-    InterstitialAd.load(
-        adUnitId: adUnitId,
-        request: const AdRequest(),
-        adLoadCallback: InterstitialAdLoadCallback(
-          // Called when an ad is successfully received.
-          onAdLoaded: (ad) {
-            debugPrint('$ad loaded.');
-            // Keep a reference to the ad so you can show it later.
-            _interstitialAd = ad;
-          },
-          // Called when an ad request failed.
-          onAdFailedToLoad: (LoadAdError error) {
-            debugPrint('InterstitialAd failed to load: $error');
-          },
-        ));
-  }
+  // final adUnitId = Platform.isAndroid
+  //   ? 'ca-app-pub-3940256099942544/1033173712'
+  //   : 'ca-app-pub-3940256099942544/4411468910';
+  // late InterstitialAd? _interstitialAd;
+  // void loadAd() {
+  //   InterstitialAd.load(
+  //       adUnitId: adUnitId,
+  //       request: const AdRequest(),
+  //       adLoadCallback: InterstitialAdLoadCallback(
+  //         // Called when an ad is successfully received.
+  //         onAdLoaded: (ad) {
+  //           debugPrint('$ad loaded.');
+  //           // Keep a reference to the ad so you can show it later.
+  //           _interstitialAd = ad;
+  //         },
+  //         // Called when an ad request failed.
+  //         onAdFailedToLoad: (LoadAdError error) {
+  //           debugPrint('InterstitialAd failed to load: $error');
+  //         },
+  //       ));
+  // }
   @override
   void initState() {
     super.initState();
-
-    loadAd();
+    _soundPlayer.loadSound('sound1', 'assets/sounds/check.mp3');
+    _soundPlayer.loadSound('sound3', 'assets/sounds/selected.mp3');
+    //loadAd();
   }
 
   @override
@@ -70,13 +73,12 @@ class _ActivityDetailPageState extends State<ActivityDetailPage> {
         centerBackground: true,
         onFinish: () async {
           historyLectureController.updateResponseLecture(widget.content.id);
-          // Agregar un sonido cuandon termina
 
-          //SounedSing sounedSing = SounedSing();
-          //sounedSing.playSound();
+
           showDialog(context: context, builder: (context) => CustomDialogWidget(
             title: "Lectura finalizada",callback: () {
-              _interstitialAd!.show();            
+              //_interstitialAd!.show();            
+              _soundPlayer.playSound('sound1');
               Get.back();
             }));
             

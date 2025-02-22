@@ -2,24 +2,6 @@
 import 'package:app/models/question_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-/*
-    // Preguntas relacionadas con los hábitos financieros poco saludables
-    [10, 0, 0],  // ¿Tienes un presupuesto mensual que sigues?
-    //[5, 0, 10],  // ¿Entiendes la diferencia entre activos y pasivos?
-    [0, 0, 10],  // ¿Te sientes cómodo hablando de dinero con tu familia y amigos?
-    // Preguntas relacionadas con la falta de presupuesto
-    [5, 0, 10],   // ¿Sabes cómo calcular tu tasa de interés anual (APR) en una tarjeta de crédito?
-    [0, 10, 5],   // ¿Tienes un plan para tu jubilación?
-
-    // Preguntas relacionadas con la falta de educación financiera
-    [0, 10, 5],   // ¿Sabes cómo proteger tu información financiera de fraudes y estafas?
-    
-    // Preguntas relacionadas con la mentalidad limitante
-    [0, 0, 10],   // ¿Tienes un plan para tu jubilación?
-    [10, 5, 0],   // ¿Te sientes cómodo hablando de dinero con tu familia y amigos?
-
- */
-
 enum ProfileCategory {
   unhealthyFinancialHabits,
   lackOfBudget,

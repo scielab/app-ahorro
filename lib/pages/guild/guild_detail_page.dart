@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:app/controllers/guild/guild_controller.dart';
 import 'package:app/models/guild_model.dart';
 import 'package:app/utils/dimension.dart';
+import 'package:app/utils/sounds_generate.dart';
 import 'package:app/widgets/base/dialog/custom_dialog_widget.dart';
 import 'package:app/widgets/big_text.dart';
 import 'package:flutter/material.dart';
@@ -18,37 +19,43 @@ class GuildDetailPage extends StatefulWidget {
 }
 
 class _GuildDetailPageState extends State<GuildDetailPage> {
+  final GenericSoundPlayer<String> _soundPlayer = GenericSoundPlayer();
+
+
   final guildController = Get.find<GuildController>();
 
   Map<int, int?> selectedOptions = {}; // seleccionamos pregunta con alternativa para manejar el estadi
   bool showButton = true;
 
-  final adUnitId = Platform.isAndroid
-    ? 'ca-app-pub-3940256099942544/1033173712'
-    : 'ca-app-pub-3940256099942544/4411468910';
-  late InterstitialAd? _interstitialAd;
-  void loadAd() {
-    InterstitialAd.load(
-        adUnitId: adUnitId,
-        request: const AdRequest(),
-        adLoadCallback: InterstitialAdLoadCallback(
-          // Called when an ad is successfully received.
-          onAdLoaded: (ad) {
-            debugPrint('$ad loaded.');
-            // Keep a reference to the ad so you can show it later.
-            _interstitialAd = ad;
-          },
-          // Called when an ad request failed.
-          onAdFailedToLoad: (LoadAdError error) {
-            debugPrint('InterstitialAd failed to load: $error');
-          },
-        ));
-  }
+  // final adUnitId = Platform.isAndroid
+  //   ? 'ca-app-pub-3940256099942544/1033173712'
+  //   : 'ca-app-pub-3940256099942544/4411468910';
+  // late InterstitialAd? _interstitialAd;
+  // void loadAd() {
+  //   InterstitialAd.load(
+  //       adUnitId: adUnitId,
+  //       request: const AdRequest(),
+  //       adLoadCallback: InterstitialAdLoadCallback(
+  //         // Called when an ad is successfully received.
+  //         onAdLoaded: (ad) {
+  //           debugPrint('$ad loaded.');
+  //           // Keep a reference to the ad so you can show it later.
+  //           _interstitialAd = ad;
+  //         },
+  //         // Called when an ad request failed.
+  //         onAdFailedToLoad: (LoadAdError error) {
+  //           debugPrint('InterstitialAd failed to load: $error');
+  //         },
+  //       ));
+  // }
 
   @override
   void initState() {
     super.initState();
-    loadAd();
+    //loadAd();
+    _soundPlayer.loadSound('sound1', 'assets/sounds/check.mp3');
+    _soundPlayer.loadSound('sound2', 'assets/sounds/error.mp3');
+    _soundPlayer.loadSound('sound3', 'assets/sounds/selected.mp3');
   }
 
 
@@ -75,8 +82,10 @@ class _GuildDetailPageState extends State<GuildDetailPage> {
                   Get.back();
                   Get.snackbar("Respuesta", "¡Correcto modulo finalizado");
                   guildController.finishLessonHistory(widget.currentLesson.id.toString());
-                  _interstitialAd!.show();
+                  //_interstitialAd!.show();
+                  _soundPlayer.playSound('sound3');
                 } else {
+                  _soundPlayer.playSound('sound2');
                   Get.snackbar("Respuesta", "¡Tiene respuestas incorrectas");
                 }
               },
@@ -231,15 +240,23 @@ void _checkAnswer(dynamic contentEntry) {
         showDialog(context: context, builder: (context) => const CustomDialogWidget(title: "Respuesta Correcta",));
         // Get.snackbar("Respuesta", "¡Respuesta correcta!",
         //   snackPosition: SnackPosition.BOTTOM);
+
+
+        // sonido de respuesta correcta
+        _soundPlayer.playSound('sound1');
+
       } else {
         // Respuesta incorrecta
         Get.snackbar("Respuesta", "Respuesta incorrecta, intenta de nuevo.",
           snackPosition: SnackPosition.BOTTOM);
+        // sonido de respuesta incorrecta
+        _soundPlayer.playSound('sound2');
       }
     } else {
       // No se ha seleccionado ninguna opción
       Get.snackbar("Respuesta", "Debes seleccionar una opción antes de comprobar.",
         snackPosition: SnackPosition.BOTTOM);
+      _soundPlayer.playSound('sound2');
     }
   }
 }

@@ -1,5 +1,5 @@
 import 'package:app/controllers/budget/budget_controller.dart';
-import 'package:app/models/categories_models.dart';
+import 'package:app/models/data/categories_models.dart';
 import 'package:app/models/category_model.dart';
 import 'package:app/models/progress_model.dart';
 import 'package:app/models/transaction_model.dart';
@@ -106,9 +106,6 @@ class ProgressController extends GetxController {
       return 0;
     }
   }
-
-
-
 
 
   // porcent of the total income or expense

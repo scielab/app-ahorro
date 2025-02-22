@@ -7,7 +7,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
 
 import 'package:app/controllers/budget/budget_controller.dart';
-import 'package:app/models/categories_models.dart';
+import 'package:app/models/data/categories_models.dart';
 import 'package:app/models/progress_model.dart';
 import 'package:app/models/transaction_model.dart';
 import 'package:app/pages/budget/budget_detail_page.dart';
@@ -153,7 +153,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                       },
                                       child: ShoppingItem(
                                           title: categoryData['name'] as String,
-                                          category: transactions[index].title,
+                                          category: typeQuery == 'income' ? "Ingreso" : "Gasto",
                                           value: formatNumberEnglish(transactions[index].amount.toString()),
                                           porcent: convertCompleteTimeToDate(transactions[index].date.toString()),
                                           icon: categoryData['icon'] as IconData,

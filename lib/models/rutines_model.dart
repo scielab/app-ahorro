@@ -6,5 +6,5 @@ class Rutine {
   final List<int> activeDay;
 
   Rutine({required this.name,this.description="",required this.activeDay, this.type = ""});
-
+  
 }

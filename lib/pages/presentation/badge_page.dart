@@ -18,6 +18,7 @@ class BadgePage extends StatefulWidget {
 class _BadgePageState extends State<BadgePage> {
   Country _selectedFilteredDialogCountry = CountryPickerUtils.getCountryByPhoneCode('56');
   final AuthController _auth = Get.find<AuthController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +44,12 @@ class _BadgePageState extends State<BadgePage> {
                 onTap: () {
                   //print(_selectedFilteredDialogCountry.currencyCode);
                   _auth.selectedCountry.value = _selectedFilteredDialogCountry.currencyCode ?? "";
-                  Get.offNamed(RouterHelper.getSignin());
+                  if(_auth.getCurrentUser() != null) {
+                    Get.offAllNamed(RouterHelper.getHomePrincipalPage());
+                  } else {
+                    Get.offAllNamed(RouterHelper.getSignin());
+                  }
+
                 },
                 child: const ButtonBase(title: "Siguiente",primary: true,sizeWidget: SizeWidget.BIG,)),
             ],

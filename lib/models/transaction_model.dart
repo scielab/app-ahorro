@@ -46,41 +46,6 @@ class TransactionBase {
     );
   }
 }
-/*
-class Income extends TransactionBase {
-  
-  Income({
-    required String id,
-    required String title,
-    required double amount,
-    required DateTime date,
-  }) : super(id: id,title: title,amount: amount,date: date);
-
-  @override
-  Map<String,dynamic> toMap() {
-    var baseMap = super.toMap();
-    baseMap['type'] = 'income'; 
-    return baseMap;
-  }
-}
-
-class Expense extends TransactionBase {
-  Expense({
-    required String id,
-    required String title,
-    required double amount,
-    required DateTime date,
-  }) : super(id: id,title: title,amount: amount,date: date);
-  @override
-  Map<String,dynamic> toMap() {
-    var baseMap = super.toMap();
-    baseMap['type'] = 'expense'; 
-    return baseMap;
-  }
-
-}
-*/
-
 
 
 class Transaction {

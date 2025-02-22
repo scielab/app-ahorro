@@ -3,6 +3,7 @@ import 'package:app/models/question_model.dart';
 import 'package:app/pages/splash/splash_screen_intro.dart';
 import 'package:app/routes/routes.dart';
 import 'package:app/utils/dimension.dart';
+import 'package:app/utils/sounds_generate.dart';
 import 'package:app/widgets/big_text.dart';
 import 'package:app/widgets/question/question_item_widget.dart';
 import 'package:flutter/material.dart';
@@ -23,15 +24,18 @@ class _QuestionPageState extends State<QuestionPage> {
   bool isFinish = false;
   late int _currentState = 0;
 
+  final GenericSoundPlayer<String> _soundPlayer = GenericSoundPlayer();
   @override
   void initState() {
     question = questions_data;
+    _soundPlayer.loadSound('sound1', 'assets/sounds/selected.mp3');
     super.initState();
   }
-
+  
   @override
   void dispose() {
     super.dispose();
+    _soundPlayer.dispose();
   }
   // desaparcer todas las que no son del index y vamos aumentar el index cuando se presional el boton
 
@@ -70,6 +74,7 @@ class _QuestionPageState extends State<QuestionPage> {
                       BigText(title: data.title,size: Dimension.font26,color: Colors.white,alig: true,over: true,),
                       const SizedBox(height: 50,),
                       ...List.generate(data.alternatives.length, (indexSub) => QuestionItem(title: data.alternatives[indexSub], callback: () {
+                        _soundPlayer.playSound('sound1');
                         if(_currentState < (question.length - 1)) {
                           _currentState++;
                         } else {

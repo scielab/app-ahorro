@@ -1,5 +1,5 @@
 import 'package:app/controllers/budget/budget_item_controller.dart';
-import 'package:app/models/categories_models.dart';
+import 'package:app/models/data/categories_models.dart';
 import 'package:app/widgets/big_text.dart';
 import 'package:app/widgets/small_text.dart';
 import 'package:flutter/material.dart';

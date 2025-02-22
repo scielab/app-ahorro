@@ -5,7 +5,7 @@ class CalculatorWidget extends StatefulWidget {
   final TextEditingController valueController;
   final VoidCallback onPressed;
 
-  CalculatorWidget({super.key,required this.valueController,required this.onPressed});
+  const CalculatorWidget({super.key,required this.valueController,required this.onPressed});
 
   @override
   State<CalculatorWidget> createState() => _CalculatorWidgetState();

@@ -30,6 +30,8 @@ class _GuildStepsPageState extends State<GuildStepsPage> {
 
   void initializeCourse() async {
     // inicializacion de historial
+    print(widget.idcourse);
+    
     await guildController.getDataModuleCourse(widget.idcourse);
     await guildController.existHistoryDetailCourse(user.uid,widget.idcourse.toString());
     setState(() {});
