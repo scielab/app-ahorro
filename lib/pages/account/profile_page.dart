@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 
 import 'package:app/utils/color_custom.dart';
 import 'package:app/utils/dimension.dart';
-import 'package:app/widgets/big_text.dart';
+import 'package:app/widgets/base/text/big_text.dart';
 import 'package:app/widgets/progress/tag_progress.dart';
 
 class ProfilePage extends StatefulWidget {

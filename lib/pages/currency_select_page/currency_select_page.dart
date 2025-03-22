@@ -1,21 +1,21 @@
 import 'package:app/controllers/auth/auth_controller.dart';
 import 'package:app/routes/routes.dart';
 import 'package:app/utils/size_widget.dart';
-import 'package:app/widgets/big_text.dart';
+import 'package:app/widgets/base/text/big_text.dart';
 import 'package:app/widgets/button_base.dart';
 import 'package:country_currency_pickers/country.dart';
 import 'package:country_currency_pickers/country_pickers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class BadgePage extends StatefulWidget {
-  const BadgePage({super.key});
+class CurrencySelectPage extends StatefulWidget {
+  const CurrencySelectPage({super.key});
 
   @override
-  State<BadgePage> createState() => _BadgePageState();
+  State<CurrencySelectPage> createState() => _CurrencySelectPageState();
 }
 
-class _BadgePageState extends State<BadgePage> {
+class _CurrencySelectPageState extends State<CurrencySelectPage> {
   Country _selectedFilteredDialogCountry = CountryPickerUtils.getCountryByPhoneCode('56');
   final AuthController _auth = Get.find<AuthController>();
 

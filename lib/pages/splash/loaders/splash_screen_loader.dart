@@ -1,11 +1,10 @@
-
-
 import 'package:app/routes/routes.dart';
-import 'package:app/widgets/big_text.dart';
-import 'package:app/widgets/small_text.dart';
+import 'package:app/widgets/base/text/big_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+
 
 class SplashScreenLoader extends StatefulWidget {
   const SplashScreenLoader({super.key});
@@ -18,19 +17,24 @@ class _SplashScreenLoaderState extends State<SplashScreenLoader> {
 
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 3),() async {
-      SharedPreferences _prefs = await SharedPreferences.getInstance();
-      print(_prefs.getBool('question'));
-      if(_prefs.getBool('question') != null && _prefs.getBool('question') == true) {
-        Get.offNamed(RouterHelper.getDivisa());
-      } else {
-        Get.toNamed(RouterHelper.getQuestion());
-      }
-    });
     super.initState();
+    _navigate();
   }
 
-  // Este va a cargar un Svg
+  void _navigate() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Future.delayed(const Duration(seconds: 3));
+      final SharedPreferences prefs = await SharedPreferences.getInstance();   // llamar una instancia creada desde otro lugar especificado
+      final bool hasAnsweredQuestion = prefs.getBool('question') ?? false;
+
+      if (hasAnsweredQuestion) {
+        Get.offNamed(RouterHelper.divisa);
+      } else {
+        Get.toNamed(RouterHelper.question);
+      }
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;

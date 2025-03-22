@@ -1,5 +1,5 @@
 import 'package:app/pages/auth/signin_page.dart';
-import 'package:app/widgets/big_text.dart';
+import 'package:app/widgets/base/text/big_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';

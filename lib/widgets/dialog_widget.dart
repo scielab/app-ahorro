@@ -1,5 +1,5 @@
-import 'package:app/widgets/big_text.dart';
-import 'package:app/widgets/small_text.dart';
+import 'package:app/widgets/base/text/big_text.dart';
+import 'package:app/widgets/base/text/small_text.dart';
 import 'package:flutter/material.dart';
 
 class DialogWidget extends StatelessWidget {

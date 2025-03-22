@@ -1,7 +1,7 @@
 import 'package:app/controllers/guild/guild_controller.dart';
 import 'package:app/pages/guild/guild_steps_page.dart';
 import 'package:app/widgets/base/card/card_secundary_widget.dart';
-import 'package:app/widgets/big_text.dart';
+import 'package:app/widgets/base/text/big_text.dart';
 import 'package:app/widgets/search/custom_delegate.dart';
 import 'package:app/widgets/staggered_gird_widget.dart';
 import 'package:flutter/material.dart';

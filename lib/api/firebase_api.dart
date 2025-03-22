@@ -4,8 +4,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 
 class FirebaseApiNotification {
-
-
   // Crear una instancia de Firebase
   final _firebaseMessaging = FirebaseMessaging.instance;
 
@@ -20,7 +18,6 @@ class FirebaseApiNotification {
     print("token: $fcmToken");
   }
 
-
   // funcion a tomar mensajes
   void handleMessage(RemoteMessage? message) {
     if(message == null) return;
@@ -32,7 +29,5 @@ class FirebaseApiNotification {
     FirebaseMessaging.instance.getInitialMessage().then(handleMessage);
     FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
   }
-
-
 
 }

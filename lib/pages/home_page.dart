@@ -1,6 +1,6 @@
 import 'package:app/utils/color_custom.dart';
 import 'package:app/utils/parse_utils.dart';
-import 'package:app/widgets/big_text.dart';
+import 'package:app/widgets/base/text/big_text.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -11,7 +11,7 @@ import 'package:app/models/data/categories_models.dart';
 import 'package:app/models/progress_model.dart';
 import 'package:app/models/transaction_model.dart';
 import 'package:app/pages/budget/budget_detail_page.dart';
-import 'package:app/pages/progress/progress.dart';
+import 'package:app/pages/analytics/progress.dart';
 import 'package:app/utils/date_format.dart';
 import 'package:app/utils/generate.dart';
 import 'package:app/widgets/button_base.dart';

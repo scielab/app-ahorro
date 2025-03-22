@@ -2,7 +2,7 @@ import 'package:app/controllers/guild/guild_controller.dart';
 import 'package:app/models/guild_model.dart';
 import 'package:app/pages/guild/guild_steps_page.dart';
 import 'package:app/utils/dimension.dart';
-import 'package:app/widgets/big_text.dart';
+import 'package:app/widgets/base/text/big_text.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';

@@ -1,9 +1,7 @@
 
-
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:app/pages/splash/splash_screen_loader.dart';
-import 'package:app/widgets/big_text.dart';
-import 'package:app/widgets/small_text.dart';
+import 'package:app/pages/splash/loaders/splash_screen_loader.dart';
+import 'package:app/widgets/base/text/big_text.dart';
+import 'package:app/widgets/base/text/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

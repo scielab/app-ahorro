@@ -1,4 +1,4 @@
-import 'package:app/widgets/small_text.dart';
+import 'package:app/widgets/base/text/small_text.dart';
 import 'package:flutter/material.dart';
 
 class ItemListConf extends StatelessWidget {

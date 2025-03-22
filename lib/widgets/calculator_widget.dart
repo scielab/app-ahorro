@@ -1,4 +1,4 @@
-import 'package:app/widgets/big_text.dart';
+import 'package:app/widgets/base/text/big_text.dart';
 import 'package:flutter/material.dart';
 
 class CalculatorWidget extends StatefulWidget {

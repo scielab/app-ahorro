@@ -1,10 +1,10 @@
 import 'package:app/controllers/auth/auth_controller.dart';
 import 'package:app/routes/routes.dart';
 import 'package:app/utils/dimension.dart';
-import 'package:app/widgets/input_field.dart';
+import 'package:app/widgets/base/input/input_field.dart';
 import 'package:flutter/material.dart';
-import 'package:app/widgets/big_text.dart';
-import 'package:app/widgets/small_text.dart';
+import 'package:app/widgets/base/text/big_text.dart';
+import 'package:app/widgets/base/text/small_text.dart';
 import 'package:get/get.dart';
 
 class SignInPage extends StatefulWidget {

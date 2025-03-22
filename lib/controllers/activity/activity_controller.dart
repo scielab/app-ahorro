@@ -46,8 +46,8 @@ class ActivityControlller extends GetxController {
     return response; 
   }
 
-  Future<void> selectDificulty(String select) async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  Future<void> selectDificulty(String select) async { 
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();  // TODO: creo una nueva instanica
     sharedPreferences.setString('difficulty', select);
   }
 

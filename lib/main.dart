@@ -10,7 +10,6 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 final navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
@@ -23,7 +22,6 @@ Future<void> main() async {
   Get.put<SharedPreferences>(sharedPreferences);
   runApp(const MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

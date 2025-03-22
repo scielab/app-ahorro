@@ -1,7 +1,7 @@
 import 'package:app/controllers/activity/activity_controller.dart';
 import 'package:app/routes/routes.dart';
 import 'package:app/utils/dimension.dart';
-import 'package:app/widgets/big_text.dart';
+import 'package:app/widgets/base/text/big_text.dart';
 import 'package:app/widgets/question/question_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

@@ -4,7 +4,7 @@ import 'package:app/models/content_model.dart';
 import 'package:app/utils/dimension.dart';
 import 'package:app/utils/sounds_generate.dart';
 import 'package:app/widgets/base/dialog/custom_dialog_widget.dart';
-import 'package:app/widgets/big_text.dart';
+import 'package:app/widgets/base/text/big_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
 import 'package:get/get.dart';

@@ -7,7 +7,7 @@ import 'package:app/pages/goals/goals_detail_page.dart';
 import 'package:app/widgets/base/tag/tag_default_empty_widget.dart';
 import 'package:app/widgets/base/tag/tag_empty_widget.dart';
 import 'package:app/widgets/base/tag/tag_item_goals_widget.dart';
-import 'package:app/widgets/small_text.dart';
+import 'package:app/widgets/base/text/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
