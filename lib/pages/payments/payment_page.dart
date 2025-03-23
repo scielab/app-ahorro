@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:app/pages/payments/payment_config.dart';
 import 'package:app/widgets/big_text.dart';
 import 'package:flutter/material.dart';
-import 'package:pay/pay.dart';
+//import 'package:pay/pay.dart';
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key});
@@ -14,6 +14,7 @@ class PaymentPage extends StatefulWidget {
 class _PaymentPageState extends State<PaymentPage> {
   String os = Platform.operatingSystem;
 
+  /*
 
   var applePayButton = ApplePayButton(
     paymentConfiguration: PaymentConfiguration.fromJsonString(defaultApplePay),
@@ -61,6 +62,8 @@ class _PaymentPageState extends State<PaymentPage> {
       child: CircularProgressIndicator(),
     ),
   );
+
+  */
   
   @override
   Widget build(BuildContext context) {
@@ -71,9 +74,11 @@ class _PaymentPageState extends State<PaymentPage> {
       body: Column(
         children: [
           const BigText(title: "Subcribete a nuestro plan"),
+          /*
           Center(
             child: Platform.isIOS ? applePayButton : googlePayButton
           ),
+          */
         ],
       )
     );

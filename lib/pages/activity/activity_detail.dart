@@ -10,7 +10,7 @@ import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
 import 'package:get/get.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
 
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+//import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 
 class ActivityDetailPage extends StatefulWidget {

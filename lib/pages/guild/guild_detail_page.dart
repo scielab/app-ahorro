@@ -8,7 +8,7 @@ import 'package:app/widgets/big_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
 import 'package:get/get.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+//import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class GuildDetailPage extends StatefulWidget {
   final Module currentLesson;
