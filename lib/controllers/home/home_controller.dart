@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:app/controllers/activity/activity_controller.dart';
-import 'package:app/pages/splash/splash_screen_select.dart';
+import 'package:app/pages/splash/loaders/splash_screen_select.dart';
 
 class HomeController extends GetxController {
   late ActivityControlller _activityController;

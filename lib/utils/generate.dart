@@ -1,8 +1,5 @@
 import 'dart:math';
 
-import 'package:app/models/data/categories_models.dart';
-import 'package:app/models/category_model.dart';
-
 
 String generateNumberAvatar() {
   final random = Random();

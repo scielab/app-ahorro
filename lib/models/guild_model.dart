@@ -6,10 +6,6 @@ class Course {
   Course({required this.id, required this.name, required this.modules});
   
   factory Course.fromJson(Map<String,dynamic> json) {
-    // List<Module> modules = <Module>[];
-    // for(var moduleJson in json['modules']) {
-    //   modules.add(Module.fromJson(moduleJson));
-    // }
     var moduleList = json['modules'] as List?;
     List<Module> modules = moduleList != null ? moduleList.map((moduleJson) => Module.fromJson(moduleJson)).toList() : <Module>[];
     return Course(id: json['id'], name: json['name'], modules: modules);
@@ -25,15 +21,7 @@ class Module {
   Module({required this.id,required this.lesson, required this.n_lesson, required this.entries});
 
   factory Module.fromJson(Map<String,dynamic> json) {
-    // List<Entry> moduleEntries = <Entry>[];
-    // for(var entryJson in json['entries']) {
-    //   if(entryJson['type'] == 'content') {
-    //     moduleEntries.add(ContentEntry.fromJson(entryJson));
-    //   } else {
-    //     moduleEntries.add(QuestionEntry.fromJson(entryJson));
-    //   }
-    // }
-    var entryList = json['entries'] as List?; // Maneja el caso null
+    var entryList = json['entries'] as List?;
     List<Entry> entriesData = entryList != null
         ? entryList.map((entryJson) {
             if (entryJson['type'] == 'content') {
@@ -111,11 +99,7 @@ class QuestionEntry extends Entry {
   }) : super(type: type, id: id);
 
   factory QuestionEntry.fromJson(Map<String,dynamic> json) {
-    // List<Option> questionOptions = <Option>[];
-    // for(var optionJson in json['options']) {
-    //   questionOptions.add(Option.fromJson(optionJson));
-    // }
-    var optionList = json['options'] as List?; // Maneja el caso null
+    var optionList = json['options'] as List?;
     List<Option> questionOptions = optionList != null
         ? optionList.map((optionJson) => Option.fromJson(optionJson)).toList()
         : <Option>[];

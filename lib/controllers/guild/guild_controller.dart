@@ -3,7 +3,7 @@ import 'package:app/controllers/history/history_controller.dart';
 import 'package:app/models/guild_model.dart';
 import 'package:app/models/history_model.dart';
 import 'package:app/service/repository/guild_repo.dart';
-import 'package:app/utils/app_resources.dart';
+import 'package:app/utils/app_debug_reports.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:get/get.dart';
 

@@ -1,7 +1,7 @@
 import 'package:app/controllers/budget/budget_controller.dart';
 import 'package:app/models/data/categories_models.dart';
 import 'package:app/models/category_model.dart';
-import 'package:app/models/progress_model.dart';
+import 'package:app/models/analytics_model.dart';
 import 'package:app/models/transaction_model.dart';
 import 'package:app/utils/parse_utils.dart';
 import 'package:get/get.dart';
@@ -57,7 +57,6 @@ class ProgressController extends GetxController {
       }
     }
   }
-
 
   // Obtner la cantidad diaria de Ingreso o de Gasto
   String getTotalAmmountDay(String type) {

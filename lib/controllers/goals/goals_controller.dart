@@ -16,7 +16,6 @@ class GoalsController extends GetxController {
     getGoalsFromFirebase();
   }
 
-  /// **GET**: Leer datos desde Firebase y actualizar la lista local
   Future<void> getGoalsFromFirebase() async {
     try {
       // debemos hacer un filtro el id de usuario para traer todos los del mismo id
@@ -43,7 +42,6 @@ class GoalsController extends GetxController {
     }
   }
 
-  // Que tipo de dato retorna esto
   Future<List<GoalsModel>> getGoalsByUserId(String userId) async {
     try {
       final snapshot = await _firestore.collection('goals').where('userid', isEqualTo: userId).get();
@@ -56,8 +54,6 @@ class GoalsController extends GetxController {
     return [];
   }
 
-
-  /// **CREATE**: Agregar una nueva meta a Firebase
   Future<void> addGoalToFirebase(GoalsModel goal) async { 
     try {
       DocumentReference docRef = await _firestore.collection('goals').add(goal.toJson());
@@ -72,7 +68,6 @@ class GoalsController extends GetxController {
     }
   }
 
-  /// **UPDATE**: Actualizar una meta existente en Firebase
   Future<void> updateGoalToFirebase(String docId, GoalsModel updatedGoal) async {
     try {
       await _firestore.collection('goals').doc(docId).update(updatedGoal.toJson());
@@ -83,7 +78,6 @@ class GoalsController extends GetxController {
     }
   }
 
-  /// **DELETE**: Eliminar una meta de Firebase
   Future<void> deleteGoalToFirebase(String docId) async {
     try {
       await _firestore.collection('goals').doc(docId).delete();

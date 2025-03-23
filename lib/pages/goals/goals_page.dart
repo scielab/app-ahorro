@@ -4,10 +4,10 @@ import 'package:app/controllers/goals/goals_controller.dart';
 import 'package:app/models/goals_model.dart';
 import 'package:app/pages/goals/goals_add_page.dart';
 import 'package:app/pages/goals/goals_detail_page.dart';
-import 'package:app/widgets/base/tag/tag_default_empty_widget.dart';
-import 'package:app/widgets/base/tag/tag_empty_widget.dart';
-import 'package:app/widgets/base/tag/tag_item_goals_widget.dart';
-import 'package:app/widgets/small_text.dart';
+import 'package:app/widgets/common/tag/tag_default_empty_widget.dart';
+import 'package:app/widgets/common/tag/tag_empty_widget.dart';
+import 'package:app/widgets/common/tag/tag_item_goals_widget.dart';
+import 'package:app/widgets/common/text/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -2,8 +2,8 @@ import 'package:app/controllers/auth/auth_controller.dart';
 import 'package:app/controllers/guild/guild_controller.dart';
 import 'package:app/pages/guild/guild_detail_page.dart';
 import 'package:app/utils/dimension.dart';
-import 'package:app/widgets/big_text.dart';
-import 'package:app/widgets/small_text.dart';
+import 'package:app/widgets/common/text/big_text.dart';
+import 'package:app/widgets/common/text/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

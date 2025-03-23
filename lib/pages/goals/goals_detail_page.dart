@@ -3,10 +3,10 @@
 import 'package:app/controllers/goals/goals_controller.dart';
 import 'package:app/models/goals_model.dart';
 import 'package:app/pages/goals/goals_add_page.dart';
-import 'package:app/widgets/base/button/button_base_widget.dart';
-import 'package:app/widgets/base/tag/tag_item_goals_widget.dart';
-import 'package:app/widgets/big_text.dart';
-import 'package:app/widgets/small_text.dart';
+import 'package:app/widgets/common/button/button_base_widget.dart';
+import 'package:app/widgets/common/tag/tag_item_goals_widget.dart';
+import 'package:app/widgets/common/text/big_text.dart';
+import 'package:app/widgets/common/text/small_text.dart';
 import 'package:country_currency_pickers/country.dart';
 import 'package:country_currency_pickers/country_pickers.dart';
 import 'package:flutter/material.dart';

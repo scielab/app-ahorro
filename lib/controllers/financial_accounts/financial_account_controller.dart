@@ -1,5 +1,5 @@
 import 'package:app/models/financial_account_model.dart';
-import 'package:app/models/progress_model.dart';
+import 'package:app/models/analytics_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
@@ -18,7 +18,6 @@ class FinancialAccountController extends GetxController {
     getBudgetAccountFromFirebase();
   }
 
-  /// **GET**: Leer datos desde Firebase y actualizar la lista local
   Future<void> getBudgetAccountFromFirebase() async {
     try {
       // debemos hacer un filtro el id de usuario para traer todos los del mismo id
@@ -45,7 +44,6 @@ class FinancialAccountController extends GetxController {
     }
   }
 
-  // Que tipo de dato retorna esto
   Future<List<BudgetAccountModel>> getBudgetAccountByUserId(String userId) async {
     try {
       final snapshot = await _firestore.collection('budget_account').where('userid', isEqualTo: userId).get();
@@ -59,7 +57,6 @@ class FinancialAccountController extends GetxController {
   }
 
 
-  /// **CREATE**: Agregar una nueva fianncial account a Firebase
   Future<void> addBudgetAccountToFirebase(BudgetAccountModel budgetAccount) async { 
     try {
       DocumentReference docRef = await _firestore.collection('budget_account').add(budgetAccount.toJson());
@@ -73,7 +70,6 @@ class FinancialAccountController extends GetxController {
     }
   }
 
-  /// **UPDATE**: Actualizar una mfinancial account existente en Firebase
   Future<void> updateBudgetAccountToFirebase(String docId, BudgetAccountModel updatedBudget) async {
     try {
       await _firestore.collection('budget_account').doc(docId).update(updatedBudget.toJson());
@@ -83,7 +79,6 @@ class FinancialAccountController extends GetxController {
     }
   }
 
-  /// **DELETE**: Eliminar una financial account de Firebase
   Future<void> deleteBudgetAccountToFirebase(String docId) async {
     try {
       await _firestore.collection('budget_account').doc(docId).delete();

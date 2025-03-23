@@ -3,7 +3,7 @@ import 'package:app/controllers/history/history_atributes_profile.dart';
 import 'package:app/models/atributes_profile_model.dart';
 import 'package:app/pages/auth/verification_page.dart';
 import 'package:app/routes/routes.dart';
-import 'package:app/utils/app_resources.dart';
+import 'package:app/utils/app_debug_reports.dart';
 import 'package:app/utils/generate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

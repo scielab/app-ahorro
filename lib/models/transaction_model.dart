@@ -21,7 +21,7 @@ class TransactionBase {
     this.uid
   });
 
-  Map<String,dynamic> toMap() {
+  Map<String,dynamic> toJson() {
     return {
       'id':id,
       'title': title,
@@ -31,6 +31,18 @@ class TransactionBase {
       'userid': userid,
       'category': category
     };
+  }
+  
+  factory TransactionBase.fromJson(Map<String,dynamic> json) {
+    return TransactionBase(
+      id: json['id'], 
+      title: json['title'], 
+      amount: json['amount'], 
+      date: json['date'],
+      type: json['type'],
+      userid: json['userid'], 
+      category: json['category'],
+    );
   }
 
   static TransactionBase transactionFromFirebase(Map<String, dynamic> data,String uid) {
@@ -48,31 +60,4 @@ class TransactionBase {
 }
 
 
-class Transaction {
-  final String id;
-  final String title;
-  final double amount;
-  final DateTime date;
-  final int category;
-  final String userid;
 
-  Transaction({
-    required this.id,
-    required this.title,
-    required this.amount,
-    required this.date,
-    required this.category,
-    required this.userid,
-  });
-
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'title': title,
-      'amount': amount,
-      'date': date,
-      'category': category,
-      'userid': userid,
-    };
-  }
-}

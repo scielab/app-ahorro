@@ -2,11 +2,12 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:app/controllers/auth/auth_controller.dart';
 import 'package:app/controllers/history/history_lecture_controller.dart';
+import 'package:app/helpers/shared_preferences_services.dart';
 import 'package:app/models/content_model.dart';
 import 'package:app/models/history_model.dart';
 import 'package:app/models/rutines_model.dart';
 import 'package:app/service/repository/content_repo.dart';
-import 'package:app/utils/app_resources.dart';
+import 'package:app/utils/app_debug_reports.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -40,15 +41,13 @@ class ActivityControlller extends GetxController {
   RxBool isLoadingLectures = false.obs;
   
   Future<bool> isDificultySelected() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     bool response = false;
-    sharedPreferences.getString('difficulty') != null ? response = true :  response = false;
+    Get.find<SharedPrefsService>().getString('difficulty') != null ? response = true :  response = false;
     return response; 
   }
 
   Future<void> selectDificulty(String select) async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setString('difficulty', select);
+    await Get.find<SharedPrefsService>().setString('difficulty', select);
   }
 
   String getDifficultyCache() {

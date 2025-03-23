@@ -1,8 +1,8 @@
 import 'package:app/controllers/budget/budget_item_controller.dart';
 import 'package:app/models/data/categories_models.dart';
-import 'package:app/utils/app_resources.dart';
-import 'package:app/widgets/big_text.dart';
-import 'package:app/widgets/small_text.dart';
+import 'package:app/utils/app_debug_reports.dart';
+import 'package:app/widgets/common/text/big_text.dart';
+import 'package:app/widgets/common/text/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

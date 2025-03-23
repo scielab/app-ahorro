@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:app/controllers/auth/auth_controller.dart';
 import 'package:app/models/transaction_model.dart';
-import 'package:app/utils/app_resources.dart';
+import 'package:app/utils/app_debug_reports.dart';
 import 'package:app/utils/date_format.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,7 +16,7 @@ class BudgetController extends GetxController {
   bool isLoading = false;
 
   void addBudgetToFirebase(TransactionBase form) {
-    Future<DocumentReference<Map<String, dynamic>>> budget = db.collection('budget').add(form.toMap());
+    Future<DocumentReference<Map<String, dynamic>>> budget = db.collection('budget').add(form.toJson());
     budget.then((value) => {
     })
     .catchError((error) {
@@ -33,7 +33,7 @@ class BudgetController extends GetxController {
   }
   Future<void> updateBudgetToFirebase(TransactionBase form, String uid) async {
     try {
-      await db.collection('budget').doc(uid).update(form.toMap());
+      await db.collection('budget').doc(uid).update(form.toJson());
     } catch(e) {
       logger.e(e);
     }

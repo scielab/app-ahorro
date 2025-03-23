@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:app/pages/payments/payment_config.dart';
-import 'package:app/widgets/big_text.dart';
+import 'package:app/widgets/common/text/big_text.dart';
 import 'package:flutter/material.dart';
 //import 'package:pay/pay.dart';
 

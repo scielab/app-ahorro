@@ -1,9 +1,9 @@
 import 'package:app/controllers/auth/auth_controller.dart';
 import 'package:app/routes/routes.dart';
-import 'package:app/widgets/input_field.dart';
+import 'package:app/widgets/common/input/input_field.dart';
 import 'package:flutter/material.dart';
-import 'package:app/widgets/big_text.dart';
-import 'package:app/widgets/small_text.dart';
+import 'package:app/widgets/common/text/big_text.dart';
+import 'package:app/widgets/common/text/small_text.dart';
 import 'package:get/get.dart';
 
 class SignUpPage extends StatefulWidget {

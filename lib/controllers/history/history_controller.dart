@@ -1,6 +1,6 @@
 import 'package:app/controllers/auth/auth_controller.dart';
 import 'package:app/models/history_model.dart';
-import 'package:app/utils/app_resources.dart';
+import 'package:app/utils/app_debug_reports.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 

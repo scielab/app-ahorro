@@ -1,7 +1,7 @@
 
 
 import 'package:app/utils/dimension.dart';
-import 'package:app/widgets/small_text.dart';
+import 'package:app/widgets/common/text/small_text.dart';
 import 'package:flutter/material.dart';
 
 class QuestionItem extends StatelessWidget {

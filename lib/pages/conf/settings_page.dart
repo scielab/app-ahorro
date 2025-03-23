@@ -1,12 +1,12 @@
 import 'package:app/controllers/auth/auth_controller.dart';
 import 'package:app/pages/conf/suport_page.dart';
 import 'package:app/pages/payments/payment_page.dart';
-import 'package:app/pages/presentation/badge_page.dart';
-import 'package:app/pages/splash/splash_screen_select.dart';
-import 'package:app/widgets/big_text.dart';
-import 'package:app/widgets/dialog_widget.dart';
+import 'package:app/pages/currency_select_page/currency_select_page.dart';
+import 'package:app/pages/splash/loaders/splash_screen_select.dart';
+import 'package:app/widgets/common/text/big_text.dart';
+import 'package:app/widgets/common/dialog/dialog_widget.dart';
 import 'package:app/widgets/item_list_conf.dart';
-import 'package:app/widgets/small_text.dart';
+import 'package:app/widgets/common/text/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -68,7 +68,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Get.to(() => BadgePage());
+                          Get.to(() => CurrencySelectPage());
                         },
                         child: const ItemListConf(title: "Cambiar moneda", icon: Icons.monetization_on),
                       ),

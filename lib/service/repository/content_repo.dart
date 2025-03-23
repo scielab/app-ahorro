@@ -1,5 +1,5 @@
 import 'package:app/service/api/api_client.dart';
-import 'package:app/utils/app_resources.dart';
+import 'package:app/utils/app_debug_reports.dart';
 import 'package:get/get.dart';
 
 
